@@ -19,6 +19,11 @@
      question: "What is 8*8?",
      choices: [20, 30, 40, 50, 64],
      correctAnswer: 4
+   }, 
+   {
+    question: "What is 7*8?",
+    choices: [28, 36, 48, 70, 56],
+    correctAnswer: 4
    }];
    
    var questionCounter = 0; //Tracks question number
