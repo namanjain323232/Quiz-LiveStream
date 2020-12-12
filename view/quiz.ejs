@@ -6,12 +6,88 @@
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open Sans"/>
 	</head>
 	<body>
+	 <div class="main">
+		<button class="fullScreen" id="fullScreen" onclick="requestFullScreen(document.body), document.getElementById('fullScreen').style.display = 'none', document.getElementById('container').style.display = 'block', document.getElementById('navTimer').style.display = 'flex'">Go full screen to view the test</button>
 		<div id='container'>
   			<div id='quiz'></div>
     		<div class='button' id='next'><a href='#'>Next</a></div>
     		<div class='button' id='prev'><a href='#'>Prev</a></div>
     		<div class='button' id='start'> <a href='#'>Start Over</a></div>
-    	</div>
+		 </div>
+		 
+		 <div class="navTimer" id="navTimer">
+			<div class="nav">
+				<div class="item item1">1</div>
+				<div class="item item2">2</div>
+				<div class="item item3">3</div>
+				<div class="item item4">4</div>
+				<div class="item item5">5</div>
+				<div class="item item6">6</div>
+			</div>
+
+			<div id="countdown">
+			  <ul>
+				 <!-- <li><span id="days"></span>days</li> -->
+				 <span id="hours"></span> . <span id="minutes"></span> . <span id="seconds"></span>
+			  </ul>
+			</div>
+			<button class="submitTest" onclick="document.getElementById('endTestButton').style.display = 'flex'">End Test</button>
+		 </div>
+		</div>
+
+		<div class="popup" id="timeUp">
+				<span id="popupText" style="text-align: center;">Time Up !</span>
+				<button class="endTestPopup" style="width: 20rem; margin: 1.5rem; margin-left: 16.5rem; border: none; background-color: red; padding: 1rem 6rem; color: white; border-radius: 5px; font-size: 2rem;">End Test</button>
+		</div>
+
+		<div class="popup" id="endTestButton">
+			<div class="popup_cross" id="popup_cross_like" style="font-size: 3rem; position: absolute; top: 0; right: 1.5%; line-height: 1; cursor: pointer;" onclick="document.getElementById('endTestButton').style.display = 'none'">&times;</div>
+			<span id="popupText" style="text-align: center;">Are you sure?</span>
+			<button class="areYouSurePopup" style="width: 20rem; margin: 1.5rem; margin-left: 16.5rem; border: none; background-color: red; padding: 1rem 6rem; color: white; border-radius: 5px; font-size: 2rem;">End Test</button>
+		</div>
+
+		<script>
+			function requestFullScreen(element) {
+				// Supports most browsers and their versions.
+				var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+				if (requestMethod) { // Native full screen.
+					requestMethod.call(element);
+				} else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+					var wscript = new ActiveXObject("WScript.Shell");
+					if (wscript !== null) {
+							wscript.SendKeys("{F11}");
+					}
+				}
+			}
+		</script>
+
+		<script>
+			if((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
+				
+			} else {
+				
+			}
+
+			var fullScreen = 0;
+
+			window.addEventListener("resize", function(event) {
+				if(fullScreen % 2 === 1){
+				document.getElementById('fullScreen').style.display = 'block', document.getElementById('container').style.display = 'none', document.getElementById('navTimer').style.display = 'none';
+				}
+
+				fullScreen = fullScreen + 1;
+			})
+
+			document.addEventListener("fullscreenchange", function() {
+				console.log('A');
+				if(document.fullscreenElement){
+					document.getElementById('fullScreen').style.display = 'none', document.getElementById('container').style.display = 'block', document.getElementById('navTimer').style.display = 'flex';
+				}else{
+					document.getElementById('fullScreen').style.display = 'block', document.getElementById('container').style.display = 'none', document.getElementById('navTimer').style.display = 'none';
+				}
+			});
+		</script>
 
 		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
 		<!-- <script type="text/javascript" src='questions.json'></script> -->
