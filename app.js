@@ -1,4 +1,4 @@
-require('dotenv').config();
+const dotenv = require("dotenv");
 const path = require("path");
 const express = require("express");
 const http = require("http");
@@ -7,6 +7,8 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cookieSession = require("cookie-session");
 const app = express();
 app.use(express.json());
 
@@ -15,19 +17,49 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "view"));
 app.use(express.static(path.join(__dirname, "public")));
 
+// app.use(session({
+//   name : 'abcabc',
+//   secret: process.env.SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie : {
+//     maxAge:(1000 * 60 * 100)
+//   } 
+// }));
 
-app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false
+app.use(cookieParser(process.env.SECRET));
+app.use(cookieSession({
+  name: 'session',
+  keys: ['x', 'y'],
+  secret: process.env.SECRET
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+dotenv.config({ path: "./config.env" });
+const DB = process.env.DATABASE.replace(
+  "<password>",
+  process.env.DATABASE_PASSWORD
+);
+
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Database Connected !");
+  });
+
 //run mongod command in terminal in order to connect it to database.
-mongoose.connect("mongodb://localhost:27017/authDB", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.set("useCreateIndex", true);
+// mongoose.connect("mongodb://localhost:27017/authDB", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.set("useCreateIndex", true);
+
 const userSchema = new mongoose.Schema({
+  name: String,
   email: String,
   password: String
 });
@@ -69,21 +101,21 @@ app.route("/login")
       }
     })
   });
-
-
+  
 app.route("/register")
   .get((req, res) => {
     res.render("register");
   })
   .post((req, res) => {
-    User.register({ username: req.body.username }, req.body.password, (err, user) => {
+    User.register({ username: req.body.username, name: req.body.name }, req.body.password, (err, user) => {
       if (err) {
         console.log(err);
         res.redirect("/register");
       }
       else {
         passport.authenticate("local")(req, res, () => {
-          res.redirect("/dashboard");
+        res.currentUser = user;
+        res.redirect("/dashboard");
 
         })
       }
@@ -114,7 +146,7 @@ app.route("/changePass")
         .then(foundUser => {
           foundUser.changePassword(req.body.old, req.body.new)
             .then(() => {
-              console.log('password changed');
+              console.log('Password changed');
               res.redirect("/");
             })
             .catch((error) => {
