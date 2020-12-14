@@ -6,12 +6,432 @@
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open Sans"/>
 	</head>
 	<body>
+	 <div class="main">
+		<button class="fullScreen" id="fullScreen" onclick="requestFullScreen(document.body), document.getElementById('fullScreen').style.display = 'none', document.getElementById('container').style.display = 'block', document.getElementById('navTimer').style.display = 'flex'">Go full screen to view the test</button>
 		<div id='container'>
   			<div id='quiz'></div>
     		<div class='button' id='next'><a href='#'>Next</a></div>
     		<div class='button' id='prev'><a href='#'>Prev</a></div>
     		<div class='button' id='start'> <a href='#'>Start Over</a></div>
-    	</div>
+		 </div>
+		 
+		 <div class="navTimer" id="navTimer">
+			<div class="nav">
+				<div class="item item1">1</div>
+				<div class="item item2">2</div>
+				<!-- <div class="item item3">3</div>
+				<div class="item item4">4</div>
+				<div class="item item5">5</div>
+				<div class="item item6">6</div> -->
+			</div>
+
+			<div id="countdown">
+			  <ul>
+				 <!-- <li><span id="days"></span>days</li> -->
+				 <span id="hours"></span> . <span id="minutes"></span> . <span id="seconds"></span>
+			  </ul>
+			</div>
+			<button class="submitTest" onclick="document.getElementById('endTestButton').style.display = 'flex'">Submit Test</button>
+		 </div>
+		</div>
+
+		<div class="popup" id="timeUp">
+				<span id="popupText" style="text-align: center;">Time Up !</span>
+				<button class="endTestPopup" style="width: 20rem; margin: 1.5rem; margin-left: 16.5rem; border: none; background-color: red; padding: 1rem 6rem; color: white; border-radius: 5px; font-size: 2rem;">End Test</button>
+		</div>
+
+		<div class="popup" id="endTestButton">
+			<div class="popup_cross" id="popup_cross_like" style="font-size: 3rem; position: absolute; top: 0; right: 1.5%; line-height: 1; cursor: pointer;" onclick="document.getElementById('endTestButton').style.display = 'none'">&times;</div>
+			<span id="popupText" style="text-align: center;">Are you sure?</span>
+			<button class="areYouSurePopup" style="width: 20rem; margin: 1.5rem; margin-left: 16.5rem; border: none; background-color: red; padding: 1rem 6rem; color: white; border-radius: 5px; font-size: 2rem;">Submit Test</button>
+		</div>
+
+		<script>
+			function requestFullScreen(element) {
+				// Supports most browsers and their versions.
+				var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+				if (requestMethod) { // Native full screen.
+					requestMethod.call(element);
+				} else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+					var wscript = new ActiveXObject("WScript.Shell");
+					if (wscript !== null) {
+							wscript.SendKeys("{F11}");
+					}
+				}
+			}
+		</script>
+
+		<script>
+			if((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
+				
+			} else {
+				
+			}
+
+			var fullScreen = 0;
+
+			window.addEventListener("resize", function(event) {
+				if(fullScreen % 2 === 1){
+				document.getElementById('fullScreen').style.display = 'block', document.getElementById('container').style.display = 'none', document.getElementById('navTimer').style.display = 'none';
+				}
+
+				fullScreen = fullScreen + 1;
+			})
+
+			document.addEventListener("fullscreenchange", function() {
+				console.log('A');
+				if(document.fullscreenElement){
+					document.getElementById('fullScreen').style.display = 'none', document.getElementById('container').style.display = 'block', document.getElementById('navTimer').style.display = 'flex';
+				}else{
+					document.getElementById('fullScreen').style.display = 'block', document.getElementById('container').style.display = 'none', document.getElementById('navTimer').style.display = 'none';
+				}
+			});
+		</script>
+
+		<script
+		src="/js/jquery-3.5.1.min.js"
+		crossorigin="anonymous"></script>
+
+		<script>
+			(function() {
+				var questions = [{
+				question: "What is 2*5?",
+				choices: [2, 5, 10, 15, 20],
+				correctAnswer: 2
+				}, {
+				question: "What is 3*6?",
+				choices: [3, 6, 9, 12, 18],
+				correctAnswer: 4
+				}, {
+				question: "What is 8*9?",
+				choices: [72, 99, 108, 134, 156],
+				correctAnswer: 0
+				}, {
+				question: "What is 1*7?",
+				choices: [4, 5, 6, 7, 8],
+				correctAnswer: 3
+				}, {
+				question: "What is 8*8?",
+				choices: [20, 30, 40, 50, 64],
+				correctAnswer: 4
+				}, 
+				{
+				question: "What is 7*8?",
+				choices: [28, 36, 48, 70, 56],
+				correctAnswer: 4
+				},
+				{
+				question: "What is 7*8?",
+				choices: [28, 36, 48, 70, 56],
+				correctAnswer: 4
+				},
+				{
+				question: "What is 7*8?",
+				choices: [28, 36, 48, 70, 56],
+				correctAnswer: 4
+				},
+				{
+				question: "What is 7*8?",
+				choices: [28, 36, 48, 70, 56],
+				correctAnswer: 4
+				},
+				{
+				question: "What is 7*8?",
+				choices: [28, 36, 48, 70, 56],
+				correctAnswer: 4
+				},
+				{
+				question: "What is 7*8?",
+				choices: [28, 36, 48, 70, 56],
+				correctAnswer: 4
+				},
+				{
+				question: "What is 7*8?",
+				choices: [28, 36, 48, 70, 56],
+				correctAnswer: 4
+				}];
+				
+				var questionCounter = 0; //Tracks question number
+				var selections = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]; //Array containing user choices
+				var quiz = $('#quiz'); //Quiz div object
+				
+				// Display initial question
+				$('#prev').hide();
+				displayNext();
+				
+				// Click handler for the 'next' button
+				$('#next').on('click', function (e) {
+				e.preventDefault();
+				
+				// Suspend click listener during fade animation
+				if(quiz.is(':animated')) {        
+					return false;
+				}
+				choose();
+
+				questionCounter++;
+				displayNext();
+				
+				// If no user selection, progress is stopped
+				//  if (isNaN(selections[questionCounter])) {
+				//    alert('Please make a selection!');
+				//  } else {
+				//    questionCounter++;
+				//    displayNext();
+				//  }
+				});
+				
+				// Click handler for the 'prev' button
+				$('#prev').on('click', function (e) {
+				e.preventDefault();
+				
+				if(quiz.is(':animated')) {
+					return false;
+				}
+				choose();
+				questionCounter--;
+				displayNext();
+				});
+				
+				// Click handler for the 'Start Over' button
+			//  $('#start').on('click', function (e) {
+			//    e.preventDefault();
+				
+			//    if(quiz.is(':animated')) {
+			//      return false;
+			//    }
+			//    questionCounter = 0;
+			//    selections = [];
+			//    displayNext();
+			//    $('#start').hide();
+			//  });
+				
+				// Animates buttons on hover
+				$('.button').on('mouseenter', function () {
+				$(this).addClass('active');
+				});
+				$('.button').on('mouseleave', function () {
+				$(this).removeClass('active');
+				});
+				
+				// Creates and returns the div that contains the questions and 
+				// the answer selections
+				function createQuestionElement(index) {
+				var qElement = $('<div>', {
+					id: `question`
+				});
+				
+				for(var i = 0; i < 10; i++) {
+				if(index*10 + i + 1 > questions.length){
+					break;
+				}
+				var header = $('<h2>Question ' + (index*10 + i + 1) + ':</h2>');
+				qElement.append(header);
+				
+				var question = $('<p>').append(questions[index*10 + i].question);
+				qElement.append(question);
+				
+				var radioButtons = createRadios(index*10 + i);
+				qElement.append(radioButtons);
+				}
+				
+				return qElement;
+				}
+				
+				// Creates a list of the answer choices as radio inputs
+				function createRadios(index) {
+				var radioList = $('<ul>');
+				var item;
+				var input = '';
+				for (var i = 0; i < questions[index].choices.length; i++) {
+					item = $('<li>');
+					input = `<input id="ques${index}" type="radio" name="answer${index}" value=` + i + ' />';
+					input += questions[index].choices[i];
+					item.append(input);
+					radioList.append(item);
+				}
+				return radioList;
+				}
+				
+				// Reads the user selection and pushes the value to an array
+				function choose() {
+				for(var i = 0; i < questions.length; i++){
+				if(+$(`input[name="answer${i}"]:checked`).val() > -1){
+					selections[i] = +$(`input[name="answer${i}"]:checked`).val();
+					// $(`.item${questionCounter+1}`).css({ 'background-image': 'linear-gradient(130deg, #18e767 0%, #0cecc7 85%, #2ae79f 100%)' });
+				}
+				}
+				}
+				
+				// Displays next requested element
+				function displayNext() {
+				quiz.fadeOut(function() {
+					$('#question').remove();
+					$('#next').show();
+					
+					if(questionCounter < Math.trunc(questions.length/10) + 1){
+						var nextQuestion = createQuestionElement(questionCounter);
+						quiz.append(nextQuestion).fadeIn();
+						for(var i=0; i<10; i++){
+						if (!(isNaN(selections[questionCounter*10 + i]))) {
+						$('input[id=ques'+(questionCounter*10 + i)+'][value='+selections[questionCounter*10 + i]+']').prop('checked', true);
+						}
+						}
+						
+						// Controls display of 'prev' button
+						if(questionCounter === 1){
+						$('#prev').show();
+						}
+						
+						if(questionCounter === Math.trunc(questions.length/10)){
+						$('#next').hide();
+						}else if(questionCounter === 0){
+						$('#prev').hide();
+						$('#next').show();
+						}
+					}else {
+						var scoreElem = displayScore();
+						quiz.append(scoreElem).fadeIn();
+						$('#next').hide();
+						$('#prev').hide();
+					//  $('#start').show();
+					}
+				});
+				}
+
+			//  $('.submitTest').on('click', function (e) {
+			//   e.preventDefault();
+				
+			//   questionCounter = questions.length;
+			//   displayNext();
+			// });
+
+			$('.endTestPopup').on('click', function (e) {
+				e.preventDefault();
+
+				choose();
+				questionCounter = questions.length;
+				displayNext();
+				document.getElementById('navTimer').style.display = 'none';
+				document.getElementById('timeUp').style.display = 'none';
+				$("#container").show();
+				window.setTimeout(function() {
+					location.assign('/dashboard');
+				}, 3000);
+			});
+
+			$('.areYouSurePopup').on('click', function (e) {
+				e.preventDefault();
+
+				choose();
+				questionCounter = questions.length;
+				displayNext();
+				document.getElementById('navTimer').style.display = 'none';
+				document.getElementById('endTestButton').style.display = 'none';
+				window.setTimeout(function() {
+					location.assign('/dashboard');
+				}, 3000);
+			});
+				
+				// Computes score and returns a paragraph element to be displayed
+				function displayScore() {
+				var score = $('<p>',{id: 'question', class: 'finalDisplay'});
+				
+				var numCorrect = 0;
+				for (var i = 0; i < selections.length; i++) {
+					if (selections[i] === questions[i].correctAnswer) {
+						numCorrect++;
+					}
+				}
+				
+				score.append('Total Marks: ' + numCorrect + ' out of ' + questions.length);
+				return score;
+				}
+
+				$('.item').on('click', function (e) {
+				e.preventDefault();
+				$('#prev').show();
+
+				choose();
+				
+				questionCounter = this.innerHTML - 1;
+					
+					quiz.fadeOut(function() {
+					$('#question').remove();
+					$('#next').show()
+					
+					var nextQuestion = createQuestionElement(questionCounter);
+					quiz.append(nextQuestion).fadeIn();
+					for(var i=0; i<10; i++){
+					if (!(isNaN(selections[questionCounter*10 + i]))) {
+						$('input[id=ques'+(questionCounter*10 + i)+'][value='+selections[questionCounter*10 + i]+']').prop('checked', true);
+					}
+					}
+					
+					// Controls display of 'prev' button
+					if(questionCounter === 1){
+						$('#prev').show();
+					}
+					
+					if(questionCounter === Math.trunc(questions.length/10)){
+						$('#next').hide();
+					}else if(questionCounter === 0){
+						$('#prev').hide();
+						$('#next').show();
+					}
+				});
+			});
+			})();
+
+			(function () {
+			const second = 1000,
+					minute = second * 60,
+					hour = minute * 60,
+					day = hour * 24;
+
+			let time = Date.now() + 30000,
+			countDown = new Date(time).getTime(),
+			x = setInterval(function() {    
+
+					let now = new Date().getTime(),
+					distance = countDown - now;
+
+					// document.getElementById("days").innerText = Math.floor(distance / (day)),
+					if(Math.floor((distance % (day)) / (hour)) > 9){
+						document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour));
+					}else if(Math.floor((distance % (day)) / (hour)) < 10){
+						document.getElementById("hours").innerText = '0' + Math.floor((distance % (day)) / (hour));
+					}else{
+						document.getElementById("hours").innerText = '00';
+					}
+					if(Math.floor((distance % (hour)) / (minute)) > 9){
+						document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute));
+					}else if(Math.floor((distance % (hour)) / (minute)) < 10){
+						document.getElementById("minutes").innerText = '0' + Math.floor((distance % (hour)) / (minute));
+					}else{
+						document.getElementById("minutes").innerText = '00';
+					}
+					if(Math.floor((distance % (minute)) / second) > 9){
+						document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+					}else{
+						document.getElementById("seconds").innerText = '0' + Math.floor((distance % (minute)) / second);
+					}
+
+					//do something later when date is reached
+					if (distance < 0) {
+						document.getElementById("timeUp").style.display = 'flex';
+						$("#container").hide();
+						$(".navTimer").hide();
+						clearInterval(x);
+					}
+			}, 0)
+			}());
+
+			// $(window).blur(function() {
+			//     alert('Do not switch');
+			// });
+		</script>
 
 		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
 		<!-- <script type="text/javascript" src='questions.json'></script> -->
