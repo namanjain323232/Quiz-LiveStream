@@ -1,4 +1,4 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,12 +11,41 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passportLocalMongoose = require("passport-local-mongoose");
-const http=require("http");
-const configDB = require('./config/database.js');
+const cookieSession = require("cookie-session");
+app.use(express.json());
+
+app.use(cookieParser(process.env.SECRET));
+app.use(cookieSession({
+  name: 'session',
+  keys: ['x', 'y'],
+  secret: process.env.SECRET
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+dotenv.config({ path: "./config.env" });
+const DB = process.env.DATABASE.replace(
+  "<password>",
+  process.env.DATABASE_PASSWORD
+);
+
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Database Connected !");
+  });
+// const http=require("http");
+// const configDB = require('./config/database.js');
 
 // configuration ===============================================================
-mongoose.connect(configDB.url, { useNewUrlParser: true, useUnifiedTopology: true }); // connect to our database
-mongoose.set("useCreateIndex", true);
+// mongoose.connect(configDB.url, { useNewUrlParser: true, useUnifiedTopology: true }); // connect to our database
+// mongoose.set("useCreateIndex", true);
 require('./config/passport')(passport); // pass passport for configuration
 // set up our express application
 //app.use(morgan('dev')); // log every request to the console
@@ -25,11 +54,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // get information from html
 app.set('view engine', 'ejs'); // set up ejs for templating
 app.set("views", path.join(__dirname, "view"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(session({
-   secret: process.env.SECRET,
-   resave: false,
-   saveUninitialized: false
- })); // session secret
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
@@ -38,5 +62,5 @@ app.use(passport.session()); // persistent login sessions
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 // launch ======================================================================
 app.listen(port, () => {
-   console.log("Listening to ",port);
+   console.log("Listening to", port);
  });
