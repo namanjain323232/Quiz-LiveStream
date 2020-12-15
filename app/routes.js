@@ -1,4 +1,6 @@
 const User = require('../app/models/user');
+const admin = require('../app/models/admin');
+const getAdmin=admin();
 module.exports = function (app, passport) {
 
 app.route("/")
@@ -22,9 +24,14 @@ app.route("/login")
         console.log(err);
       }
       else {
+  
         passport.authenticate("local")(req, res, () => {
+          if (req.user.username == getAdmin.username) {
+            
+          }
+          else{
           res.redirect("/dashboard");
-
+          }
         })
       }
     })
@@ -43,8 +50,12 @@ app.route("/register")
       }
       else {
         passport.authenticate("local")(req, res, () => {
+          if(req.user.username==getAdmin.username){
+           
+          }
+          else{
           res.redirect("/dashboard");
-
+          }
         })
       }
     })
