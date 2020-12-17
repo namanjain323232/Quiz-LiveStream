@@ -1,6 +1,11 @@
 const User = require('../app/models/user');
+const admin = require('../app/models/admin');
+//const Ques=require('../app/models/questions');
+const {Ques,Quiz} = require('../app/models/Quiz');
+const getAdmin=admin();
 module.exports = function (app, passport) {
 
+  let ques=[];
 app.route("/")
   .get((req, res) => {
     res.render("home");
@@ -22,9 +27,10 @@ app.route("/login")
         console.log(err);
       }
       else {
+  
         passport.authenticate("local")(req, res, () => {
           res.redirect("/dashboard");
-
+          
         })
       }
     })
@@ -52,7 +58,12 @@ app.route("/register")
 
 app.get("/dashboard", (req, res) => {
   if (req.isAuthenticated()) {
+    if (req.user.username == getAdmin.username) {
+       res.redirect("/admin");
+    }
+    else{   
     res.render("dashboard");
+    }
   }
   else {
     res.redirect("/login");
@@ -110,7 +121,128 @@ app.get('/quiz', function(req,res){
   }
 });
 
+  app.route('/admin')
+    .get((req, res) => {
+      if (req.isAuthenticated()) {
+        if (req.user.username == getAdmin.username) {
+          res.render("adminDashboard");
+        }
+        else {
+          res.render("dashboard");
+        }
+      }
+      else {
+        res.redirect("/login");
+      }
+    });
+    let quizName="";
+    let courseName="";
+    app.route("/createQuiz")
+      .get((req,res)=>{
+        if (req.isAuthenticated()) {
+          if (req.user.username == getAdmin.username) {
+            res.render("createQuiz");
+          }
+          else {
+            res.render("dashboard");
+          }
+      }
+      else{
+        res.redirect("/login");
+      }
+    })
+    .post((req,res)=>{
+        quizName=req.body.quizName;
+        courseName=req.body.courseName;
+        res.redirect("/addQues");
+    });
+
+    app.route("/addQues")
+        .get((req,res)=>{
+          if (req.isAuthenticated()) {
+            if (req.user.username == getAdmin.username) {
+              res.render("addQues",{
+                quizName:quizName
+              });
+            }
+            else {
+              res.render("dashboard");
+            }
+          }
+          else {
+            res.redirect("/login");
+          }
+        })
+        .post((req,res)=>{
+            // let question=req.body.question;
+            // let op1=req.body.op1;
+            // let op2=req.body.op2;
+            // let op3=req.body.op3;
+            // let op4=req.body.op4;
+            // let answer=req.body.answer-1;
+            let quest=new Ques({
+              question:req.body.question,
+              choices: [req.body.op1, req.body.op2, req.body.op3, req.body.op4],
+              correctAnswer: req.body.answer-1
+            });
+            quest.save();
+            ques.push(quest);
+            res.redirect("/addQues");
+
+        });
+        
+  app.get("/testCreated",(req,res)=>{
+    if (req.isAuthenticated()) {
+      if (req.user.username == getAdmin.username) {
+        res.render("testCreated");
+        let addQuiz=new Quiz({
+          courseName:courseName,
+          quizName:quizName,
+          questions:ques
+        });
+        addQuiz.save();
+        ques=[];
+
+      }
+      else {
+        res.render("dashboard");
+      }
+    }
+    else {
+      res.redirect("/login");
+    }
+  });
+
+  app.route("/showQuiz")
+     .get((req,res)=>{
+       if (req.isAuthenticated()) {
+         if (req.user.username == getAdmin.username) {
+           res.render("showQuiz");
+         }
+         else {
+           res.render("dashboard");
+         }
+       }
+       else {
+         res.redirect("/login");
+       }
+     })
+
+     .post((req,res)=>{
+      //let courseName=req.body.courseName;
+       Quiz.find({courseName:req.body.courseName},(err, quizzes) => {
+         if (err)
+           console.log(err);
+           else {
+                res.render("showQuiz2", {
+                courseQuiz:quizzes
+              });
+         }
+        });
+    });
+
 };
+
 
 function isLoggedIn(req, res, next) {
 
