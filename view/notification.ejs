@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link type='text/css' rel='stylesheet' href='/css/styleDashboard.css'/>
-  <link type='text/css' rel='stylesheet' href='/css/styleCourses.css'/>
+  <link type='text/css' rel='stylesheet' href='/css/styleNotification.css'/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">  
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -24,7 +24,7 @@
             <i class="fas fa-times"></i>
           </div>
         </div>
-        <div class="sidebar-header">
+        <div class="sidebar-header" style="display: flex; justify-content: space-between;">
           <div class="user-info">
             <span class="user-name">
               <strong>Naman Jain</strong>
@@ -34,6 +34,9 @@
               <i class="fa fa-circle"></i>
               <span>Online</span><br>
             </span> -->
+          </div>
+          <div>
+            <i class="fa fa-bell" style="color: white; font-size: 2rem;"></i>
           </div>
         </div>
         <div class="sidebar-menu">
@@ -57,7 +60,7 @@
                     <a href="/courses">All Courses</a>
                   </li>
                   <li>
-                    <a href="#">My Courses</a>
+                    <a href="/mybuys">My Courses</a>
                   </li>
                 </ul>
               </div>
@@ -94,17 +97,21 @@
                 <span>Start Quiz</span>
               </a>
             </li>
-            <li class="">
-              <a href="/userEdit">
-                <!-- <i class="fa fa-chart-line"></i> -->
-                <span>Edit Account</span>
+            <li class="sidebar-dropdown">
+              <a href="#">
+                <!-- <i class="fa fa-globe"></i> -->
+                <span>My Account</span>
               </a>
-            </li>
-            <li class="">
-              <a href="/changePass">
-                <!-- <i class="fa fa-chart-line"></i> -->
-                <span>Change Password</span>
-              </a>
+              <div class="sidebar-submenu">
+                <ul>
+                  <li>
+                    <a href="/userEdit">Edit Account</a>
+                  </li>
+                  <li>
+                    <a href="/changePass">Change Password</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -118,57 +125,12 @@
     <!-- sidebar-wrapper  -->
     <main class="page-content">
       <div class="container">
-         <div class="row">
-
-            <div class="col-12 col-lg-4 mobilmt">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/3825573/pexels-photo-3825573.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Chemistry</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3502</p>
-                        <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 mobilmt">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/714698/pexels-photo-714698.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Physics</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3500</p>
-                        <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 mobilmt">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/3768126/pexels-photo-3768126.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Mathematics</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3525</p>
-                        <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-          </div>
+         <div class="message">
+            <p class="meta">Sameer <span>just now</span></p>
+            <p class="text">
+               Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+         </div>
       </div>
   
     </main>

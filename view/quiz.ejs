@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">  
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
 		<title>Quiz</title>
 		<link type='text/css' rel='stylesheet' href='/css/styleQuiz.css'/>
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open Sans"/>
@@ -12,7 +15,8 @@
   			<div id='quiz'></div>
     		<div class='button' id='next'><a href='#'>Next</a></div>
     		<div class='button' id='prev'><a href='#'>Prev</a></div>
-    		<div class='button' id='start'> <a href='#'>Start Over</a></div>
+			<div class='button' id='start'> <a href='#'>Start Over</a></div>
+			<div class="real-time-printing"></div>
 		 </div>
 		 
 		 <div class="navTimer" id="navTimer">
@@ -37,13 +41,13 @@
 
 		<div class="popup" id="timeUp">
 				<span id="popupText" style="text-align: center;">Time Up !</span>
-				<button class="endTestPopup" style="width: 20rem; margin: 1.5rem; margin-left: 16.5rem; border: none; background-color: red; padding: 1rem 6rem; color: white; border-radius: 5px; font-size: 2rem;">End Test</button>
+				<button class="endTestPopup">End Test</button>
 		</div>
 
 		<div class="popup" id="endTestButton">
 			<div class="popup_cross" id="popup_cross_like" style="font-size: 3rem; position: absolute; top: 0; right: 1.5%; line-height: 1; cursor: pointer;" onclick="document.getElementById('endTestButton').style.display = 'none'">&times;</div>
 			<span id="popupText" style="text-align: center;">Are you sure?</span>
-			<button class="areYouSurePopup" style="width: 20rem; margin: 1.5rem; margin-left: 16.5rem; border: none; background-color: red; padding: 1rem 6rem; color: white; border-radius: 5px; font-size: 2rem;">Submit Test</button>
+			<button class="areYouSurePopup">Submit Test</button>
 		</div>
 
 		<script>
@@ -316,9 +320,10 @@
 				document.getElementById('navTimer').style.display = 'none';
 				document.getElementById('timeUp').style.display = 'none';
 				$("#container").show();
+				$(".real-time-printing").show();
 				window.setTimeout(function() {
 					location.assign('/dashboard');
-				}, 3000);
+				}, 7200);
 			});
 
 			$('.areYouSurePopup').on('click', function (e) {
@@ -329,9 +334,10 @@
 				displayNext();
 				document.getElementById('navTimer').style.display = 'none';
 				document.getElementById('endTestButton').style.display = 'none';
+				$(".real-time-printing").show();
 				window.setTimeout(function() {
 					location.assign('/dashboard');
-				}, 3000);
+				}, 7000);
 			});
 				
 				// Computes score and returns a paragraph element to be displayed
@@ -390,7 +396,7 @@
 					hour = minute * 60,
 					day = hour * 24;
 
-			let time = Date.now() + 30000,
+			let time = Date.now() + 300000000,
 			countDown = new Date(time).getTime(),
 			x = setInterval(function() {    
 
@@ -431,6 +437,49 @@
 			// $(window).blur(function() {
 			//     alert('Do not switch');
 			// });
+
+			var chart = c3.generate({
+				bindto: d3.select('.real-time-printing'),
+				color: {
+					pattern: ['rgb(70, 243, 107)', 'red', 'rgb(255, 255, 7)']
+				},
+				// grid: {
+				//     y: {
+				//       show: true
+				//     }
+				// },
+				// legend: {
+				//   show: false
+				// },
+					data: {
+						columns: [
+								['Correct', 6],
+								['Incorrect', 3],
+								['Did Not Attempt', 3]
+								// ['data3', 230, 200, 200, 300, 250, 250, 450]
+						],
+						type: 'pie'
+					},
+					axis: {
+						y: {
+						label: {
+							text: 'Quizzes Attempted',
+							position: 'outer-middle'
+						}
+						},
+						x : {
+						type: 'category',
+							categories:  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+						},
+					},
+					bar: {
+						width: {
+								ratio: 0.5 // this makes bar width 50% of length between ticks
+						}
+						// or
+						//width: 10 // this makes bar width 100px
+					}
+			});
 		</script>
 
 		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>

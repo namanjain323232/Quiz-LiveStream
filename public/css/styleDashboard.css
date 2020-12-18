@@ -717,5 +717,33 @@ h2 {
 .rwd-table th, .rwd-table td:before {
 	color: #dd5;
 }
+
+@media (max-width: 480px) {
+	.real-time-printing {
+    height: 255px;
+    width: 100%;
+    transform: scale(1);
+  }
+
+  .rwd-table{
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .rectangle {
+    border-radius: 8px;
+    padding: 10px;
+    height: 8rem;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .rectangles{
+    margin: 0rem -15px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+}
                
  

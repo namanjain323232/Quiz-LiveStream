@@ -1,0 +1,60 @@
+.person{text-align: center;background: #fff;box-shadow: 0 0 9px 0 #0000001a}
+.person:hover .personimg:before {
+    opacity: 0;
+    transition: all 0.4s linear;
+}
+.person p {margin: 0}
+.personimg {position: relative;width: 100%}
+.personimg img {width:100%}
+.personimg:before{
+    opacity: 1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #005e9694, rgb(181 181 181 / 0%))
+}
+
+.persondetail {position: relative;margin-top: 10px}
+.persondetail:before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 24px;
+    top: -24px;
+    left: 0;
+    right: 0;
+    background-color: #FFF;
+    z-index: 5;
+    transform: skewY(-3deg);
+}
+.persondetail p.personunvan {font-weight: 600; font-size: 15px;color: #000}
+.persondetail p.persontitle {font-size: 13px;color: #666;margin: 5px 0}
+.personcontact {
+    border-top: 1px solid #eee;
+    padding-top: 7px;
+    color: #676767;
+    font-size: 13px;
+}
+.personcontact p.persontelefon{padding-top: 7px}
+.personcontact p.personCV {margin-top: 10px}
+.personcontact p.personCV a{
+    width: 100%;
+    background: #f0f0f0;
+    border-radius: 0;
+    border-top: 2px solid #eaeaea;
+    font-size: 13px;
+    font-weight: 600;
+    color: #989898;
+}
+.person:hover .personCV a {
+    background: #be3f48;
+    color: #fff;
+    border-top: 2px solid #902e35;
+    transition: all 0.4s;
+}
+
+@media screen and (max-width: 991.98px) {
+  .mobilmt{margin-top:50px}
+  .persondetail:before {height: 34px;top: -30px}
+}

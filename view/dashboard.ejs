@@ -23,48 +23,32 @@
             <i class="fas fa-times"></i>
           </div>
         </div>
-        <div class="sidebar-header">
-          <div class="user-pic">
-            <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
-          </div>
+        <div class="sidebar-header" style="display: flex; justify-content: space-between;">
           <div class="user-info">
             <span class="user-name">
               <strong>Naman Jain</strong>
             </span>
             <span class="user-role">Student</span>
-            <span class="user-status">
+            <!-- <span class="user-status">
               <i class="fa fa-circle"></i>
               <span>Online</span><br>
-            </span>
+            </span> -->
+          </div>
+          <div>
+            <a href="/notification">
+              <i class="fa fa-bell" style="color: white; font-size: 2rem;"></i>
+            </a>
           </div>
         </div>
         <div class="sidebar-menu">
           <ul>
-            <!-- <li class="header-menu">
-              <span>General</span>
-            </li> -->
             <br>
             <li class="">
-              <a href="#">
+              <a href="/dashboard">
                 <!-- <i class="fa fa-tachometer-alt"></i> -->
                 <span>Dashboard</span>
                 <!-- <span class="badge badge-pill badge-warning">New</span> -->
               </a>
-              <!-- <div class="sidebar-submenu">
-                <ul>
-                  <li>
-                    <a href="#">Dashboard 1
-                      <span class="badge badge-pill badge-success">Pro</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">Dashboard 2</a>
-                  </li>
-                  <li>
-                    <a href="#">Dashboard 3</a>
-                  </li>
-                </ul>
-              </div> -->
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
@@ -74,10 +58,10 @@
               <div class="sidebar-submenu">
                 <ul>
                   <li>
-                    <a href="#">All Courses</a>
+                    <a href="/courses">All Courses</a>
                   </li>
                   <li>
-                    <a href="#">My Courses</a>
+                    <a href="/mybuys">My Courses</a>
                   </li>
                 </ul>
               </div>
@@ -114,11 +98,21 @@
                 <span>Start Quiz</span>
               </a>
             </li>
-            <li class="">
-              <a href="/changePass">
-                <!-- <i class="fa fa-chart-line"></i> -->
-                <span>Change Password</span>
+            <li class="sidebar-dropdown">
+              <a href="#">
+                <!-- <i class="fa fa-globe"></i> -->
+                <span>My Account</span>
               </a>
+              <div class="sidebar-submenu">
+                <ul>
+                  <li>
+                    <a href="/userEdit">Edit Account</a>
+                  </li>
+                  <li>
+                    <a href="/changePass">Change Password</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -141,34 +135,34 @@
           <th>Review</th>
         </tr>
         <tr>
-          <td data-th="Movie Title">1</td>
-          <td data-th="Genre">A</td>
-          <td data-th="Gross">100</td>
+          <td data-th="S.No">1</td>
+          <td data-th="Quiz">A</td>
+          <td data-th="Review">100</td>
         </tr>
         <tr>
-          <td data-th="Movie Title">2</td>
-          <td data-th="Genre">B</td>
-          <td data-th="Gross">100</td>
+          <td data-th="S.No">2</td>
+          <td data-th="Quiz">B</td>
+          <td data-th="Review">100</td>
         </tr>
         <tr>
-          <td data-th="Movie Title">3</td>
-          <td data-th="Genre">C</td>
-          <td data-th="Gross">100</td>
+          <td data-th="S.No">3</td>
+          <td data-th="Quiz">C</td>
+          <td data-th="Review">100</td>
         </tr>
         <tr>
-          <td data-th="Movie Title">4</td>
-          <td data-th="Genre">D</td>
-          <td data-th="Gross">75</td>
+          <td data-th="S.No">4</td>
+          <td data-th="Quiz">D</td>
+          <td data-th="Review">75</td>
         </tr>
         <tr>
-          <td data-th="Movie Title">5</td>
-          <td data-th="Genre">E</td>
-          <td data-th="Gross">75</td>
+          <td data-th="S.No">5</td>
+          <td data-th="Quiz">E</td>
+          <td data-th="Review">75</td>
         </tr>
         <tr>
-          <td data-th="Movie Title">6</td>
-          <td data-th="Genre">F</td>
-          <td data-th="Gross">60</td>
+          <td data-th="S.No">6</td>
+          <td data-th="Quiz">F</td>
+          <td data-th="Review">60</td>
         </tr>
       </table>
     </div>
@@ -193,41 +187,6 @@
             <span class="rectangleText">16 / 12</span>
         </div>
       </div>
-
-        <!-- <h2>Dashboard</h2>
-        <hr>
-        <div class="row">
-          <div class="form-group col-md-12">
-            <div class="alert alert-success" role="alert">
-              <h4 class="alert-heading">UPSC Quiz 1</h4>
-              <br>
-              <a href="/quiz" target="-blank" class="btn btn-sm btn-primary">
-                Start Quiz</a>
-                <a href="/quiz" target="-blank" class="btn btn-sm btn-primary">
-                  Answer Key</a>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="form-group col-md-12">
-            <div class="alert alert-warning" role="alert">
-              <h4 class="alert-heading">Live Stream</h4>
-              <br>
-              <a href="/liveStream" target="-blank" class="btn btn-sm btn-success mr-2">
-                Watch Live Stream</a>
-            </div>
-          </div>
-        </div>
-        <hr> -->
-  
-        <!-- <footer class="text-center">
-          <div class="mb-2">
-            <small>
-              © 2020 made with <i class="fa fa-heart" style="color:red"></i>
-            </small>
-          </div>
-        </footer> -->
   
       </div>
   

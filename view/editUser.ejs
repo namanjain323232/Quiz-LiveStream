@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <link type='text/css' rel='stylesheet' href='/css/styleDashboard.css'/>
-  <link type='text/css' rel='stylesheet' href='/css/styleCourses.css'/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">  
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -30,10 +29,6 @@
               <strong>Naman Jain</strong>
             </span>
             <span class="user-role">Student</span>
-            <!-- <span class="user-status">
-              <i class="fa fa-circle"></i>
-              <span>Online</span><br>
-            </span> -->
           </div>
         </div>
         <div class="sidebar-menu">
@@ -41,20 +36,17 @@
             <br>
             <li class="">
               <a href="/dashboard">
-                <!-- <i class="fa fa-tachometer-alt"></i> -->
                 <span>Dashboard</span>
-                <!-- <span class="badge badge-pill badge-warning">New</span> -->
               </a>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
-                <!-- <i class="fa fa-globe"></i> -->
                 <span>Courses</span>
               </a>
               <div class="sidebar-submenu">
                 <ul>
                   <li>
-                    <a href="/courses">All Courses</a>
+                    <a href="#">All Courses</a>
                   </li>
                   <li>
                     <a href="#">My Courses</a>
@@ -64,14 +56,11 @@
             </li>
             <li class="">
               <a href="#">
-                <!-- <i class="fa fa-shopping-cart"></i> -->
                 <span>Results</span>
-                <!-- <span class="badge badge-pill badge-danger">3</span> -->
               </a>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
-                <!-- <i class="fa fa-globe"></i> -->
                 <span>Live Stream</span>
               </a>
               <div class="sidebar-submenu">
@@ -84,25 +73,21 @@
             </li>
             <li class="">
               <a href="#">
-                <!-- <i class="far fa-gem"></i> -->
                 <span>Payment History</span>
               </a>
             </li>
             <li class="">
               <a href="/quiz" target="_blank">
-                <!-- <i class="fa fa-chart-line"></i> -->
                 <span>Start Quiz</span>
               </a>
             </li>
             <li class="">
               <a href="/userEdit">
-                <!-- <i class="fa fa-chart-line"></i> -->
                 <span>Edit Account</span>
               </a>
             </li>
             <li class="">
               <a href="/changePass">
-                <!-- <i class="fa fa-chart-line"></i> -->
                 <span>Change Password</span>
               </a>
             </li>
@@ -118,57 +103,33 @@
     <!-- sidebar-wrapper  -->
     <main class="page-content">
       <div class="container">
-         <div class="row">
-
-            <div class="col-12 col-lg-4 mobilmt">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/3825573/pexels-photo-3825573.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Chemistry</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3502</p>
-                        <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 mobilmt">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/714698/pexels-photo-714698.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Physics</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3500</p>
-                        <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
-                        </p>
+         <div class="row" style="width: 100%;">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+    
+                        <!-- Makes POST request to /register route -->
+                        <form action="/userEdit" method="POST">
+                            <div class="form-group">
+                              <label for="name">Name</label>
+                              <input type="text" class="form-control" name="name" value="<%= details.name %>">
+                            </div>
+                            <div class="form-group">
+                              <label for="name">Phone Number</label>
+                              <input type="text" class="form-control" name="phone" value=<%= details.phone %>>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" name="username" value=<%= details.username %>>
+                            </div>
+                            <button type="submit" class="btn btn-dark">Update</button>
+                        </form>
+    
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-4 mobilmt">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/3768126/pexels-photo-3768126.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Mathematics</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3525</p>
-                        <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-          </div>
+    
+        </div>
       </div>
   
     </main>
