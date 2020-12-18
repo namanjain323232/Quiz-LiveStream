@@ -166,7 +166,7 @@ app.get('/notification', function(req,res){
 
 app.get('/quizlist', function(req,res){
   if (req.isAuthenticated()) {
-  res.render('quizList');
+  res.render('quizList'); 
   }
   else{
     res.redirect("/");
