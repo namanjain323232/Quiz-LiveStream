@@ -2,10 +2,16 @@ const User = require('../app/models/user');
 const admin = require('../app/models/admin');
 //const Ques=require('../app/models/questions');
 const {Ques,Quiz} = require('../app/models/Quiz');
+const Notification=require('../app/models/notification');
+const Image = require('../app/models/answerKey');
 const getAdmin=admin();
+
 module.exports = function (app, passport) {
 
   let ques=[];
+
+  
+
 app.route("/")
   .get((req, res) => {
     res.render("home");
@@ -240,6 +246,114 @@ app.get('/quiz', function(req,res){
          }
         });
     });
+
+
+    app.route("/createNotification")
+      .get((req, res) => {
+        if (req.isAuthenticated()) {
+          if (req.user.username == getAdmin.username) {
+            res.render("createNotification");
+          }
+          else {
+            res.render("dashboard");
+          }
+        }
+        else {
+          res.redirect("/login");
+        }
+      })
+      .post((req,res)=>{
+        let notif=new Notification({
+          notifTitle: req.body.notifTitle,
+          notifBody: req.body.notifBody
+        });
+        notif.save();
+        console.log(notif);
+        res.redirect("/admin");
+      });
+    
+    app.route("/showUsers")
+      .get((req, res) => {
+        if (req.isAuthenticated()) {
+          if (req.user.username == getAdmin.username) {
+            let arr = [];
+            User.find(function (err, users) {
+              if (err)
+                console.log(err);
+              else {
+                User.findOne({ username: getAdmin.username }, (err, use) => {
+                  if (err)
+                    console.log(err);
+                  else {
+                    arr = users.filter(function (user) {
+                          if (user.username != use.username)
+                            return user
+                        });
+                    //console.log(arr);
+                    res.render("showUsers", {
+                      users: arr
+                    });
+                  }
+                });
+              }
+            });  
+          }
+          else {
+            res.render("dashboard");
+          }
+        }
+        else {
+          res.redirect("/login");
+        }
+      });  
+    
+    
+
+  // app.get('/uploadAnswer', (req, res) => {
+  //   if (req.isAuthenticated()) {
+  //      if (req.user.username == getAdmin.username) {
+  //      imgModel.find({}, (err, items) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //       else {
+  //         res.render('uploadAnswer', { items: items });
+  //       }
+  //     });
+  //   }
+  //   else{
+  //     res.render("dashboard");
+  //   }
+  // }
+  //   else {
+  //     res.redirect("/login");
+  //   }
+
+
+  // });
+  
+  // app.post('/uploadAnswer', upload.single('image'), (req, res, next) => {
+
+  //   var obj = {
+  //     name: req.body.name,
+  //     desc: req.body.desc,
+  //     img: {
+  //       data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+  //       contentType: 'image/png'
+  //     }
+  //   }
+  //   imgModel.create(obj, (err, item) => {
+  //     if (err) {
+  //       console.log(err);
+  //     }
+  //     else {
+  //       // item.save();
+  //       res.redirect('/admin');
+  //     }
+  //   });
+  // });
+
+
 
 };
 
