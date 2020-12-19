@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link type='text/css' rel='stylesheet' href='/css/styleDashboard.css'/>
+  <link type='text/css' rel='stylesheet' href='/css/styleCourses.css'/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">  
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <%- include('partials/header') %>
+  <div class="page-wrapper chiller-theme toggled">
+    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+      <i class="fas fa-bars"></i>
+    </a>
+    <nav id="sidebar" class="sidebar-wrapper">
+      <div class="sidebar-content">
+        <div class="sidebar-brand">
+          <a href="#"></a>
+          <div id="close-sidebar">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+        <div class="sidebar-header">
+          <div class="user-info">
+            <span class="user-name">
+              <strong>Naman Jain</strong>
+            </span>
+            <span class="user-role">Student</span>
+            <!-- <span class="user-status">
+              <i class="fa fa-circle"></i>
+              <span>Online</span><br>
+            </span> -->
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <ul>
+            <br>
+            <li class="">
+              <a href="/dashboard">
+                <!-- <i class="fa fa-tachometer-alt"></i> -->
+                <span>Dashboard</span>
+                <!-- <span class="badge badge-pill badge-warning">New</span> -->
+              </a>
+            </li>
+            <li class="sidebar-dropdown">
+              <a href="#">
+                <!-- <i class="fa fa-globe"></i> -->
+                <span>Courses</span>
+              </a>
+              <div class="sidebar-submenu">
+                <ul>
+                  <li>
+                    <a href="/courses">All Courses</a>
+                  </li>
+                  <li>
+                    <a href="#">My Courses</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="">
+              <a href="#">
+                <!-- <i class="fa fa-shopping-cart"></i> -->
+                <span>Results</span>
+                <!-- <span class="badge badge-pill badge-danger">3</span> -->
+              </a>
+            </li>
+            <li class="sidebar-dropdown">
+              <a href="#">
+                <!-- <i class="fa fa-globe"></i> -->
+                <span>Live Stream</span>
+              </a>
+              <div class="sidebar-submenu">
+                <ul>
+                  <li>
+                    <a href="#">Watch Video</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="">
+              <a href="#">
+                <!-- <i class="far fa-gem"></i> -->
+                <span>Payment History</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="/quiz" target="_blank">
+                <!-- <i class="fa fa-chart-line"></i> -->
+                <span>Start Quiz</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="/userEdit">
+                <!-- <i class="fa fa-chart-line"></i> -->
+                <span>Edit Account</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="/changePass">
+                <!-- <i class="fa fa-chart-line"></i> -->
+                <span>Change Password</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- sidebar-menu  -->
+      </div>
+      <!-- sidebar-content  -->
+      <div class="sidebar-footer">
+        <a href="/logout"><span>Log Out</span></a>
+      </div>
+    </nav>
+    <!-- sidebar-wrapper  -->
+    <main class="page-content">
+      <div class="container">
+         <div class="row">
+
+            <div class="col-12 col-lg-4 mobilmt">
+                <div class="person">
+                    <div class="personimg">
+                        <img src="https://images.pexels.com/photos/3825573/pexels-photo-3825573.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
+                    </div>
+                    <div class="persondetail">
+                        <p class="personunvan">Chemistry</p>
+                    </div>
+                    <div class="personcontact">
+                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3502</p>
+                        <p class="personCV">
+                            <a href="/quizlist" class="btn" src="">View</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 mobilmt">
+                <div class="person">
+                    <div class="personimg">
+                        <img src="https://images.pexels.com/photos/714698/pexels-photo-714698.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
+                    </div>
+                    <div class="persondetail">
+                        <p class="personunvan">Physics</p>
+                    </div>
+                    <div class="personcontact">
+                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3500</p>
+                        <p class="personCV">
+                            <a href="/quizlist" class="btn" src="">View</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 mobilmt">
+                <div class="person">
+                    <div class="personimg">
+                        <img src="https://images.pexels.com/photos/3768126/pexels-photo-3768126.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
+                    </div>
+                    <div class="persondetail">
+                        <p class="personunvan">Mathematics</p>
+                    </div>
+                    <div class="personcontact">
+                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3525</p>
+                        <p class="personCV">
+                            <a href="/quizlist" class="btn" src="">View</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+  
+    </main>
+    <!-- page-content" -->
+  </div>
+  <!-- page-wrapper -->
+  <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+  <script type='text/javascript' src='/js/dashboard.js'></script>
+</body>
+</html>

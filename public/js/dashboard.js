@@ -42,11 +42,23 @@ $(".sidebar-dropdown > a").click(function() {
   // },
     data: {
         columns: [
-            ['data1', 30, 200, 200, 400, 150, 250, 200],
-            // ['data2', 130, 100, 100, 200, 150, 50, 300],
+            ['This Week', 30, 200, 200, 400, 150, 250, 200],
+            ['Last Week', 130, 100, 100, 200, 150, 50, 300],
             // ['data3', 230, 200, 200, 300, 250, 250, 450]
         ],
         type: 'line'
+    },
+    axis: {
+      y: {
+        label: {
+          text: 'Quizzes Attempted',
+          position: 'outer-middle'
+        }
+      },
+      x : {
+        type: 'category',
+          categories:  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      },
     },
     bar: {
         width: {

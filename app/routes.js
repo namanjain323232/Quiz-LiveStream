@@ -48,7 +48,7 @@ app.route("/register")
     res.render("register");
   })
   .post((req, res) => {
-    User.register({ username: req.body.username }, req.body.password, (err, user) => {
+    User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone }, req.body.password, (err, user) => {
       if (err) {
         console.log(err);
         res.redirect("/register");
@@ -67,13 +67,30 @@ app.get("/dashboard", (req, res) => {
     if (req.user.username == getAdmin.username) {
        res.redirect("/admin");
     }
-    else{   
-    res.render("dashboard");
+    else{
+      res.render("dashboard");
     }
   }
   else {
     res.redirect("/login");
   }
+});
+
+app.route("/userEdit").get((req, res) => {
+  if (req.isAuthenticated()) {
+      res.render("editUser", { details: req.user});
+  }
+  else {
+    res.redirect("/login");
+  }
+}).post( async (req, res) => {
+  await User.findByIdAndUpdate(req.user._id, {$set: {
+    username: req.body.username,
+    name: req.body.name,
+    phone: req.body.phone
+  }});
+
+  res.redirect("/dashboard");
 });
 
 app.get("/logout", (req, res) => {
@@ -91,7 +108,6 @@ app.route("/changePass")
         .then(foundUser => {
           foundUser.changePassword(req.body.old, req.body.new)
             .then(() => {
-              console.log('password changed');
               res.redirect("/");
             })
             .catch((error) => {
@@ -121,6 +137,42 @@ app.get('/liveStream', function(req,res){
 app.get('/quiz', function(req,res){
   if (req.isAuthenticated()) {
   res.render('quiz');
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.get('/courses', function(req,res){
+  if (req.isAuthenticated()) {
+  res.render('showCourse');
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.get('/mybuys', function(req,res){
+  if (req.isAuthenticated()) {
+  res.render('myBuys');
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.get('/notification', function(req,res){
+  if (req.isAuthenticated()) {
+  res.render('notification');
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.get('/quizlist', function(req,res){
+  if (req.isAuthenticated()) {
+  res.render('quizList'); 
   }
   else{
     res.redirect("/");

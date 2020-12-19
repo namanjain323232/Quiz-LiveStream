@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link type='text/css' rel='stylesheet' href='css/styleDashboard.css'/>
+  <link type='text/css' rel='stylesheet' href='/css/styleDashboard.css'/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">  
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -10,7 +10,7 @@
   <title>Document</title>
 </head>
 <body>
-
+  <%- include('partials/header') %>
   <div class="page-wrapper chiller-theme toggled">
     <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
       <i class="fas fa-bars"></i>
@@ -23,62 +23,32 @@
             <i class="fas fa-times"></i>
           </div>
         </div>
-        <div class="sidebar-header">
-          <div class="user-pic">
-            <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
-          </div>
+        <div class="sidebar-header" style="display: flex; justify-content: space-between;">
           <div class="user-info">
             <span class="user-name">
               <strong>Naman Jain</strong>
             </span>
             <span class="user-role">Student</span>
-            <span class="user-status">
+            <!-- <span class="user-status">
               <i class="fa fa-circle"></i>
               <span>Online</span><br>
-            </span>
+            </span> -->
           </div>
-        </div>
-        <!-- sidebar-header  -->
-        <div class="sidebar-search">
           <div>
-            <div class="input-group">
-              <input type="text" class="form-control search-menu" placeholder="Search...">
-              <div class="input-group-append">
-                <span class="input-group-text">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </span>
-              </div>
-            </div>
+            <a href="/notification">
+              <i class="fa fa-bell" style="color: white; font-size: 2rem;"></i>
+            </a>
           </div>
         </div>
-        <!-- sidebar-search  -->
         <div class="sidebar-menu">
           <ul>
-            <!-- <li class="header-menu">
-              <span>General</span>
-            </li> -->
             <br>
-            <li class="sidebar-dropdown">
-              <a href="#">
+            <li class="">
+              <a href="/dashboard">
                 <!-- <i class="fa fa-tachometer-alt"></i> -->
                 <span>Dashboard</span>
                 <!-- <span class="badge badge-pill badge-warning">New</span> -->
               </a>
-              <!-- <div class="sidebar-submenu">
-                <ul>
-                  <li>
-                    <a href="#">Dashboard 1
-                      <span class="badge badge-pill badge-success">Pro</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">Dashboard 2</a>
-                  </li>
-                  <li>
-                    <a href="#">Dashboard 3</a>
-                  </li>
-                </ul>
-              </div> -->
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
@@ -88,79 +58,58 @@
               <div class="sidebar-submenu">
                 <ul>
                   <li>
-                    <a href="#">All Courses</a>
+                    <a href="/courses">All Courses</a>
                   </li>
                   <li>
-                    <a href="#">My Courses</a>
+                    <a href="/mybuys">My Courses</a>
                   </li>
                 </ul>
               </div>
             </li>
-            <li class="sidebar-dropdown">
+            <li class="">
               <a href="#">
                 <!-- <i class="fa fa-shopping-cart"></i> -->
                 <span>Results</span>
                 <!-- <span class="badge badge-pill badge-danger">3</span> -->
               </a>
-              <div class="sidebar-submenu">
-                <ul>
-                  <li>
-                    <a href="#">Products
-  
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">Orders</a>
-                  </li>
-                  <li>
-                    <a href="#">Credit cart</a>
-                  </li>
-                </ul>
-              </div>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
-                <!-- <i class="far fa-gem"></i> -->
-                <span>Payment History</span>
-              </a>
-              <div class="sidebar-submenu">
-                <ul>
-                  <li>
-                    <a href="#">General</a>
-                  </li>
-                  <li>
-                    <a href="#">Panels</a>
-                  </li>
-                  <li>
-                    <a href="#">Tables</a>
-                  </li>
-                  <li>
-                    <a href="#">Icons</a>
-                  </li>
-                  <li>
-                    <a href="#">Forms</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li class="sidebar-dropdown">
-              <a href="#">
-                <!-- <i class="fa fa-chart-line"></i> -->
+                <!-- <i class="fa fa-globe"></i> -->
                 <span>Live Stream</span>
               </a>
               <div class="sidebar-submenu">
                 <ul>
                   <li>
-                    <a href="#">Pie chart</a>
+                    <a href="#">Watch Video</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="">
+              <a href="#">
+                <!-- <i class="far fa-gem"></i> -->
+                <span>Payment History</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="/quiz" target="_blank">
+                <!-- <i class="fa fa-chart-line"></i> -->
+                <span>Start Quiz</span>
+              </a>
+            </li>
+            <li class="sidebar-dropdown">
+              <a href="#">
+                <!-- <i class="fa fa-globe"></i> -->
+                <span>My Account</span>
+              </a>
+              <div class="sidebar-submenu">
+                <ul>
+                  <li>
+                    <a href="/userEdit">Edit Account</a>
                   </li>
                   <li>
-                    <a href="#">Line chart</a>
-                  </li>
-                  <li>
-                    <a href="#">Bar chart</a>
-                  </li>
-                  <li>
-                    <a href="#">Histogram</a>
+                    <a href="/changePass">Change Password</a>
                   </li>
                 </ul>
               </div>
@@ -172,65 +121,72 @@
       <!-- sidebar-content  -->
       <div class="sidebar-footer">
         <a href="/logout"><span>Log Out</span></a>
-        <!-- <a href="#">
-          <i class="fa fa-bell"></i>
-          <span class="badge badge-pill badge-warning notification">3</span>
-        </a>
-        <a href="#">
-          <i class="fa fa-envelope"></i>
-          <span class="badge badge-pill badge-success notification">7</span>
-        </a>
-        <a href="#">
-          <i class="fa fa-cog"></i>
-          <span class="badge-sonar"></span>
-        </a>
-        <a href="#">
-          <i class="fa fa-power-off"></i>
-        </a> -->
       </div>
     </nav>
     <!-- sidebar-wrapper  -->
     <main class="page-content">
       <div class="container">
-        <h2>Dashboard</h2>
-        <hr>
         <div class="row">
-          <div class="form-group col-md-12">
-            <div class="alert alert-success" role="alert">
-              <h4 class="alert-heading">UPSC Quiz 1</h4>
-              <br>
-              <a href="/quiz" target="-blank" class="btn btn-sm btn-primary">
-                Start Quiz</a>
-                <a href="/quiz" target="-blank" class="btn btn-sm btn-primary">
-                  Answer Key</a>
-            </div>
-          </div>
+          <div class="real-time-printing"></div>
+      <table class="rwd-table">
+        <tr>
+          <th>S.No</th>
+          <th>Quiz</th>
+          <th>Review</th>
+        </tr>
+        <tr> 
+          <td data-th="S.No">1</td>
+          <td data-th="Quiz">A</td>
+          <td data-th="Review">100</td>
+        </tr>
+        <tr>
+          <td data-th="S.No">2</td>
+          <td data-th="Quiz">B</td>
+          <td data-th="Review">100</td>
+        </tr>
+        <tr>
+          <td data-th="S.No">3</td>
+          <td data-th="Quiz">C</td>
+          <td data-th="Review">100</td>
+        </tr>
+        <tr>
+          <td data-th="S.No">4</td>
+          <td data-th="Quiz">D</td>
+          <td data-th="Review">75</td>
+        </tr>
+        <tr>
+          <td data-th="S.No">5</td>
+          <td data-th="Quiz">E</td>
+          <td data-th="Review">75</td>
+        </tr>
+        <tr>
+          <td data-th="S.No">6</td>
+          <td data-th="Quiz">F</td>
+          <td data-th="Review">60</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Recent Quizzes</h2>
+
+      <div class="rectangles">
+        <div class="rectangle" style="background-color: #DA9347">
+          <span class="rectangleHeading">My Courses</span>
+          <span class="rectangleText">6</span>
         </div>
-        <hr>
-        <div class="row">
-          <div class="form-group col-md-12">
-            <div class="alert alert-warning" role="alert">
-              <h4 class="alert-heading">Live Stream</h4>
-              <br>
-              <a href="/liveStream" target="-blank" class="btn btn-sm btn-success mr-2">
-                Watch Live Stream</a>
-            </div>
-          </div>
+        <div class="rectangle" style="background-color: #66B92E">
+            <span class="rectangleHeading">Total Quizzes</span>
+            <span class="rectangleText">27</span>
         </div>
-        <hr>
-        
-              <div class="row">
-                  <h2 class="subpage-heading no-border">Real Time Printing</h2>
-                  <div class="real-time-printing"></div>
-              </div>
-  
-        <!-- <footer class="text-center">
-          <div class="mb-2">
-            <small>
-              © 2020 made with <i class="fa fa-heart" style="color:red"></i>
-            </small>
-          </div>
-        </footer> -->
+        <div class="rectangle" style="background-color: #2298F1">
+            <span class="rectangleHeading">Live Sessions Attended</span>
+            <span class="rectangleText">81</span>
+        </div>
+        <div class="rectangle" style="background-color: #D65B4A">
+            <span class="rectangleHeading">Last Purchase</span>
+            <span class="rectangleText">16 / 12</span>
+        </div>
+      </div>
   
       </div>
   
