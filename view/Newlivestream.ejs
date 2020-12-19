@@ -1,0 +1,218 @@
+<html>
+<head>
+
+    <script>
+        const webCam=()=>{
+            let mediaRecorder;
+            let recordedBlobs;
+            
+            const errorMsgElement = document.querySelector('span#errorMsg');
+            const recordedVideo = document.querySelector('video#recorded');
+            const recordButton = document.querySelector('button#record');
+            const playButton = document.querySelector('button#play');
+            const downloadButton = document.querySelector('button#download');
+            const audience = document.querySelector('button#users');
+            
+            
+            recordButton.addEventListener('click', () => {
+             
+              if (recordButton.textContent === 'Record') {
+               
+                startRecording();
+              } else {
+                stopRecording();
+                recordButton.textContent = 'Record';
+                
+                playButton.disabled = false;
+                downloadButton.disabled = false;
+              }
+            });
+            
+            // if(mediaRecorder==null){
+            //   status_fail="Live Streaming Stopped"
+            //   sessionStorage.setItem('stream_status',status_fail)
+            // }
+            //  if(mediaRecorder && mediaRecorder.stream!=null){
+            //    sessionStorage.clear()
+            //  }
+        
+            playButton.addEventListener('click', (event) => {
+              const superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
+              const url = window.URL.createObjectURL(superBuffer);
+              
+              recordedVideo.src = null;
+              recordedVideo.srcObject = null;
+              recordedVideo.src = window.URL.createObjectURL(superBuffer);
+              recordedVideo.controls = true;
+             
+              recordedVideo.play();
+             
+             console.log(status)
+            });
+           
+            
+            
+        //     if(recordedVideo.play()){
+        //       status="Live Streaming Ended"
+        //     }else{
+              
+        //     }
+        //   if(recordedBlobs && recordedBlobs!=null){
+        //   if(recordedVideo.play()){
+        //     status="Live Streaming Started"
+        //   }else{
+        //     status="Live Streaming Ended"
+        //   }
+        // }
+         
+            downloadButton.addEventListener('click', () => {
+              const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
+              const url = window.URL.createObjectURL(blob);
+            
+              const a = document.createElement('a');
+              a.style.display = 'none';
+              a.href = url;
+              a.download ='test.mp4';
+            
+              document.body.appendChild(a);
+              a.click();
+              setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+              }, 100);
+            });
+            
+            function handleDataAvailable(event) {
+              
+              console.log('handleDataAvailable', event);
+              if (event.data && event.data.size > 0) {
+                recordedBlobs.push(event.data);
+                
+              }
+              
+              
+            }
+           
+            
+            
+            function startRecording() {
+              
+              recordedBlobs = [];
+              let options = {mimeType: 'video/webm;codecs=vp9,opus'};
+              try {
+                mediaRecorder = new MediaRecorder(window.stream, options);
+                
+              } catch (e) {
+                console.error('Exception while creating MediaRecorder:', e);
+                errorMsgElement.innerHTML = `Exception while creating MediaRecorder: ${JSON.stringify(e)}`;
+                return;
+              }
+            
+              console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+              recordButton.textContent = 'Stop Recording';
+              playButton.disabled = true;
+              downloadButton.disabled = true;
+              mediaRecorder.onstop = (event) => {
+               
+                console.log('Recorder stopped: ', event);
+                console.log('Recorded Blobs: ', recordedBlobs);
+                
+               
+              };
+              mediaRecorder.ondataavailable = handleDataAvailable;
+             
+              mediaRecorder.start();
+              console.log('MediaRecorder started', mediaRecorder);
+             
+              
+            }
+            
+            function stopRecording() {
+              mediaRecorder.stop();
+                // let status_pass="Recorded"
+                // sessionStorage.setItem('status_pass',status_pass)
+                // sessionStorage.removeItem('stream_status')
+                
+                
+            }
+            
+            function handleSuccess(stream) {
+              recordButton.disabled = false;
+              console.log('getUserMedia() got stream:', stream);
+              window.stream = stream;
+              
+              const gumVideo = document.querySelector('video#gum');
+              gumVideo.srcObject = stream;
+              
+            }
+            
+            async function init(constraints) {
+              
+              try {
+                
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                handleSuccess(stream);
+                sessionStorage.setItem('stream_status',status_fail)
+                sessionStorage.removeItem('status_pass')
+               
+              } catch (e) {
+                console.error('navigator.getUserMedia error:', e);
+                errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
+              }
+            }
+            // if(window.stream==null){
+            //   alert('Your Streaming Stoped due to Refresh or Page Back.Please Record again and Play your Stream')
+              
+            
+            // }
+            
+          
+            console.log(status)
+            document.querySelector('button#start').addEventListener('click', async () => {
+              const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
+             
+              const constraints = {
+                audio: {
+                  echoCancellation: {exact: hasEchoCancellation}
+                },
+                video: {
+                  width: 1280, height: 720
+                }
+               
+                
+              };
+             
+              console.log('Using media constraints:', constraints);
+              await init(constraints);
+            });
+            
+          
+        }
+        </script>
+        
+
+</head>
+<body>
+    <div>
+        <div>
+        <video id="gum" playsinline autoplay muted></video>
+        <video id="recorded" playsinline loop></video>
+        
+        
+              <video id="start" style="display:'flex'; margin:'auto'"></video>
+        
+         
+                <div class="wecambutton">
+                  <button id="start" class="buttons buttons1">Initialize</button>
+                  <button id="record"  class="buttons buttons1"  disabled>Record</button>
+                  <button  id="play"  class="buttons buttons1" disabled>Play</button> 
+                  <button  id="download"  class="buttons buttons1"  disabled>Download</button>  
+                </div>
+        <div>
+    </div>
+
+</body>
+
+
+</html>

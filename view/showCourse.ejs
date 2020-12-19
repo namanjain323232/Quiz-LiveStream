@@ -24,7 +24,7 @@
             <i class="fas fa-times"></i>
           </div>
         </div>
-        <div class="sidebar-header">
+        <div class="sidebar-header" style="display: flex; justify-content: space-between;">
           <div class="user-info">
             <span class="user-name">
               <strong>Naman Jain</strong>
@@ -34,6 +34,11 @@
               <i class="fa fa-circle"></i>
               <span>Online</span><br>
             </span> -->
+          </div>
+          <div>
+            <a href="/notification">
+              <i class="fa fa-bell" style="color: white; font-size: 2rem;"></i>
+            </a>
           </div>
         </div>
         <div class="sidebar-menu">
@@ -57,7 +62,7 @@
                     <a href="/courses">All Courses</a>
                   </li>
                   <li>
-                    <a href="#">My Courses</a>
+                    <a href="/mybuys">My Courses</a>
                   </li>
                 </ul>
               </div>
@@ -88,23 +93,21 @@
                 <span>Payment History</span>
               </a>
             </li>
-            <li class="">
-              <a href="/quiz" target="_blank">
-                <!-- <i class="fa fa-chart-line"></i> -->
-                <span>Start Quiz</span>
+            <li class="sidebar-dropdown">
+              <a href="#">
+                <!-- <i class="fa fa-globe"></i> -->
+                <span>My Account</span>
               </a>
-            </li>
-            <li class="">
-              <a href="/userEdit">
-                <!-- <i class="fa fa-chart-line"></i> -->
-                <span>Edit Account</span>
-              </a>
-            </li>
-            <li class="">
-              <a href="/changePass">
-                <!-- <i class="fa fa-chart-line"></i> -->
-                <span>Change Password</span>
-              </a>
+              <div class="sidebar-submenu">
+                <ul>
+                  <li>
+                    <a href="/userEdit">Edit Account</a>
+                  </li>
+                  <li>
+                    <a href="/changePass">Change Password</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>

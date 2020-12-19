@@ -14,7 +14,7 @@ app.route("/")
 
 app.route("/login")
   .get((req, res) => {
-    res.render("login");
+    res.render("newlogin");
   })
   .post((req, res) => {
     const user = new User({
@@ -42,12 +42,13 @@ app.route("/register")
     res.render("register");
   })
   .post((req, res) => {
-    User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone }, req.body.password, (err, user) => {
+    User.register({ username: req.body.remail, name: req.body.rname, phone: req.body.rphone }, req.body.rpassword, (err, user) => {
       if (err) {
-        console.log(err);
+        console.log(err.message);
         res.redirect("/register");
       }
       else {
+        res.redirect("/register");
         passport.authenticate("local")(req, res, () => {
           res.redirect("/dashboard");
 
@@ -167,6 +168,15 @@ app.get('/notification', function(req,res){
 app.get('/quizlist', function(req,res){
   if (req.isAuthenticated()) {
   res.render('quizList'); 
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.get('/Newlivestream', function(req,res){
+  if (req.isAuthenticated()) {
+  res.render('Newlivestream'); 
   }
   else{
     res.redirect("/");
