@@ -12,6 +12,26 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passportLocalMongoose = require("passport-local-mongoose");
 const cookieSession = require("cookie-session");
+
+// var fs = require('fs');
+// var multer = require('multer');
+
+// var storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'uploads')
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.fieldname + '-' + Date.now())
+//   }
+// });
+
+// var upload = multer({ storage: storage });
+// app.use(multer({
+//   dest: './uploads/',
+//   rename: function (fieldname, filename) {
+//     return filename;
+//   },
+// }));
 app.use(express.json());
 
 app.use(cookieParser(process.env.SECRET));

@@ -2,53 +2,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <link type='text/css' rel='stylesheet' href='/css/styleDashboard.css' />
+    <link type='text/css' rel='stylesheet' href='css/styleDashboard.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">
-    <style>
-        input[type=text] {
-        width: 40%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        margin-left: 10px;
-        box-sizing: border-box;
-        border: 3px solid #ccc;
-        -webkit-transition: 0.5s;
-        transition: 0.5s;
-        outline: none;
-        }
 
-        input[type=text]:focus {
-        border: 3px solid #555;
-        }
-
-        .btn  {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-        }
-
-        .btn btn-dark:hover {
-        background-color: #4CAF50;
-        color: white;
-        }
-
-    </style>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
     <title>Document</title>
 </head>
 
 <body>
-    <%- include('partials/header') %>
+
     <div class="page-wrapper chiller-theme toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fas fa-bars"></i>
@@ -69,16 +33,28 @@
                     </div> -->
                     <div class="user-info">
                         <span class="user-name">
-                            <strong style="color: bisque;">ADMIN</strong>
+                            <strong>ADMIN</strong>
                         </span>
-                        <span class="user-role" style="color: bisque;">admin</span>
+                        <span class="user-role">admin</span>
                         <span class="user-status">
                             <i class="fa fa-circle"></i>
-                            <span style="color: bisque;">Online</span><br>
+                            <span>Online</span><br>
                         </span>
                     </div>
                 </div>
                 <!-- sidebar-header  -->
+                <div class="sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- sidebar-search  -->
                 <div class="sidebar-menu">
                     <ul>
@@ -89,7 +65,7 @@
                         <li class="sidebar-dropdown">
                             <a href="/admin">
                                 <!-- <i class="fa fa-tachometer-alt"></i> -->
-                                <span style="color: bisque;">Admin Dashboard</span>
+                                <span>Admin Dashboard</span>
                                 <!-- <span class="badge badge-pill badge-warning">New</span> -->
                             </a>
                             <!-- <div class="sidebar-submenu">
@@ -109,14 +85,14 @@
               </div> -->
                         </li>
                         <li class="sidebar-dropdown">
-                            <a href="#" style="color: bisque;">
+                            <a href="#">
                                 <!-- <i class="fa fa-globe"></i> -->
                                 <span>Courses</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="/showCourses" style="color: bisque;">All Courses</a>
+                                        <a href="/showCourses">All Courses</a>
                                     </li>
                                 </ul>
                             </div>
@@ -124,14 +100,14 @@
                         <li class="sidebar-dropdown">
                             <a href="/createQuiz">
                                 <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span style="color: bisque;">Create Quiz</span>
+                                <span>Create Quiz</span>
                                 <!-- <span class="badge badge-pill badge-danger">3</span> -->
                             </a>
                         </li>
                         <li class="sidebar-dropdown">
                             <a href="/showQuiz">
                                 <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span style="color: bisque;">Show Quizzes</span>
+                                <span>Show Quizzes</span>
                                 <!-- <span class="badge badge-pill badge-danger">3</span> -->
                             </a>
                         </li>
@@ -157,41 +133,41 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#" style="color: bisque;">General</a>
+                                        <a href="#">General</a>
                                     </li>
                                     <li>
-                                        <a href="#" style="color: bisque;">Panels</a>
+                                        <a href="#">Panels</a>
                                     </li>
                                     <li>
-                                        <a href="#" style="color: bisque;">Tables</a>
+                                        <a href="#">Tables</a>
                                     </li>
                                     <li>
-                                        <a href="#"style="color: bisque;">Icons</a>
+                                        <a href="#">Icons</a>
                                     </li>
                                     <li>
-                                        <a href="#" style="color: bisque;">Forms</a>
+                                        <a href="#">Forms</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li class="sidebar-dropdown">
-                            <a href="#" style="color: bisque;">
+                            <a href="#">
                                 <!-- <i class="fa fa-chart-line"></i> -->
                                 <span>Live Stream</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a style="color: bisque;" href="#">Pie chart</a>
+                                        <a href="#">Pie chart</a>
                                     </li>
                                     <li>
-                                        <a href="#" style="color: bisque;">Line chart</a>
+                                        <a href="#">Line chart</a>
                                     </li>
                                     <li>
-                                        <a href="#" style="color: bisque;">Bar chart</a>
+                                        <a href="#">Bar chart</a>
                                     </li>
                                     <li>
-                                        <a href="#" style="color: bisque;">Histogram</a>
+                                        <a href="#">Histogram</a>
                                     </li>
                                 </ul>
                             </div>
@@ -202,7 +178,7 @@
             </div>
             <!-- sidebar-content  -->
             <div class="sidebar-footer">
-                <a href="/logout" style="color: bisque;"><span>Log Out</span></a>
+                <a href="/logout"><span>Log Out</span></a>
                 <!-- <a href="#">
           <i class="fa fa-bell"></i>
           <span class="badge badge-pill badge-warning notification">3</span>
@@ -221,49 +197,68 @@
             </div>
         </nav>
         <!-- sidebar-wrapper  -->
-    <main class="page-content">
-        <div class="container">
-            <div class="container mt-5">
-                <h1 style="color: bisque; ">Create Quiz</h1>
-    
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="card">
-                            <div class="card-body">
-    
-    
-                                <form action="/createQuiz" method="POST">
-                                    <div class="form-group" style="margin: auto;">
-                                        <label for="courseName" style="color: bisque; font-size: medium;" >Choose Your Course</label>
-                                          <input list="courseName"  type="text" id="fname" name="courseName">
-                                        <datalist id="courseName">
-                                            <option value="Physics">
-                                            <option value="Chemistry">
-                                            <option value="Maths">
-                                            <option value="Biology">
-                                            <option value="English">
-                                        </datalist>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="quizName" style="color: bisque; font-size: medium;">Quiz Name</label>
-                                        <input type="text"style="margin-left: 80px" class="form-control" name="quizName">
-                                    </div>
-                                    <button type="submit" class="btn btn-dark" style="font-size: medium;">Enter</button>
+        <main class="page-content">
+            <div class="container">
+                <div class="container mt-5">
+                    <h1>Create Quiz</h1>
 
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="card">
+                            <div>
+                                <form action="/uploadAnswer" method="POST" enctype="multipart/form-data">
+                                    <div>
+                                        <label for="name">Image Title</label>
+                                        <input type="text" id="name" placeholder="Name" value="" name="name" required>
+                                    </div>
+                                    <div>
+                                        <label for="desc">Image Description</label>
+                                        <textarea id="desc" name="pesc" value="" rows="2" placeholder="Description" required>
+                                            </textarea>
+                                    </div>
+                                    <div>
+                                        <label for="image">Upload Image</label>
+                                        <input type="file" id="image" name="image" value="" required>
+                                    </div>
+                                    <div>
+                                        <button type="submit">Submit</button>
+                                    </div>
                                 </form>
-    
+                            </div>
+                            <hr>
+                            
+                            <h1>Uploaded Images</h1>
+                            <div>
+                                <% items.forEach(function(image) { %>
+                                    <div>
+                                        <div>
+                                            <img src="data:image/<%=image.img.contentType%>;base64,
+                                                 <%=image.img.data.toString('base64')%>">
+                                            <div>
+                                                <h5>
+                                                    <%= image.name %>
+                                                </h5>
+                            
+                                                <p>
+                                                    <%= image.desc %>
+                                                </p>
+                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
                             </div>
                         </div>
+
+
+
                     </div>
-    
-    
-    
                 </div>
+
             </div>
-    
-        </div>
-    
-    </main>
+
+        </main>
         <!-- page-content" -->
     </div>
     <!-- page-wrapper -->
@@ -272,13 +267,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
