@@ -8,15 +8,12 @@ const getAdmin=admin();
 
 module.exports = function (app, passport) {
 
-  let ques=[];
-
-  
+let ques=[];
 
 app.route("/")
   .get((req, res) => {
     res.render("home");
-  });
-
+});
 
 app.route("/login")
   .get((req, res) => {
@@ -40,7 +37,7 @@ app.route("/login")
         })
       }
     })
-  });
+});
 
 
 app.route("/register")
@@ -50,7 +47,7 @@ app.route("/register")
   .post((req, res) => {
     User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone }, req.body.password, (err, user) => {
       if (err) {
-        console.log(err);
+        console.log(err.message);
         res.redirect("/register");
       }
       else {
@@ -68,7 +65,7 @@ app.get("/dashboard", (req, res) => {
        res.redirect("/admin");
     }
     else{
-      res.render("dashboard");
+      res.render("showCourse", { details: req.user });
     }
   }
   else {
@@ -78,7 +75,7 @@ app.get("/dashboard", (req, res) => {
 
 app.route("/userEdit").get((req, res) => {
   if (req.isAuthenticated()) {
-      res.render("editUser", { details: req.user});
+      res.render("editUser", { details: req.user });
   }
   else {
     res.redirect("/login");
@@ -99,7 +96,7 @@ app.get("/logout", (req, res) => {
 })
 app.route("/changePass")
   .get((req, res) => {
-    res.render("changePass");
+    res.render("changePass", { details: req.user });
   })
   .post((req, res) => {
     if (req.isAuthenticated()) {
@@ -145,7 +142,7 @@ app.get('/quiz', function(req,res){
 
 app.get('/courses', function(req,res){
   if (req.isAuthenticated()) {
-  res.render('showCourse');
+  res.render('showCourse', { details: req.user });
   }
   else{
     res.redirect("/");
@@ -154,7 +151,7 @@ app.get('/courses', function(req,res){
 
 app.get('/mybuys', function(req,res){
   if (req.isAuthenticated()) {
-  res.render('myBuys');
+  res.render('myBuys', { details: req.user });
   }
   else{
     res.redirect("/");
@@ -166,13 +163,31 @@ app.get('/notification', function(req,res){
   res.render('notification');
   }
   else{
-    res.redirect("/");
+    res.redirect("/", { details: req.user });
   }
 });
 
 app.get('/quizlist', function(req,res){
   if (req.isAuthenticated()) {
-  res.render('quizList'); 
+  res.render('quizList', { details: req.user }); 
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.get('/details', function(req,res){
+  if (req.isAuthenticated()) {
+  res.render('dashboard', { details: req.user }); 
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.get('/Newlivestream', function(req,res){
+  if (req.isAuthenticated()) {
+  res.render('Newlivestream'); 
   }
   else{
     res.redirect("/");
@@ -183,10 +198,10 @@ app.get('/quizlist', function(req,res){
     .get((req, res) => {
       if (req.isAuthenticated()) {
         if (req.user.username == getAdmin.username) {
-          res.render("adminDashboard");
+          res.render("adminDashboard", { details: req.user });
         }
         else {
-          res.render("dashboard");
+          res.render("dashboard", { details: req.user });
         }
       }
       else {
@@ -199,10 +214,10 @@ app.get('/quizlist', function(req,res){
       .get((req,res)=>{
         if (req.isAuthenticated()) {
           if (req.user.username == getAdmin.username) {
-            res.render("createQuiz");
+            res.render("createQuiz", { details: req.user });
           }
           else {
-            res.render("dashboard");
+            res.render("dashboard", { details: req.user });
           }
       }
       else{
@@ -220,11 +235,12 @@ app.get('/quizlist', function(req,res){
           if (req.isAuthenticated()) {
             if (req.user.username == getAdmin.username) {
               res.render("addQues",{
-                quizName:quizName
+                quizName: quizName,
+                details: req.user
               });
             }
             else {
-              res.render("dashboard");
+              res.render("dashboard", { details: req.user });
             }
           }
           else {
@@ -252,7 +268,7 @@ app.get('/quizlist', function(req,res){
   app.get("/testCreated",(req,res)=>{
     if (req.isAuthenticated()) {
       if (req.user.username == getAdmin.username) {
-        res.render("testCreated");
+        res.render("testCreated", { details: req.user });
         let addQuiz=new Quiz({
           courseName:courseName,
           quizName:quizName,
@@ -263,7 +279,7 @@ app.get('/quizlist', function(req,res){
 
       }
       else {
-        res.render("dashboard");
+        res.render("dashboard", { details: req.user });
       }
     }
     else {
@@ -275,10 +291,10 @@ app.get('/quizlist', function(req,res){
      .get((req,res)=>{
        if (req.isAuthenticated()) {
          if (req.user.username == getAdmin.username) {
-           res.render("showQuiz");
+           res.render("showQuiz", { details: req.user });
          }
          else {
-           res.render("dashboard");
+           res.render("dashboard", { details: req.user });
          }
        }
        else {
@@ -293,7 +309,8 @@ app.get('/quizlist', function(req,res){
            console.log(err);
            else {
                 res.render("showQuiz2", {
-                courseQuiz:quizzes
+                courseQuiz: quizzes,
+                details: req.user
               });
          }
         });
@@ -304,10 +321,10 @@ app.get('/quizlist', function(req,res){
       .get((req, res) => {
         if (req.isAuthenticated()) {
           if (req.user.username == getAdmin.username) {
-            res.render("createNotification");
+            res.render("createNotification", { details: req.user });
           }
           else {
-            res.render("dashboard");
+            res.render("dashboard", { details: req.user });
           }
         }
         else {
@@ -343,7 +360,8 @@ app.get('/quizlist', function(req,res){
                         });
                     //console.log(arr);
                     res.render("showUsers", {
-                      users: arr
+                      users: arr,
+                      details: req.user
                     });
                   }
                 });
@@ -351,7 +369,7 @@ app.get('/quizlist', function(req,res){
             });  
           }
           else {
-            res.render("dashboard");
+            res.render("dashboard", { details: req.user });
           }
         }
         else {

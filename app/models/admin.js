@@ -2,8 +2,8 @@ const User = require('./user');
 const dotenv = require('dotenv');
 function getAdmin(){
  return{
-     username:process.env.ADMIN_ID,
-     password:process.env.ADMIN_PASSWORD
+     username: 'admin@gmail.com',
+     password: 'admin'
  }
 }
  module.exports=getAdmin;

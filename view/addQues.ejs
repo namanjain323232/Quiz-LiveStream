@@ -2,180 +2,70 @@
 
 <head>
     <meta charset="UTF-8">
-    <link type='text/css' rel='stylesheet' href='css/styleDashboard.css' />
+    <link type='text/css' rel='stylesheet' href='/css/styleDashboard.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">
 
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
     <title>Document</title>
+
+    <style>
+        input[type=text] {
+        width: 40%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        margin-left: 10px;
+        box-sizing: border-box;
+        border: 3px solid #ccc;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        outline: none;
+        }
+
+        input[type=text]:focus {
+        border: 3px solid #555;
+        }
+
+        .btn  {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        }
+
+        .btn btn-dark {
+        background-color: white; 
+        color: black; 
+        border: 2px solid #4CAF50;
+        }
+
+        .btn btn-dark:hover {
+        background-color: #4CAF50;
+        color: white;
+        }
+        </style>
 </head>
 
 <body>
-
+    <%- include('partials/header') %>
     <div class="page-wrapper chiller-theme toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fas fa-bars"></i>
         </a>
-        <nav id="sidebar" class="sidebar-wrapper">
-            <div class="sidebar-content">
-                <div class="sidebar-brand">
-                    <a href="#"></a>
-                    <div id="close-sidebar">
-                        <i class="fas fa-times"></i>
-                    </div>
-                </div>
-                <div class="sidebar-header">
-                    <!-- <div class="user-pic">
-                        <img class="img-responsive img-rounded"
-                            src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
-                            alt="User picture">
-                    </div> -->
-                    <div class="user-info">
-                        <span class="user-name">
-                            <strong>ADMIN</strong>
-                        </span>
-                        <span class="user-role">admin</span>
-                        <span class="user-status">
-                            <i class="fa fa-circle"></i>
-                            <span>Online</span><br>
-                        </span>
-                    </div>
-                </div>
-                <!-- sidebar-header  -->
-                <div class="sidebar-search">
-                    <div>
-                        <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- sidebar-search  -->
-                <div class="sidebar-menu">
-                    <ul>
-                        <!-- <li class="header-menu">
-              <span>General</span>
-            </li> -->
-                        <br>
-                        <li class="sidebar-dropdown">
-                            <a href="/admin">
-                                <!-- <i class="fa fa-tachometer-alt"></i> -->
-                                <span>Admin Dashboard</span>
-                                <!-- <span class="badge badge-pill badge-warning">New</span> -->
-                            </a>
-                            <!-- <div class="sidebar-submenu">
-                <ul>
-                  <li>
-                    <a href="#">Dashboard 1
-                      <span class="badge badge-pill badge-success">Pro</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">Dashboard 2</a>
-                  </li>
-                  <li>
-                    <a href="#">Dashboard 3</a>
-                  </li>
-                </ul>
-              </div> -->
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <!-- <i class="fa fa-globe"></i> -->
-                                <span>Courses</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="/showCourses">All Courses</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/createQuiz">
-                                <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span>Create Quiz</span>
-                                <!-- <span class="badge badge-pill badge-danger">3</span> -->
-                            </a>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/showQuiz">
-                                <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span>Show Quizzes</span>
-                                <!-- <span class="badge badge-pill badge-danger">3</span> -->
-                            </a>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/createNotification">
-                                <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span>Create Notification</span>
-                                <!-- <span class="badge badge-pill badge-danger">3</span> -->
-                            </a>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/showUsers">
-                                <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span>Show Users</span>
-                                <!-- <span class="badge badge-pill badge-danger">3</span> -->
-                            </a>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <!-- <i class="fa fa-chart-line"></i> -->
-                                <span>Live Stream</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="#">Pie chart</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Line chart</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Bar chart</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Histogram</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <!-- sidebar-menu  -->
-            </div>
-            <!-- sidebar-content  -->
-            <div class="sidebar-footer">
-                <a href="/logout"><span>Log Out</span></a>
-                <!-- <a href="#">
-          <i class="fa fa-bell"></i>
-          <span class="badge badge-pill badge-warning notification">3</span>
-        </a>
-        <a href="#">
-          <i class="fa fa-envelope"></i>
-          <span class="badge badge-pill badge-success notification">7</span>
-        </a>
-        <a href="#">
-          <i class="fa fa-cog"></i>
-          <span class="badge-sonar"></span>
-        </a>
-        <a href="#">
-          <i class="fa fa-power-off"></i>
-        </a> -->
-            </div>
-        </nav>
+        <%- include('partials/sidebarAdmin') %>
         <!-- sidebar-wrapper  -->
         <main class="page-content">
             <div class="container">
                 <div class="container mt-5">
-                    <h1>
+                    <h1 style="color: bisque;">
                         <%=quizName%>
                     </h1>
         
@@ -187,39 +77,40 @@
         
                                     <form action="/addQues" method="POST">
                                         <div class="form-group">
-                                            <label for="question">enter the question</label>
+                                            <label for="question" style="font-size: medium;">Enter The Question</label>
                                             <input type="text" class="form-control" name="question">
+
                                         </div>
         
                                         <div class="form-group">
-                                            <label for="op1">option 1</label>
-                                            <input type="text" class="form-control" name="op1">
+                                            <label for="op1" style="font-size: medium; ">Option 1</label>
+                                            <input type="text" class="form-control" style="margin-left: 100px;" name="op1">
                                         </div>
         
                                         <div class="form-group">
-                                            <label for="op2">option 2</label>
-                                            <input type="text" class="form-control" name="op2">
+                                            <label style="font-size: medium;" for="op2">Option 2</label>
+                                            <input type="text" class="form-control" style="margin-left: 90px;" name="op2">
                                         </div>
         
                                         <div class="form-group">
-                                            <label for="op3">option 3</label>
-                                            <input type="text" class="form-control" name="op3">
+                                            <label for="op3" style="font-size: medium;">Option 3</label>
+                                            <input type="text" class="form-control" style="margin-left: 90px;" name="op3">
                                         </div>
         
                                         <div class="form-group">
-                                            <label for="op4">option 4</label>
-                                            <input type="text" class="form-control" name="op4">
+                                            <label for="op4" font-size: medium;>Option 4</label>
+                                            <input type="text" class="form-control" style="margin-left: 100px;" name="op4">
                                         </div>
         
                                         <div class="form-group">
-                                            <label for="answer">Enter the correct option(1-4)</label>
-                                            <input type="text" class="form-control" name="answer">
+                                            <label for="answer" style="font-size: medium;">Correct Option</label>
+                                            <input type="text" class="form-control" style="margin-left: 40px;" name="answer">
                                         </div>
         
-                                        <button type="submit" class="btn btn-dark">Add Question</button>
+                                        <button type="submit" style="font-size: medium;" class="btn btn-dark">Add Question</button>
         
                                     </form>
-                                    <a class="btn btn-light btn-lg" href="/testCreated" role="button">Create test</a>
+                                    <a class="btn btn-light btn-lg" href="/testCreated" role="button" style="font-size: medium;">Create Test</a>
                                 </div>
                             </div>
                         </div>

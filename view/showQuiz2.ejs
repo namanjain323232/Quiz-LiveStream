@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link type='text/css' rel='stylesheet' href='css/styleDashboard.css' />
+    <link type='text/css' rel='stylesheet' href='/css/styleDashboard.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -13,195 +13,17 @@
 </head>
 
 <body>
-
+    <%- include('partials/header') %>
     <div class="page-wrapper chiller-theme toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fas fa-bars"></i>
         </a>
-        <nav id="sidebar" class="sidebar-wrapper">
-            <div class="sidebar-content">
-                <div class="sidebar-brand">
-                    <a href="#"></a>
-                    <div id="close-sidebar">
-                        <i class="fas fa-times"></i>
-                    </div>
-                </div>
-                <div class="sidebar-header">
-                    <!-- <div class="user-pic">
-                        <img class="img-responsive img-rounded"
-                            src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
-                            alt="User picture">
-                    </div> -->
-                    <div class="user-info">
-                        <span class="user-name">
-                            <strong>ADMIN</strong>
-                        </span>
-                        <span class="user-role">admin</span>
-                        <span class="user-status">
-                            <i class="fa fa-circle"></i>
-                            <span>Online</span><br>
-                        </span>
-                    </div>
-                </div>
-                <!-- sidebar-header  -->
-                <div class="sidebar-search">
-                    <div>
-                        <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- sidebar-search  -->
-                <div class="sidebar-menu">
-                    <ul>
-                        <!-- <li class="header-menu">
-              <span>General</span>
-            </li> -->
-                        <br>
-                        <li class="sidebar-dropdown">
-                            <a href="/admin">
-                                <!-- <i class="fa fa-tachometer-alt"></i> -->
-                                <span>Admin Dashboard</span>
-                                <!-- <span class="badge badge-pill badge-warning">New</span> -->
-                            </a>
-                            <!-- <div class="sidebar-submenu">
-                <ul>
-                  <li>
-                    <a href="#">Dashboard 1
-                      <span class="badge badge-pill badge-success">Pro</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">Dashboard 2</a>
-                  </li>
-                  <li>
-                    <a href="#">Dashboard 3</a>
-                  </li>
-                </ul>
-              </div> -->
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <!-- <i class="fa fa-globe"></i> -->
-                                <span>Courses</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="/showCourses">All Courses</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/createQuiz">
-                                <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span>Create Quiz</span>
-                                <!-- <span class="badge badge-pill badge-danger">3</span> -->
-                            </a>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/showQuiz">
-                                <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span>Show Quizzes</span>
-                                <!-- <span class="badge badge-pill badge-danger">3</span> -->
-                            </a>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/createNotification">
-                                <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span>Create Notification</span>
-                                <!-- <span class="badge badge-pill badge-danger">3</span> -->
-                            </a>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/showUsers">
-                                <!-- <i class="fa fa-shopping-cart"></i> -->
-                                <span>Show Users</span>
-                                <!-- <span class="badge badge-pill badge-danger">3</span> -->
-                            </a>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <!-- <i class="far fa-gem"></i> -->
-                                <span>Payment History</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="#">General</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Panels</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Tables</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Icons</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Forms</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <!-- <i class="fa fa-chart-line"></i> -->
-                                <span>Live Stream</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="#">Pie chart</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Line chart</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Bar chart</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Histogram</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <!-- sidebar-menu  -->
-            </div>
-            <!-- sidebar-content  -->
-            <div class="sidebar-footer">
-                <a href="/logout"><span>Log Out</span></a>
-                <!-- <a href="#">
-          <i class="fa fa-bell"></i>
-          <span class="badge badge-pill badge-warning notification">3</span>
-        </a>
-        <a href="#">
-          <i class="fa fa-envelope"></i>
-          <span class="badge badge-pill badge-success notification">7</span>
-        </a>
-        <a href="#">
-          <i class="fa fa-cog"></i>
-          <span class="badge-sonar"></span>
-        </a>
-        <a href="#">
-          <i class="fa fa-power-off"></i>
-        </a> -->
-            </div>
-        </nav>
+        <%- include('partials/sidebarAdmin') %>
         <!-- sidebar-wrapper  -->
         <main class="page-content">
             <div class="container">
                 <div class="container mt-5">
-                    <h1>Showing quizzes</h1>
+                    <h1 style="color: bisque;">Showing quizzes</h1>
                     <h2>
                         <%=courseQuiz.courseName%>
                     </h2>
@@ -215,7 +37,7 @@
                                    
     
                                     
-                                    <h5 class="card-title"> <%=quiz.quizName%></h5>
+                                    <h5  class="card-title"> <%=quiz.quizName%></h5>
                                     <p class="card-text">Total questions: <%=quiz.questions.length%></p>
                                    
                                 </div>

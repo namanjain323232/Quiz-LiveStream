@@ -1,6 +1,25 @@
+<style>
+    .candy {
+        background-image: linear-gradient(#FC6083, #FF8D67);
+        height: 100vh;
+        padding-top: 3rem;
+        margin-left: 20rem;
+    }
+
+    @media (max-width: 480px) {
+        .candy {
+        background-image: linear-gradient(#FC6083, #FF8D67);
+        height: 100vh;
+        padding-top: 5.6rem;
+        margin-left: 0rem;
+    }
+    }
+</style>
+
+<body class="candy">
 <%- include('partials/header') %>
 <div class="container mt-5">
-    <h1>Register</h1>
+    <h1 style="color: white;">Register</h1>
 
     <div class="row">
         <div class="col-sm-8">
@@ -36,3 +55,4 @@
 </div>
 
 <%- include('partials/header') %>
+</body>
