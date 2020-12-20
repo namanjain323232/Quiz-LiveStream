@@ -1,0 +1,86 @@
+<nav id="sidebar" class="sidebar-wrapper">
+   <div class="sidebar-content">
+     <div class="sidebar-brand">
+       <a href="/dashboard">YASHOHRAT EXAMS</a>
+       <div id="close-sidebar">
+         <i class="fas fa-times"></i>
+       </div>
+     </div>
+     <div class="sidebar-header" style="display: flex; justify-content: space-between;">
+       <div class="user-info">
+         <span class="user-name">
+           <strong style="text-transform: uppercase;"><%= details.name %></strong>
+         </span>
+         <span class="user-role">Student</span>
+       </div>
+       <div>
+         <a href="/notification">
+           <i class="fa fa-bell" style="color: white; font-size: 2rem;"></i>
+         </a>
+       </div>
+     </div>
+     <div class="sidebar-menu">
+       <ul>
+         <br>
+         <li class="sidebar-dropdown">
+           <a href="#">
+             <span>Courses</span>
+           </a>
+           <div class="sidebar-submenu">
+             <ul>
+               <li>
+                 <a href="/dashboard">All Courses</a>
+               </li>
+               <li>
+                 <a href="/mybuys">My Courses</a>
+               </li>
+             </ul>
+           </div>
+         </li>
+         <li class="">
+           <a href="#">
+             <span>Results</span>
+           </a>
+         </li>
+         <li class="sidebar-dropdown">
+           <a href="#">
+             <span>Live Stream</span>
+           </a>
+           <div class="sidebar-submenu">
+             <ul>
+               <li>
+                 <a href="/liveStream">Watch Video</a>
+               </li>
+             </ul>
+           </div>
+         </li>
+         <li class="">
+           <a href="#">
+             <span>Payment History</span>
+           </a>
+         </li>
+         <li class="sidebar-dropdown">
+           <a href="#">
+             <span>My Account</span>
+           </a>
+           <div class="sidebar-submenu">
+             <ul>
+               <li>
+                 <a href="/userEdit">Edit Account</a>
+               </li>
+               <li>
+                 <a href="/changePass">Change Password</a>
+               </li>
+               <li>
+                 <a href="/details">My Details</a>
+               </li>
+             </ul>
+           </div>
+         </li>
+       </ul>
+     </div>
+   </div>
+   <div class="sidebar-footer">
+     <a href="/logout"><span>Log Out</span></a>
+   </div>
+ </nav>
