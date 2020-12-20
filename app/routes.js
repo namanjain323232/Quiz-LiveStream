@@ -405,6 +405,24 @@ app.get('/quizlist', function(req,res){
   //   });
   // });
 
+      app.route("/resetPassword")
+        .get((req,res)=>{
+          res.render("resetPassword");
+        })
+
+        .post((req,res)=>{
+          User.findOne({ username: req.user.username })
+            .then((u) => {
+              u.setPassword(req.body.newPassword, (err, u) => {
+                if (err) return next(err);
+                u.save();
+                res.status(200).json({ message: 'password change successful' });
+                res.redirect("/login");
+              });
+
+            })
+        });
+
 
 
 };
