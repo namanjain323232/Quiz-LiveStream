@@ -258,6 +258,12 @@
    right: 15px;
    top: 14px;
  }
+
+ .sidebar-dropdown{
+   border: 2px solid black;
+   border-left: none;
+   border-right: none;
+ }
  
  .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {
    padding: 5px 0;
@@ -408,7 +414,8 @@
  /*-----------------------------chiller-theme-------------------------------------------------*/
  
  .chiller-theme .sidebar-wrapper {
-     background: #1D1E22;
+     background: #ADADAF;
+     border-right: 3px solid black;
  }
  
  .chiller-theme .sidebar-wrapper .sidebar-header,
