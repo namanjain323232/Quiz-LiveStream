@@ -8,6 +8,20 @@
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
   <title>Document</title>
+  <style>
+   .message{
+     width: 48%;
+     background-color: white;
+     border-radius: 5px;
+   }
+
+   .ann{
+       width: 100%;
+       display: flex;
+       justify-content: space-between;
+       margin-bottom: 2.7rem;
+   }
+</style>
 </head>
 <body>
   <%- include('partials/header') %>
@@ -15,19 +29,22 @@
     <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
       <i class="fas fa-bars"></i>
     </a>
-    <%- include('partials/sidebarUser') %>
+    <%- include('partials/sidebarAdmin') %>
     <!-- sidebar-wrapper  -->
     <main class="page-content">
       <div class="container">
-        <% for(var quiz of quizList){ %>
-         <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading"><%= quiz.quizName %></h4>
-            <a href=<%= `/quiz/${quiz._id}` %> target="_blank" class="btn btn-sm btn-primary mr-2">
-              Start Quiz</a>
-            <a href="" class="btn btn-sm btn-success">
-              View Answers</a>
-          </div>
-        <% } %>
+         <div class="row">
+            <div class="ann">
+                <div class="message">
+                <% for(var n of ann){ %>
+                    <strong><p class="meta"><%= n.name %></p></strong>
+                    <p class="text">
+                       <%= n.query %>
+                    </p>
+                <% } %>
+            </div>
+            </div>
+         </div>
       </div>
   
     </main>

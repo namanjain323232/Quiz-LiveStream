@@ -76,12 +76,32 @@ recordButton.addEventListener('click', () => {
 playButton.addEventListener('click', () => {
   const superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
   const url = window.URL.createObjectURL(superBuffer);
+  console.log(url);
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = '/stream';
+
+  const hiddenField = document.createElement('input');
+  hiddenField.type = 'hidden';
+  hiddenField.name = 'stream';
+  hiddenField.value = url;
+
+  form.appendChild(hiddenField);
+
+  document.body.appendChild(form);
+  form.onsubmit = false;
+  form.submit();
+
   localStorage.setItem('webcam',url)
   recordedVideo.src = null;
   recordedVideo.srcObject = null;
   recordedVideo.src = window.URL.createObjectURL(superBuffer);
   recordedVideo.controls = true;
   recordedVideo.play();
+
+  window.setTimeout(function(){ 
+    window.stop();
+  }, 3000);
 });
 downloadButton.addEventListener('click', () => {
   const blob = new Blob(recordedBlobs, {type: 'video/mp4'});

@@ -31,6 +31,7 @@ h1 {
    height: 7rem;
    width: 10rem;
    margin: 0 3rem 30rem 3rem;
+   overflow-y: scroll;
    /* margin-bottom: 1.5rem; */
  }
 
@@ -57,7 +58,7 @@ h1 {
  .submitTest{
     height: 3rem;
     width: 12rem;
-    margin: 30rem 3rem 0 3rem;
+    margin: 26.8rem 3rem 0 3rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -138,8 +139,17 @@ button {
    height: 405px;
    width: 20rem;
    border-radius: 5px;
-   margin-left: -7rem;
+   margin-left: 7rem;
    display: none;
+ }
+
+ .backDashboard{
+    margin-left: 12rem;
+    text-decoration: none;
+    background-color: rgb(53, 197, 241);
+    padding: 0rem 1rem;
+    border-radius: 5px;
+    color: white;
  }
  
  .c3 svg {
@@ -380,4 +390,17 @@ input[type=radio]{
       margin-left: -1rem;
       display: none;
     }
+
+    .page{
+       display: none;
+    }
+
+    .backDashboard{
+      margin-left: 3rem;
+      text-decoration: none;
+      background-color: rgb(53, 197, 241);
+      padding: 0rem 1rem;
+      border-radius: 5px;
+      color: white;
+   }
 }

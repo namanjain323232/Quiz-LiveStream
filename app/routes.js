@@ -3,7 +3,12 @@ const admin = require('../app/models/admin');
 //const Ques=require('../app/models/questions');
 const {Ques,Quiz} = require('../app/models/Quiz');
 const Notification=require('../app/models/notification');
+const Announce = require('./models/announcement');
+const Stream = require('./models/stream');
+const Queries = require('./models/queries');
+const Result = require('./models/results');
 const Image = require('../app/models/answerKey');
+const { Query } = require('mongoose');
 const getAdmin=admin();
 
 module.exports = function (app, passport) {
@@ -45,7 +50,7 @@ app.route("/register")
     res.render("register");
   })
   .post((req, res) => {
-    User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone }, req.body.password, (err, user) => {
+    User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone, education: req.body.education, address: req.body.address }, req.body.password, (err, user) => {
       if (err) {
         console.log(err.message);
         res.redirect("/register");
@@ -59,13 +64,15 @@ app.route("/register")
     })
   });
 
-app.get("/dashboard", (req, res) => {
+app.get("/dashboard", async (req, res) => {
   if (req.isAuthenticated()) {
     if (req.user.username == getAdmin.username) {
        res.redirect("/admin");
     }
     else{
-      res.render("showCourse", { details: req.user });
+      const notifications = await Notification.find();
+      const announce = await Announce.find();
+      res.render('myBuys', { details: req.user, messages: notifications, ann: announce });
     }
   }
   else {
@@ -122,22 +129,89 @@ app.route("/changePass")
 
 
 
-app.get('/liveStream', function(req,res){
+app.get('/liveStream', async function(req,res){
   if (req.isAuthenticated()) {
-    res.render('liveStream');
+    const stream = await Stream.find();
+    console.log(stream);
+    res.render('liveStream', { stream });
+  }
+  else{
+    res.redirect("/");
+  }
+});
+app.get('/aboutApp', async function(req,res){
+  if (req.isAuthenticated()) {
+    res.render('aboutApp', { details: req.user });
   }
   else{
     res.redirect("/");
   }
 });
 
-app.get('/quiz', function(req,res){
+app.route("/deskHelp").get((req,res) => {
   if (req.isAuthenticated()) {
-  res.render('quiz');
+    res.render('deskHelp', { details: req.user });
   }
   else{
     res.redirect("/");
   }
+}).post( async (req, res) => {
+  await Queries.create({
+    name: req.body.name,
+    query: req.body.query
+  });
+
+  res.redirect("/dashboard");
+});
+
+// app.get('/shareApp', async function(req,res){
+//   if (req.isAuthenticated()) {
+//     res.render('shareApp', { details: req.user });
+//   }
+//   else{
+//     res.redirect("/");
+//   }
+// });
+
+app.get('/results', async function(req,res){
+  if (req.isAuthenticated()) {
+    res.render('results', { details: req.user });
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.route("/stream").post( async (req, res) => {
+  await Stream.create({
+    url: req.body.stream
+  }
+  );
+});
+
+app.get('/quiz/:quizId', async function(req,res){
+  if (req.isAuthenticated()) {
+  const quiz = await Quiz.findById(req.params.quizId);
+  res.render('quiz', { details: req.user, quizDetails: quiz });
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.post('/quiz', async (req, res) => {
+  await Result.create({
+    name: req.user._id,
+    quizId: req.body.quizId,
+    quiz: req.body.quizName,
+    course: req.body.course,
+    marks: req.body.marks,
+    max: req.body.max,
+    correct: req.body.correct,
+    incorrect: req.body.incorrect,
+    notAttempted: req.body.notAttempted,
+    time: req.body.time
+  });
 });
 
 app.get('/courses', function(req,res){
@@ -149,27 +223,41 @@ app.get('/courses', function(req,res){
   }
 });
 
-app.get('/mybuys', function(req,res){
+app.get('/mybuys', async function(req,res){
   if (req.isAuthenticated()) {
-  res.render('myBuys', { details: req.user });
+    const notifications = await Notification.find();
+    const announce = await Announce.find();
+    res.render('myBuys', { details: req.user, messages: notifications, ann: announce });
   }
   else{
     res.redirect("/");
   }
 });
 
-app.get('/notification', function(req,res){
+app.get('/viewQueries', async function(req,res){
   if (req.isAuthenticated()) {
-  res.render('notification');
+    const queries = await Queries.find();
+    res.render('viewQueries', { details: req.user, ann: queries });
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
+app.get('/notification', async function(req,res){
+  if (req.isAuthenticated()) {
+  const notifications = await Notification.find();
+  res.render('notification', { details: req.user, messaging: notifications });
   }
   else{
     res.redirect("/", { details: req.user });
   }
 });
 
-app.get('/quizlist', function(req,res){
+app.get('/quizlist/:subject', async function(req,res){
   if (req.isAuthenticated()) {
-  res.render('quizList', { details: req.user }); 
+  const quizzes = await Quiz.find({ courseName: req.params.subject });
+  res.render('quizList', { details: req.user, quizList: quizzes }); 
   }
   else{
     res.redirect("/");
@@ -338,6 +426,28 @@ app.get('/Newlivestream', function(req,res){
         });
         notif.save();
         console.log(notif);
+        res.redirect("/admin");
+      });
+
+      app.route("/createAnnouncement")
+      .get((req, res) => {
+        if (req.isAuthenticated()) {
+          if (req.user.username == getAdmin.username) {
+            res.render("createAnnouncement", { details: req.user });
+          }
+          else {
+            res.render("dashboard", { details: req.user });
+          }
+        }
+        else {
+          res.redirect("/login");
+        }
+      })
+      .post((req,res)=>{
+        let notif=new Announce({
+          text: req.body.notifTitle,
+        });
+        notif.save();
         res.redirect("/admin");
       });
     

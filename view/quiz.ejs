@@ -17,16 +17,16 @@
     		<div class='button' id='prev'><a href='#'>Prev</a></div>
 			<div class='button' id='start'> <a href='#'>Start Over</a></div>
 			<div class="real-time-printing"></div>
+			<a href='/dashboard' class="backDashboard" style="display: none;">Back to Dashboard</a>
 		 </div>
 		 
 		 <div class="navTimer" id="navTimer">
+			<span class="page" style="margin-left: 3rem;">Page No.</span>
 			<div class="nav">
-				<div class="item item1">1</div>
-				<!-- <div class="item item2">2</div> -->
-				<!-- <div class="item item3">3</div>
-				<div class="item item4">4</div>
-				<div class="item item5">5</div>
-				<div class="item item6">6</div> -->
+				<% var n = Math.trunc(quizDetails.questions.length / 10) + 1; %>
+				<% for(var i=1; i<=n; i++){ %>
+				<div class=<%= `item item${i}` %>><%= i %></div>
+				<% } %>
 			</div>
 
 			<div id="countdown">
@@ -35,6 +35,8 @@
 				 <span id="hours"></span> . <span id="minutes"></span> . <span id="seconds"></span>
 			  </ul>
 			</div>
+			<div class="page" style="margin-left: 5rem; font-size: 1.5rem;"><%= details.name %></div>
+
 			<button class="submitTest" onclick="document.getElementById('endTestButton').style.display = 'flex'">Submit Test</button>
 		 </div>
 		</div>
@@ -98,36 +100,24 @@
 		crossorigin="anonymous"></script>
 
 		<script>
+			var questions = JSON.parse('<%- JSON.stringify(quizDetails.questions) %>');
+			console.log(questions);
+			var courseName = '<%- quizDetails.courseName %>';
+			var quizName = '<%- quizDetails.quizName %>';
+			var quizId = '<%- quizDetails._id %>';
+			console.log(quizName);
+			console.log(quizId);
+			var numCorrect = 0;
+			var numIncorrect = 0;
+			var numNotAttempted = 0;
 			(function() {
-				var questions = [{
-				question: "2*1?",
-				choices: [2, 5, 10, 15],
-				correctAnswer: 0
-				}, {
-				question: "3*2?",
-				choices: [3, 6, 9, 12],
-				correctAnswer: 1
-				}, {
-				question: "8*9?",
-				choices: [72, 99, 108, 134],
-				correctAnswer: 0
-				}, {
-				question: "1*7?",
-				choices: [4, 5, 6, 7],
-				correctAnswer: 3
-				}, {
-				question: "8*8?",
-				choices: [20, 30, 40, 64],
-				correctAnswer: 3
-				}, 
-				{
-				question: "7*8?",
-				choices: [28, 36, 70, 56],
-				correctAnswer: 3
-				}];
 				
 				var questionCounter = 0; //Tracks question number
-				var selections = [-1,-1,-1,-1,-1,-1]; //Array containing user choices
+				var selections = []; //Array containing user choices
+				for(var i = 0; i < questions.length; i++) {
+					selections.push(-1);
+				}
+				console.log(selections);
 				var quiz = $('#quiz'); //Quiz div object
 				
 				// Display initial question
@@ -267,8 +257,74 @@
 					}else {
 						var scoreElem = displayScore();
 						quiz.append(scoreElem).fadeIn();
+						console.log(numCorrect);
+						const form = document.createElement('form');
+						form.method = 'POST';
+						form.action = '/quiz';
+
+						const marks = document.createElement('input');
+						marks.type = 'hidden';
+						marks.name = 'marks';
+						marks.value = numCorrect;
+						form.appendChild(marks);
+
+						const max = document.createElement('input');
+						max.type = 'hidden';
+						max.name = 'max';
+						max.value = questions.length;
+						form.appendChild(max);
+
+						const correct = document.createElement('input');
+						correct.type = 'hidden';
+						correct.name = 'correct';
+						correct.value = numCorrect;
+						form.appendChild(correct);
+
+						const incorrect = document.createElement('input');
+						incorrect.type = 'hidden';
+						incorrect.name = 'incorrect';
+						incorrect.value = numIncorrect;
+						form.appendChild(incorrect);
+
+						const notAttempted = document.createElement('input');
+						notAttempted.type = 'hidden';
+						notAttempted.name = 'notAttempted';
+						notAttempted.value = numNotAttempted;
+						form.appendChild(notAttempted);
+
+						const time = document.createElement('input');
+						time.type = 'hidden';
+						time.name = 'time';
+						time.value = Date.now();
+						form.appendChild(time);
+
+						const course = document.createElement('input');
+						course.type = 'hidden';
+						course.name = 'course';
+						course.value = courseName;
+						form.appendChild(course);
+
+						const nameQuiz = document.createElement('input');
+						nameQuiz.type = 'hidden';
+						nameQuiz.name = 'quizName';
+						nameQuiz.value = quizName;
+						form.appendChild(nameQuiz);
+
+						const idQuiz = document.createElement('input');
+						idQuiz.type = 'hidden';
+						idQuiz.name = 'quizId';
+						idQuiz.value = quizId;
+						form.appendChild(idQuiz);
+
+						document.body.appendChild(form);
+						form.onsubmit = false;
+						form.submit();
 						$('#next').hide();
 						$('#prev').hide();
+
+						window.setTimeout(function(){ 
+							window.stop();
+						}, 3000);
 					//  $('#start').show();
 					}
 				});
@@ -291,9 +347,7 @@
 				document.getElementById('timeUp').style.display = 'none';
 				$("#container").show();
 				$(".real-time-printing").show();
-				window.setTimeout(function() {
-					location.assign('/dashboard');
-				}, 7200);
+				$(".backDashboard").show();
 			});
 
 			$('.areYouSurePopup').on('click', function (e) {
@@ -305,21 +359,65 @@
 				document.getElementById('navTimer').style.display = 'none';
 				document.getElementById('endTestButton').style.display = 'none';
 				$(".real-time-printing").show();
-				window.setTimeout(function() {
-					location.assign('/dashboard');
-				}, 7000);
+				$(".backDashboard").show();
 			});
 				
 				// Computes score and returns a paragraph element to be displayed
 				function displayScore() {
 				var score = $('<p>',{id: 'question', class: 'finalDisplay'});
 				
-				var numCorrect = 0;
 				for (var i = 0; i < selections.length; i++) {
 					if (selections[i] === questions[i].correctAnswer) {
 						numCorrect++;
+					}else if(selections[i] == -1){
+						numNotAttempted++;
+					}else{
+						numIncorrect++;
 					}
 				}
+
+				var chart = c3.generate({
+					bindto: d3.select('.real-time-printing'),
+					color: {
+						pattern: ['rgb(70, 243, 107)', 'red', 'rgb(255, 255, 7)']
+					},
+					// grid: {
+					//     y: {
+					//       show: true
+					//     }
+					// },
+					// legend: {
+					//   show: false
+					// },
+						data: {
+							columns: [
+									['Correct', numCorrect],
+									['Incorrect', numIncorrect],
+									['Did Not Attempt', numNotAttempted]
+									// ['data3', 230, 200, 200, 300, 250, 250, 450]
+							],
+							type: 'pie'
+						},
+						axis: {
+							y: {
+							label: {
+								text: 'Quizzes Attempted',
+								position: 'outer-middle'
+							}
+							},
+							x : {
+							type: 'category',
+								categories:  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+							},
+						},
+						bar: {
+							width: {
+									ratio: 0.5 // this makes bar width 50% of length between ticks
+							}
+							// or
+							//width: 10 // this makes bar width 100px
+						}
+				});
 				
 				score.append('Total Marks: ' + numCorrect + ' out of ' + questions.length);
 				return score;
@@ -327,11 +425,12 @@
 
 				$('.item').on('click', function (e) {
 				e.preventDefault();
-				$('#prev').show();
+				// $('#prev').show();
 
 				choose();
 				
 				questionCounter = this.innerHTML - 1;
+				console.log(this.innerHTML);
 					
 					quiz.fadeOut(function() {
 					$('#question').remove();
@@ -346,7 +445,7 @@
 					}
 					
 					// Controls display of 'prev' button
-					if(questionCounter === 1){
+					if(questionCounter >= 1){
 						$('#prev').show();
 					}
 					
@@ -407,49 +506,7 @@
 			// $(window).blur(function() {
 			//     alert('Do not switch');
 			// });
-
-			var chart = c3.generate({
-				bindto: d3.select('.real-time-printing'),
-				color: {
-					pattern: ['rgb(70, 243, 107)', 'red', 'rgb(255, 255, 7)']
-				},
-				// grid: {
-				//     y: {
-				//       show: true
-				//     }
-				// },
-				// legend: {
-				//   show: false
-				// },
-					data: {
-						columns: [
-								['Correct', 4],
-								['Incorrect', 1],
-								['Did Not Attempt', 1]
-								// ['data3', 230, 200, 200, 300, 250, 250, 450]
-						],
-						type: 'pie'
-					},
-					axis: {
-						y: {
-						label: {
-							text: 'Quizzes Attempted',
-							position: 'outer-middle'
-						}
-						},
-						x : {
-						type: 'category',
-							categories:  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-						},
-					},
-					bar: {
-						width: {
-								ratio: 0.5 // this makes bar width 50% of length between ticks
-						}
-						// or
-						//width: 10 // this makes bar width 100px
-					}
-			});
+			
 		</script>
 
 		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>

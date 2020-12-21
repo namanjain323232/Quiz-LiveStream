@@ -20,12 +20,14 @@
     <!-- sidebar-wrapper  -->
     <main class="page-content">
       <div class="container">
+        <% for(var n of messaging){ %>
          <div class="message">
-            <p class="meta">Sameer <span>just now</span></p>
+            <p class="meta"><%= n.notifTitle %></p>
             <p class="text">
-               Lorem ipsum dolor sit amet consectetur adipisicing elit.
+               <%= n.notifBody %>
             </p>
          </div>
+        <% } %>
       </div>
   
     </main>
