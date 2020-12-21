@@ -175,7 +175,8 @@ app.route("/deskHelp").get((req,res) => {
 
 app.get('/results', async function(req,res){
   if (req.isAuthenticated()) {
-    res.render('results', { details: req.user });
+    const resultTable = await Result.find({ name: req.user._id });
+    res.render('results', { details: req.user, resultTable });
   }
   else{
     res.redirect("/");

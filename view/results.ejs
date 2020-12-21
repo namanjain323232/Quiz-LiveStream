@@ -9,6 +9,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
   <title>Document</title>
+  <style>
+    .results{
+      background-color: white;
+      padding: 1rem;
+      border: 1px solid rgb(65, 228, 114);
+      border-radius: 5px;
+      overflow-y: scroll;
+    }
+
+    tr{
+      border: 1px solid rgb(65, 228, 114);
+    }
+
+    th, td{
+      padding: 1.26rem;
+      border: 1px solid rgb(65, 228, 114);
+    }
+  </style>
 </head>
 <body>
   <%- include('partials/header') %>
@@ -23,6 +41,28 @@
          <div class="row" style="width: 100%;">
             <div id="content">
                <h1>RESULTS</h1>
+               <table class="results" style="width:100%">
+                <tr>
+                  <th>Exam Name</th>
+                  <th>Date</th>
+                  <th>Total Marks</th>
+                  <th>Obtained Marks</th>
+                  <th>Correct</th>
+                  <th>Incorrect</th>
+                  <th>Not Attempted</th>
+                </tr>
+                <% for(result of resultTable){ %>
+                <tr>
+                  <td><%= result.quiz %></td>
+                  <td><%= result.time %></td>
+                  <td><%= result.max %></td>
+                  <td><%= result.marks %></td>
+                  <td><%= result.correct %></td>
+                  <td><%= result.incorrect %></td>
+                  <td><%= result.notAttempted %></td>
+                </tr>
+              <% } %>
+              </table>
            </div>
         </div>
       </div>
