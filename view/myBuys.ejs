@@ -40,7 +40,8 @@
         }
 
         .text{
-            font-weight: 660;
+            font-weight: 560;
+            margin-top: -1rem;
         }
 
       .column{
@@ -87,7 +88,7 @@
         }
 
         .text{
-            font-weight: 660;
+            font-weight: 560;
         }
       }
   </style>
@@ -189,12 +190,13 @@
           <div class="column">
                 <div class="messageWeek">
                     <strong><p class="meta">Student of the Week</p></strong>
+                    <hr>
                     <p class="text">
-                       <%= messages[messages.length - 1].notifTitle %>
+                        🏆 <%= messages[messages.length - 1].notifTitle %>
                     </p>
             </div>
                 <div class="messageAnnouncements">
-                <h6>Announcements</h6>
+                <strong>Announcements</strong>
                 <hr>
                 <% for(var n of ann){ %>
                        <p class="meta">&#8226; <%= n.text %></p>

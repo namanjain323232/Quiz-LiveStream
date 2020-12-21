@@ -88,6 +88,13 @@ playButton.addEventListener('click', () => {
 
   form.appendChild(hiddenField);
 
+  const time = document.createElement('input');
+  time.type = 'hidden';
+  time.name = 'time';
+  time.value = Date.now();
+
+  form.appendChild(time);
+
   document.body.appendChild(form);
   form.onsubmit = false;
   form.submit();

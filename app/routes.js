@@ -50,6 +50,7 @@ app.route("/register")
     res.render("register");
   })
   .post((req, res) => {
+    console.log(req.files);
     User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone, education: req.body.education, address: req.body.address }, req.body.password, (err, user) => {
       if (err) {
         console.log(err.message);
@@ -132,7 +133,10 @@ app.route("/changePass")
 app.get('/liveStream', async function(req,res){
   if (req.isAuthenticated()) {
     const stream = await Stream.find();
-    console.log(stream);
+    await Stream.findOneAndUpdate(
+      { _id: stream[stream.length - 1]._id },
+      { $inc: { views: 1 } }
+    );
     res.render('liveStream', { stream });
   }
   else{
@@ -185,7 +189,8 @@ app.get('/results', async function(req,res){
 
 app.route("/stream").post( async (req, res) => {
   await Stream.create({
-    url: req.body.stream
+    url: req.body.stream,
+    time: req.body.time
   }
   );
 });

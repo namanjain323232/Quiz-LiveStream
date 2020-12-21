@@ -260,7 +260,7 @@
  }
 
  .sidebar-dropdown{
-   border: 2px solid black;
+   border: 2px solid white;
    border-left: none;
    border-right: none;
  }
@@ -363,7 +363,7 @@
    height: 100%;
    padding-left: 0px;
    padding-top: 20px;
-   background-color: #adadaf;
+   background-color: #ededf1;
  }
  
  .page-wrapper .page-content > div {
@@ -414,7 +414,7 @@
  /*-----------------------------chiller-theme-------------------------------------------------*/
  
  .chiller-theme .sidebar-wrapper {
-     background: #ADADAF;
+     background: rgb(27, 27, 27);
      border-right: 3px solid black;
  }
  
