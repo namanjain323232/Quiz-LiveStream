@@ -7,6 +7,7 @@ const Announce = require('./models/announcement');
 const Stream = require('./models/stream');
 const Queries = require('./models/queries');
 const Result = require('./models/results');
+const linkSchedule = require('./models/linkSchedule');
 const Image = require('../app/models/answerKey');
 const { Query } = require('mongoose');
 const getAdmin=admin();
@@ -49,9 +50,20 @@ app.route("/register")
   .get((req, res) => {
     res.render("register");
   })
-  .post((req, res) => {
-    console.log(req.files);
-    User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone, education: req.body.education, address: req.body.address }, req.body.password, (err, user) => {
+  .post(async (req, res) => {
+    const users = await User.find();
+    var Id = `${users.length}`;
+    if(users.length<10){
+      Id = '0000' + Id;
+    }else if(users.length<100){
+      Id = '000' + Id;
+    }else if(users.length<1000){
+      Id = '00' + Id;
+    }else if(users.length<10000){
+      Id = '0' + Id;
+    }
+    console.log(Id);
+    User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone, education: req.body.education, address: req.body.address, id: `YE${Id}` }, req.body.password, (err, user) => {
       if (err) {
         console.log(err.message);
         res.redirect("/register");
@@ -73,7 +85,9 @@ app.get("/dashboard", async (req, res) => {
     else{
       const notifications = await Notification.find();
       const announce = await Announce.find();
-      res.render('myBuys', { details: req.user, messages: notifications, ann: announce });
+      const linkDrive = await linkSchedule.find();
+      var driveLink = linkDrive[linkDrive.length - 1].text;
+      res.render('myBuys', { details: req.user, l: driveLink, messages: notifications, ann: announce });
     }
   }
   else {
@@ -81,9 +95,11 @@ app.get("/dashboard", async (req, res) => {
   }
 });
 
-app.route("/userEdit").get((req, res) => {
+app.route("/userEdit").get(async (req, res) => {
   if (req.isAuthenticated()) {
-      res.render("editUser", { details: req.user });
+      const linkDrive = await linkSchedule.find();
+      var driveLink = linkDrive[linkDrive.length - 1].text;
+      res.render("editUser", { details: req.user, l: driveLink });
   }
   else {
     res.redirect("/login");
@@ -103,8 +119,10 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 })
 app.route("/changePass")
-  .get((req, res) => {
-    res.render("changePass", { details: req.user });
+  .get(async (req, res) => {
+    const linkDrive = await linkSchedule.find();
+    var driveLink = linkDrive[linkDrive.length - 1].text;
+    res.render("changePass", { details: req.user, l: driveLink });
   })
   .post((req, res) => {
     if (req.isAuthenticated()) {
@@ -145,16 +163,20 @@ app.get('/liveStream', async function(req,res){
 });
 app.get('/aboutApp', async function(req,res){
   if (req.isAuthenticated()) {
-    res.render('aboutApp', { details: req.user });
+    const linkDrive = await linkSchedule.find();
+    var driveLink = linkDrive[linkDrive.length - 1].text;
+    res.render('aboutApp', { details: req.user, l: driveLink });
   }
   else{
     res.redirect("/");
   }
 });
 
-app.route("/deskHelp").get((req,res) => {
+app.route("/deskHelp").get(async (req,res) => {
   if (req.isAuthenticated()) {
-    res.render('deskHelp', { details: req.user });
+    const linkDrive = await linkSchedule.find();
+    var driveLink = linkDrive[linkDrive.length - 1].text;
+    res.render('deskHelp', { details: req.user, l: driveLink });
   }
   else{
     res.redirect("/");
@@ -168,19 +190,23 @@ app.route("/deskHelp").get((req,res) => {
   res.redirect("/dashboard");
 });
 
-// app.get('/shareApp', async function(req,res){
-//   if (req.isAuthenticated()) {
-//     res.render('shareApp', { details: req.user });
-//   }
-//   else{
-//     res.redirect("/");
-//   }
-// });
+app.get('/shareApp', async function(req,res){
+  if (req.isAuthenticated()) {
+    const linkDrive = await linkSchedule.find();
+    var driveLink = linkDrive[linkDrive.length - 1].text;
+    res.render('shareApp', { details: req.user, l: driveLink });
+  }
+  else{
+    res.redirect("/");
+  }
+});
 
 app.get('/results', async function(req,res){
   if (req.isAuthenticated()) {
     const resultTable = await Result.find({ name: req.user._id });
-    res.render('results', { details: req.user, resultTable });
+    const linkDrive = await linkSchedule.find();
+    var driveLink = linkDrive[linkDrive.length - 1].text;
+    res.render('results', { details: req.user, l: driveLink, resultTable });
   }
   else{
     res.redirect("/");
@@ -220,9 +246,26 @@ app.post('/quiz', async (req, res) => {
   });
 });
 
-app.get('/courses', function(req,res){
+app.route('/createTestSchedule').get(async function(req,res){
   if (req.isAuthenticated()) {
-  res.render('showCourse', { details: req.user });
+  res.render('createTestSchedule', { details: req.user });
+  }
+  else{
+    res.redirect("/");
+  }
+}).post(async (req, res) => {
+  await linkSchedule.create({
+    text: req.body.text
+  });
+
+  res.redirect("/admin");
+});
+
+app.get('/courses', async function(req,res){
+  if (req.isAuthenticated()) {
+  const linkDrive = await linkSchedule.find();
+  var driveLink = linkDrive[linkDrive.length - 1].text;
+  res.render('showCourse', { details: req.user, l: driveLink });
   }
   else{
     res.redirect("/");
@@ -233,7 +276,9 @@ app.get('/mybuys', async function(req,res){
   if (req.isAuthenticated()) {
     const notifications = await Notification.find();
     const announce = await Announce.find();
-    res.render('myBuys', { details: req.user, messages: notifications, ann: announce });
+    const linkDrive = await linkSchedule.find();
+    var driveLink = linkDrive[linkDrive.length - 1].text;
+    res.render('myBuys', { details: req.user, l: driveLink, messages: notifications, ann: announce });
   }
   else{
     res.redirect("/");
@@ -262,17 +307,21 @@ app.get('/notification', async function(req,res){
 
 app.get('/quizlist/:subject', async function(req,res){
   if (req.isAuthenticated()) {
-  const quizzes = await Quiz.find({ courseName: req.params.subject });
-  res.render('quizList', { details: req.user, quizList: quizzes }); 
+  const quizzes = await Quiz.find({ courseName: req.params.subject }).limit(10);
+  const linkDrive = await linkSchedule.find();
+  var driveLink = linkDrive[linkDrive.length - 1].text;
+  res.render('quizList', { details: req.user, l: driveLink, quizList: quizzes }); 
   }
   else{
     res.redirect("/");
   }
 });
 
-app.get('/details', function(req,res){
+app.get('/details', async function(req,res){
   if (req.isAuthenticated()) {
-  res.render('dashboard', { details: req.user }); 
+  const linkDrive = await linkSchedule.find();
+  var driveLink = linkDrive[linkDrive.length - 1].text;
+  res.render('dashboard', { details: req.user, l: driveLink }); 
   }
   else{
     res.redirect("/");
@@ -382,13 +431,15 @@ app.get('/Newlivestream', function(req,res){
   });
 
   app.route("/showQuiz")
-     .get((req,res)=>{
+     .get(async (req,res)=>{
        if (req.isAuthenticated()) {
          if (req.user.username == getAdmin.username) {
            res.render("showQuiz", { details: req.user });
          }
          else {
-           res.render("dashboard", { details: req.user });
+           const linkDrive = await linkSchedule.find();
+           var driveLink = linkDrive[linkDrive.length - 1].text;
+           res.render("dashboard", { details: req.user, l: driveLink });
          }
        }
        else {

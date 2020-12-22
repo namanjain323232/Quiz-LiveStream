@@ -43,23 +43,25 @@
                <h1>RESULTS</h1>
                <table class="results" style="width:100%">
                 <tr>
-                  <th>Exam Name</th>
+                  <th>Exam Attend</th>
                   <th>Date</th>
-                  <th>Total Marks</th>
-                  <th>Obtained Marks</th>
-                  <th>Correct</th>
-                  <th>Incorrect</th>
-                  <th>Not Attempted</th>
+                  <th>Total Attend</th>
+                  <th>Right</th>
+                  <th>Wrong</th>
+                  <th>Negative Marks</th>
+                  <th>Total Obtained</th>
                 </tr>
                 <% for(result of resultTable){ %>
+                <% var marks = 3*result.correct - result.incorrect %>
+                <% var rightWrong = result.correct + result.incorrect %>
                 <tr>
                   <td><%= result.quiz %></td>
                   <td><%= result.time %></td>
-                  <td><%= result.max %></td>
-                  <td><%= result.marks %></td>
+                  <td><%= rightWrong %></td>
                   <td><%= result.correct %></td>
                   <td><%= result.incorrect %></td>
-                  <td><%= result.notAttempted %></td>
+                  <td>-<%= result.incorrect %></td>
+                  <td><%= marks %></td>
                 </tr>
               <% } %>
               </table>

@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar-wrapper">
    <div class="sidebar-content">
      <div class="sidebar-brand">
-       <a href="/dashboard">YASHOHRAT EXAMS</a>
+       <a href="/dashboard"><h2>YASHOHRAT EXAMS</h2></a>
        <div id="close-sidebar">
          <i class="fas fa-times" style="color: white;"></i>
        </div>
@@ -11,7 +11,7 @@
          <span class="user-name">
            <strong style="text-transform: uppercase;"><%= details.name %></strong>
          </span>
-         <span class="user-role">Student</span>
+         <span class="user-role">Student Id: <%= details.id %></span>
        </div>
        <!-- <div>
          <a href="/notification">
@@ -21,62 +21,54 @@
      </div>
      <div class="sidebar-menu">
        <ul>
-         <br>
-         <li class="sidebar-dropdown">
-           <a href="#">
+        <li class="sidebar-dropdown">
+          <a href="#">
+            <span>Profile</span>
+          </a>
+          <div class="sidebar-submenu">
+            <ul>
+              <li>
+                <a href="/userEdit">Edit Account</a>
+              </li>
+              <li>
+                <a href="/changePass">Change Password</a>
+              </li>
+              <li>
+                <a href="/details">My Details</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+         <li class="">
+           <a href="/courses">
              <span>Courses</span>
            </a>
-           <div class="sidebar-submenu">
-             <ul>
-               <li>
-                 <a href="/courses">All Courses</a>
-               </li>
-               <li>
-                 <a href="/mybuys">My Courses</a>
-               </li>
-             </ul>
-           </div>
          </li>
+         <li class="">
+          <a href="/liveStream">
+            <span>Live Lectures</span>
+          </a>
+        </li>
          <li class="">
            <a href="/results">
-             <span>Results</span>
+             <span>Test Results</span>
            </a>
-         </li>
-         <li class="sidebar-dropdown">
-           <a href="#">
-             <span>Live Lectures</span>
-           </a>
-           <div class="sidebar-submenu">
-             <ul>
-               <li>
-                 <a href="/liveStream">Watch Lecture</a>
-               </li>
-             </ul>
-           </div>
          </li>
          <li class="">
+          <a href="<%= l %>" target="_blank">
+            <span>Test Schedule</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="/quiz/5fe0e1cbcc6fa74edc37b126">
+            <span>Demo Test</span>
+          </a>
+        </li>
+         <!-- <li class="">
            <a href="#">
              <span>Payment History</span>
            </a>
-         </li>
-         <li class="sidebar-dropdown">
-           <a href="#">
-             <span>Profile</span>
-           </a>
-           <div class="sidebar-submenu">
-             <ul>
-               <li>
-                 <a href="/userEdit">Edit Account</a>
-               </li>
-               <li>
-                 <a href="/changePass">Change Password</a>
-               </li>
-               <li>
-                 <a href="/details">My Details</a>
-               </li>
-             </ul>
-           </div>
-         </li>
+         </li> -->
          <li class="">
           <a href="/aboutApp">
             <span>About App</span>
@@ -87,11 +79,11 @@
             <span>Help Desk</span>
           </a>
         </li>
-        <!-- <li class="">
+        <li class="">
           <a href="/shareApp">
             <span>Share App</span>
           </a>
-        </li> -->
+        </li>
        </ul>
      </div>
    </div>

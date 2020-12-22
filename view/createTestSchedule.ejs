@@ -1,0 +1,60 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link type='text/css' rel='stylesheet' href='css/styleDashboard.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+    <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <%- include('partials/sidebarAdmin') %>
+        <!-- sidebar-wrapper  -->
+        <main class="page-content">
+            <div class="container">
+                <div class="container mt-5">
+                    <h1>Post Test Schedule</h1>
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="card">
+                                <div class="card-body">
+
+
+                                    <form action="/createTestSchedule" method="POST">
+                                        <div class="form-group">
+                                            <label for="notifTitle">Enter Link</label>
+                                            <input type="text" class="form-control" name="text">
+                                        </div>
+                                        <button type="submit" class="btn btn-dark">Enter</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+        <!-- page-content" -->
+    </div>
+    <!-- page-wrapper -->
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+    <script type='text/javascript' src='/js/dashboard.js'></script>
+</body>
+
+</html>
