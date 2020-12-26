@@ -1,7 +1,7 @@
 <style>
     .candy {
         background-image: linear-gradient(#FC6083, #FF8D67);
-        height: 100vh;
+        height: 115vh;
         margin-top: -3rem;
         margin-left: 20rem;
     }
@@ -10,7 +10,7 @@
         .candy {
         background-image: linear-gradient(#FC6083, #FF8D67);
         height: 100vh; 
-        padding-top: 3.5rem;
+        padding-top: 1.15rem;
         margin-left: 0rem;
     }
     }
@@ -27,34 +27,34 @@
                 <div class="card-body">
 
                     <!-- Makes POST request to /register route -->
-                    <form action="/register" method="POST">
+                    <form id="form" action="/register" method="POST">
                         <div class="form-group">
                           <label for="name">Name</label>
-                          <input type="text" class="form-control" name="name">
+                          <input type="text" class="form-control" id="name" name="name">
                         </div>
                         <div class="form-group">
                           <label for="name">Phone Number</label>
-                          <input type="text" class="form-control" name="phone">
+                          <input type="text" class="form-control" id="phone" name="phone">
                         </div>
                         <div class="form-group">
                             <label for="name">Education</label>
-                            <input type="text" class="form-control" name="education">
+                            <input type="text" class="form-control" id="education" name="education">
                           </div>
                           <div class="form-group">
                             <label for="name">Address</label>
-                            <input type="text" class="form-control" name="address">
+                            <input type="text" class="form-control" id="address" name="address">
                           </div>
-                          <!-- <div class="form-group">
-                            <label for="name">Image</label>
-                            <input type="file" class="form-control" name="image">
-                          </div> -->
+                          <div class="form-group">
+                            <label for="name">Add Profile Picture</label>
+                            <input type="file" accept="image/*" id="photos" class="form-control" name="image">
+                          </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" name="username">
+                            <input type="email" class="form-control" id="email" name="username">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" class="form-control" id="password" name="password">
                         </div>
                         <input type="checkbox" style="margin: 0.3rem;" id="">Accept Terms and Conditions</input>
                         <button type="submit" style="float: right;" class="btn btn-dark">Register</button>
@@ -66,6 +66,26 @@
 
     </div>
 </div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type='text/javascript' src='/js/register.js'></script>
+
+<script>
+    document.getElementById("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const form = new FormData();
+      form.append("name", document.getElementById("name").value);
+      form.append("username", document.getElementById("email").value);
+      form.append("education", document.getElementById("education").value);
+      form.append("address", document.getElementById("address").value);
+      form.append("phone", document.getElementById("phone").value);
+      form.append("password", document.getElementById("password").value);
+      if (document.getElementById("photos").files[0]) {
+        form.append("image", document.getElementById("photos").files[0]);
+      }
+      registerForm(form);
+    });
+</script>
 
 <%- include('partials/header') %>
 </body>

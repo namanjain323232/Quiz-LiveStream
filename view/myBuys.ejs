@@ -12,7 +12,7 @@
   <style>
       .messageWeek{
         width: 90.3%;
-        height: 6rem;
+        height: 12.8rem;
         background-color: rgb(105, 247, 92);
         border-radius: 5px;
         padding: 1rem 1rem;
@@ -51,7 +51,7 @@
               flex-direction: column;
               justify-content: space-between;
               width: 20rem;
-              height: 61.2vh;
+              height: 75.7vh;
           }
 
       @media (min-width: 480px) {
@@ -70,7 +70,7 @@
               flex-direction: column;
               justify-content: space-between;
               width: 15rem;
-              height: 28.5rem;;
+              height: 35.8rem;
               margin-top: 0rem;
               margin-left: 3rem;
           }
@@ -191,15 +191,16 @@
           <div class="column">
                 <div class="messageWeek">
                     <strong><p class="meta">Student of the Week</p></strong>
+                    <img style="width: 6rem; height: 6rem; border-radius: 100%; margin-left: 2.77rem;" src=<%= `/img/users/${messages.image}` %>>
                     <hr>
                     <p class="text">
-                        🏆 <%= messages[messages.length - 1].notifTitle %>
+                        🏆 <%= messages.name %>
                     </p>
             </div>
                 <div class="messageAnnouncements">
                 <strong>Announcements</strong>
                 <hr>
-                <p class="meta">&#8226; <a href="<%= l %>">Test Schedule</a></p>
+                <p class="meta">&#8226; <a href="<%= l %>" target="_blank">Test Schedule</a></p>
                 <% for(var n of ann){ %>
                        <p class="meta">&#8226; <%= n.text %></p>
                 <% } %>

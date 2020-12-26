@@ -414,14 +414,14 @@
  /*-----------------------------chiller-theme-------------------------------------------------*/
  
  .chiller-theme .sidebar-wrapper {
-     background: rgb(27, 27, 27);
+     background: white;
      border-right: 3px solid black;
  }
  
  .chiller-theme .sidebar-wrapper .sidebar-header,
  .chiller-theme .sidebar-wrapper .sidebar-search,
  .chiller-theme .sidebar-wrapper .sidebar-menu {
-     border-top: 1px solid #3a3f48;
+     border-top: 1px solid white;
  }
  
  .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
@@ -437,7 +437,7 @@
  .chiller-theme .sidebar-wrapper .sidebar-brand>a,
  .chiller-theme .sidebar-wrapper .sidebar-menu ul li a,
  .chiller-theme .sidebar-footer>a {
-     color: white;
+     color: red;
  }
  
  .chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,
@@ -445,7 +445,7 @@
  .chiller-theme .sidebar-wrapper .sidebar-header .user-info,
  .chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,
  .chiller-theme .sidebar-footer>a:hover i {
-     color: white;
+     color: red;
  }
  
  .page-wrapper.chiller-theme.toggled #close-sidebar {
@@ -468,7 +468,7 @@
  .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,
  .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
  .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
-     background: #3a3f48;
+     background: white;
  }
  
  .chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {

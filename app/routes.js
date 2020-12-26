@@ -1,3 +1,5 @@
+const multer = require("multer");
+const sharp = require("sharp");
 const User = require('../app/models/user');
 const admin = require('../app/models/admin');
 //const Ques=require('../app/models/questions');
@@ -10,6 +12,7 @@ const Result = require('./models/results');
 const linkSchedule = require('./models/linkSchedule');
 const Image = require('../app/models/answerKey');
 const { Query } = require('mongoose');
+const notification = require("../app/models/notification");
 const getAdmin=admin();
 
 module.exports = function (app, passport) {
@@ -46,11 +49,11 @@ app.route("/login")
 });
 
 
-app.route("/register")
-  .get((req, res) => {
+app.get("/register", (req, res) => {
     res.render("register");
-  })
-  .post(async (req, res) => {
+  });
+
+app.post("/register/:string", async (req, res) => {
     const users = await User.find();
     var Id = `${users.length}`;
     if(users.length<10){
@@ -62,13 +65,45 @@ app.route("/register")
     }else if(users.length<10000){
       Id = '0' + Id;
     }
-    console.log(Id);
-    User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone, education: req.body.education, address: req.body.address, id: `YE${Id}` }, req.body.password, (err, user) => {
+    // console.log(Id);
+
+    const multerStorage = multer.memoryStorage();
+
+    const multerFilter = (req, file, cb) => {
+      if (file.mimetype.startsWith("image")) {
+        // console.log("Not Error!");
+        cb(null, true);
+      } else {
+        // console.log("Error!");
+        cb(console.log("Error!"), false);
+      }
+    };
+
+    const upload = multer({
+      storage: multerStorage,
+      fileFilter: multerFilter,
+    });
+
+    upload.single('image');
+    var things = req.params.string.split('alagalagkarkedekhomilegainformation');
+    // console.log(things);
+
+    req.body.image = `user-${Date.now()}.jpeg`;
+
+    await sharp(req.body)
+    .toFormat("jpeg")
+    .jpeg({ quality: 10 })
+    .toFile(`public/img/users/${req.body.image}`);
+
+    // console.log(req.params);
+    // console.log(req.body.buffer);
+    User.register({ username: things[2], name: things[1], phone: things[5], education: things[3], address: things[4], id: `YE${Id}`, image: req.body.image }, things[6], (err, user) => {
       if (err) {
         console.log(err.message);
         res.redirect("/register");
       }
       else {
+        res.redirect("/login");
         passport.authenticate("local")(req, res, () => {
           res.redirect("/dashboard");
 
@@ -84,10 +119,11 @@ app.get("/dashboard", async (req, res) => {
     }
     else{
       const notifications = await Notification.find();
+      const userMax = await User.findOne({ id: notifications[notification.length - 1].notifTitle });
       const announce = await Announce.find();
       const linkDrive = await linkSchedule.find();
       var driveLink = linkDrive[linkDrive.length - 1].text;
-      res.render('myBuys', { details: req.user, l: driveLink, messages: notifications, ann: announce });
+      res.render('myBuys', { details: req.user, l: driveLink, messages: userMax, ann: announce });
     }
   }
   else {
@@ -219,6 +255,14 @@ app.route("/stream").post( async (req, res) => {
     time: req.body.time
   }
   );
+});
+
+app.post("/deleteQuiz", async (req, res) => {
+  await Quiz.findOneAndDelete({
+    _id: req.body.quiz
+  }
+  );
+  res.redirect('/showQuiz');
 });
 
 app.get('/quiz/:quizId', async function(req,res){

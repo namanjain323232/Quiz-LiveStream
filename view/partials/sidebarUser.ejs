@@ -1,17 +1,42 @@
+<style>
+  .nameUser{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .imageUser{
+    height: 3rem;
+    width: 3rem;
+    border-radius: 100%;
+    margin-right: 0.51rem;
+  }
+  
+  .user-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+</style>
+
 <nav id="sidebar" class="sidebar-wrapper">
    <div class="sidebar-content">
      <div class="sidebar-brand">
-       <a href="/dashboard"><h2>YASHOHRAT EXAMS</h2></a>
+       <a href="/dashboard"><h2 style="color: red !important;">YASHOHRAT EXAMS</h2></a>
        <div id="close-sidebar">
-         <i class="fas fa-times" style="color: white;"></i>
+         <i class="fas fa-times" style="color: red;"></i>
        </div>
      </div>
      <div class="sidebar-header" style="display: flex; justify-content: space-between;">
        <div class="user-info">
+        <div>
+          <span><img src=<%= `/img/users/${details.image}` %> class="imageUser"></span>
+         </div>
+         <div class="nameUser">
          <span class="user-name">
-           <strong style="text-transform: uppercase;"><%= details.name %></strong>
+           <strong style="text-transform: uppercase; color: red !important;"><%= details.name %></strong>
          </span>
          <span class="user-role">Student Id: <%= details.id %></span>
+        </div>
        </div>
        <!-- <div>
          <a href="/notification">
@@ -88,6 +113,6 @@
      </div>
    </div>
    <div class="sidebar-footer">
-     <a href="/logout"><span>Log Out</span></a>
+     <a href="/logout"><span style="color: white;">Log Out</span></a>
    </div>
  </nav>
