@@ -9,6 +9,135 @@
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
   <title>Document</title>
+  <style>
+      body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+  </style>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    async function onPay(amount){
+      console.log(amount)
+      var final_amount
+      var amount1 = document.getElementById("amount1").value;
+      var amount2 = document.getElementById("amount2").value;
+      var amount3 = document.getElementById("amount3").value;
+      var amount4 = document.getElementById("amount4").value;
+      if(amount==amount1 || amount==amount2 || amount==amount3 || amount==amount4){
+        final_amount=amount
+      }
+      const form = document.createElement('form');
+      var id="<%- details.id %>"
+      var name="<%- details.name %>"
+      var email="<%- details.email %>"
+      var phone="<%- details.phone %>"
+      console.log(id)
+      if(id){
+        // const data = {
+        //     purpose: 'Course Payment',
+        //     amount:amount,
+        //     buyer_name:name ,
+        //     email:email,
+        //     phone:phone,
+        //      user_id:id,
+        //     redirect_url: `http://localhost:5000/user/callback?user_id=${id}`,
+        //     // webhook_url: '/webhook/',
+        // };
+      
+      form.method='POST';
+      form.action='/course'
+      const purpose = document.createElement('input');
+						purpose.type = 'hidden';
+						purpose.name = 'purpose';
+						purpose.value ="Course Payment";
+						form.appendChild(purpose);
+     
+            const amount = document.createElement('input');
+						amount.type = 'hidden';
+						amount.name = 'amount';
+						amount.value =final_amount;
+            form.appendChild(amount);
+            const buyer_name = document.createElement('input');
+						buyer_name.type = 'hidden';
+						buyer_name.name = 'buyer_name';
+						buyer_name.value ="<%- details.name %>";
+            form.appendChild(buyer_name);
+            
+            const email = document.createElement('input');
+						email.type = 'hidden';
+						email.name = 'email';
+						email.value ="<%- details.email %>";
+            form.appendChild(email);
+
+            const phone = document.createElement('input');
+						phone.type = 'hidden';
+						phone.name = 'phone';
+						phone.value ="<%- details.phone %>";
+            form.appendChild(phone);
+
+            const user_id = document.createElement('input');
+						user_id.type = 'hidden';
+						user_id.name = 'user_id';
+						user_id.value =id;
+            form.appendChild(user_id);
+
+            const redirect_url = document.createElement('input');
+						redirect_url.type = 'hidden';
+						redirect_url.name = 'redirect_url';
+						redirect_url.value =`http://localhost:3000/callback?user_id=${id}`;
+            form.appendChild(redirect_url);
+
+            const webhook_url = document.createElement('input');
+						webhook_url.type = 'hidden';
+						webhook_url.name = 'webhook_url';
+						webhook_url.value ='/webhook/';
+            form.appendChild(webhook_url);
+            console.log(form)
+
+						document.body.appendChild(form);
+						form.onsubmit = false;
+            form.submit();
+          
+        }
+    }
+  </script>
 </head>
 <body>
   <%- include('partials/header') %>
@@ -34,7 +163,7 @@
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>10 Test</p>
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>GS + C.SAT</p>
                         <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
+                            <a class="btn" id="myBtn" >Buy</a>
                         </p>
                     </div>
                 </div>
@@ -51,7 +180,7 @@
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>10 Test</p>
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Pre Exam</p>
                         <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
+                           <a class="btn" id="myBtn1" >Buy</a>
                         </p>
                     </div>
                 </div>
@@ -67,7 +196,7 @@
                     <div class="personcontact">
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>10 Test</p>
                         <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
+                            <a  class="btn"  id="myBtn2">Buy</a>
                         </p>
                     </div>
                 </div>
@@ -87,7 +216,7 @@
                     <div class="personcontact">
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>10 Test</p>
                         <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
+                            <a  class="btn"  id="myBtn3">Buy</a>
                         </p>
                     </div>
                 </div>
@@ -103,19 +232,114 @@
                     <div class="personcontact">
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>10 Test</p>
                         <p class="personCV">
-                            <a href="" class="btn" src="">Buy</a>
+                            <a  class="btn"  id="myBtn4">Buy</a>
                         </p>
                     </div>
                 </div>
             </div>
           </div>
       </div>
-  
+      <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Select Your Pack</p>
+          <div>
+            <table class="table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Plan</th>
+                    <th>Purchase</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>For 1 Month</td>
+                    <td>
+                      <input type="hidden" id="amount1" value="100" />
+                      <button type="button" class="btn btn-outline-secondary"  onclick="onPay('100')">Buy</button>
+                    </td>
+                   
+                  </tr>
+                  <tr>
+                    <td>For 3 Months</td>
+                    <td>
+                      <input type="hidden" id="amount2" value="200" />
+                      <button type="button" class="btn btn-outline-secondary" onclick="onPay('200')">Buy</button></td>
+                    
+                  </tr>
+                  <tr>
+                    <td>For 6 Months</td>
+                    <td>
+                      <input type="hidden" id="amount3" value="300" />
+                      <button type="button" class="btn btn-outline-secondary" onclick="onPay('300')">Buy</button></td>
+                   
+                  </tr>
+                  <tr>
+                    <td>For 12 Months</td>
+                    <td>
+                      <input type="hidden" id="amount4" value="400" />
+                      <button type="button" class="btn btn-outline-secondary" onclick="onPay('400')">Buy</button></td>
+                   
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      
+      </div>
     </main>
     <!-- page-content" -->
   </div>
+
   <!-- page-wrapper -->
   <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
   <script type='text/javascript' src='/js/dashboard.js'></script>
+  <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+    var btn1 = document.getElementById("myBtn1");
+    var btn2 = document.getElementById("myBtn2");
+    var btn3 = document.getElementById("myBtn3");
+    var btn4 = document.getElementById("myBtn4");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    btn1.onclick = function() {
+      modal.style.display = "block";
+    }
+    btn2.onclick = function() {
+      modal.style.display = "block";
+    }
+    btn3.onclick = function() {
+      modal.style.display = "block";
+    }
+    btn4.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    </script>
+    
 </body>
 </html>
