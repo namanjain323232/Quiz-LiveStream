@@ -14,6 +14,9 @@ const Image = require('../app/models/answerKey');
 const { Query } = require('mongoose');
 const notification = require("../app/models/notification");
 const getAdmin=admin();
+const router = require('express').Router()
+const Insta = require('instamojo-nodejs');
+const url=require('url')
 
 module.exports = function (app, passport) {
 
@@ -315,6 +318,67 @@ app.get('/courses', async function(req,res){
     res.redirect("/");
   }
 });
+app.post('/course', async (req,res)=>{
+  try {
+    Insta.setKeys('21b710b5bb9c590d4ac743602ffacd0c', '54f09f3870775c56036687e83e5b9718');
+    console.log(req.body)
+    const data = new Insta.PaymentData();
+    
+
+    data.purpose =  req.body.purpose;
+    data.amount = req.body.amount;
+    data.buyer_name =  req.body.buyer_name;
+    data.email =  req.body.email;
+    data.redirect_url =  req.body.redirect_url;
+    data.phone =  req.body.phone;
+    // data.user_id=req.body.user_id
+    data.send_email =  false;
+    data.webhook= 'http://www.example.com/webhook/';
+    data.send_sms= false;
+    data.allow_repeated_payments =  false;
+
+    Insta.createPayment(data, function(error, response) {
+        if (error) {
+            console.error(error.message)
+        } else {
+          // Payment redirection link at response.payment_request.longurl
+              const responseData = JSON.parse(response );
+             
+             const redirectUrl = responseData.payment_request.longurl;
+             if(redirectUrl){
+               res.redirect(redirectUrl)
+             }
+             
+        }
+      });
+} catch (error) {
+    res.status(500).send("Server Error")
+}
+});
+app.get('/callback',
+ async(req,res)=>{
+
+    let url_parts=url.parse(req.url,true);
+   responseData=url_parts.query
+   if(responseData.payment_id){
+       let userId=responseData.user_id
+        let future=new Date()
+        let futures=future.setDate(future.getDate()+30)
+        const data={
+         payment_id:responseData.payment_id,
+         user_id:responseData.user_id,
+         start_date:Date.now(),
+         end_date:futures,
+         payment_status:"Success"
+        }
+       console.log(data)
+       res.redirect('/courses')
+      
+   }
+   
+
+ }
+ )
 
 app.get('/mybuys', async function(req,res){
   if (req.isAuthenticated()) {
@@ -687,6 +751,8 @@ app.get('/Newlivestream', function(req,res){
 
             })
         });
+
+        
 
 
 
