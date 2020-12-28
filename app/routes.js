@@ -397,6 +397,7 @@ app.get('/Newlivestream', function(req,res){
     });
     let quizName="";
     let courseName="";
+    let questionImage = '';
     app.route("/createQuiz")
       .get((req,res)=>{
         if (req.isAuthenticated()) {
@@ -441,16 +442,51 @@ app.get('/Newlivestream', function(req,res){
             // let op3=req.body.op3;
             // let op4=req.body.op4;
             // let answer=req.body.answer-1;
+            if(questionImage){
+              req.body.question = questionImage;
+            }
             let quest=new Ques({
               question:req.body.question,
               choices: [req.body.op1, req.body.op2, req.body.op3, req.body.op4],
               correctAnswer: req.body.answer-1
             });
             quest.save();
+            questionImage = '';
             ques.push(quest);
             res.redirect("/addQues");
 
         });
+
+      app.post('/questionsImage', async (req, res) => {
+        console.log(req.body);
+          const multerStorage = multer.memoryStorage();
+
+          const multerFilter = (req, file, cb) => {
+            if (file.mimetype.startsWith("image")) {
+              // console.log("Not Error!");
+              cb(null, true);
+            } else {
+              // console.log("Error!");
+              cb(console.log("Error!"), false);
+            }
+          };
+
+          const upload = multer({
+            storage: multerStorage,
+            fileFilter: multerFilter,
+          });
+
+          upload.single('image');
+
+          req.body.image = `question-${Date.now()}.jpeg`;
+
+          questionImage = req.body.image;
+
+          await sharp(req.body)
+          .toFormat("jpeg")
+          .jpeg({ quality: 10 })
+          .toFile(`public/img/questions/${req.body.image}`);
+      });
         
   app.get("/testCreated",(req,res)=>{
     if (req.isAuthenticated()) {
