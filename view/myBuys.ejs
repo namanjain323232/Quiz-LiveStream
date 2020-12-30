@@ -107,86 +107,23 @@
 
          <div class="row">
 
+            <% for(var course of courses){ %>
             <div class="col-12 col-lg-4 mobilmt courseCard">
                 <div class="person">
                     <div class="personimg">
                         <img src="https://images.pexels.com/photos/3825573/pexels-photo-3825573.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
                     </div>
                     <div class="persondetail">
-                        <p class="personunvan">Chemistry</p>
+                        <p class="personunvan" style="text-transform: uppercase;"><%= course.course %></p>
                     </div>
                     <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3502</p>
                         <p class="personCV">
-                            <a href="/quizlist/Chemistry" class="btn" src="">View</a>
+                            <a href=<%= `/quizList/${course.course}` %> class="btn" src="">View</a>
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-4 mobilmt courseCard">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/3825573/pexels-photo-3825573.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Chemistry</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3502</p>
-                        <p class="personCV">
-                            <a href="/quizlist/Chemistry" class="btn" src="">View</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 mobilmt courseCard">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/3825573/pexels-photo-3825573.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Chemistry</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3502</p>
-                        <p class="personCV">
-                            <a href="/quizlist/Chemistry" class="btn" src="">View</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 mobilmt courseCard">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/3825573/pexels-photo-3825573.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Chemistry</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3502</p>
-                        <p class="personCV">
-                            <a href="/quizlist/Chemistry" class="btn" src="">View</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 mobilmt courseCard">
-                <div class="person">
-                    <div class="personimg">
-                        <img src="https://images.pexels.com/photos/3825573/pexels-photo-3825573.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
-                    </div>
-                    <div class="persondetail">
-                        <p class="personunvan">Chemistry</p>
-                    </div>
-                    <div class="personcontact">
-                        <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>Rs. 3502</p>
-                        <p class="personCV">
-                            <a href="/quizlist/Chemistry" class="btn" src="">View</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <% } %>
           </div>
           <div class="column">
                 <div class="messageWeek">

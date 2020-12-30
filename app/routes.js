@@ -16,7 +16,8 @@ const notification = require("../app/models/notification");
 const getAdmin=admin();
 const router = require('express').Router()
 const Insta = require('instamojo-nodejs');
-const url=require('url')
+const url = require('url');
+const Payment = require('./../app/models/payment');
 
 module.exports = function (app, passport) {
 
@@ -126,7 +127,8 @@ app.get("/dashboard", async (req, res) => {
       const announce = await Announce.find();
       const linkDrive = await linkSchedule.find();
       var driveLink = linkDrive[linkDrive.length - 1].text;
-      res.render('myBuys', { details: req.user, l: driveLink, messages: userMax, ann: announce });
+      const payments = await Payment.find({ id: req.user.id, toDate: { $gte: Date.now() } });
+      res.render('myBuys', { details: req.user, l: driveLink, messages: userMax, ann: announce, courses: payments });
     }
   }
   else {
@@ -318,13 +320,14 @@ app.get('/courses', async function(req,res){
     res.redirect("/");
   }
 });
+var purchaseModel = {};
 app.post('/course', async (req,res)=>{
   try {
     Insta.setKeys('21b710b5bb9c590d4ac743602ffacd0c', '54f09f3870775c56036687e83e5b9718');
-    console.log(req.body)
+    purchaseModel = req.body;
+    console.log(purchaseModel);
     const data = new Insta.PaymentData();
     
-
     data.purpose =  req.body.purpose;
     data.amount = req.body.amount;
     data.buyer_name =  req.body.buyer_name;
@@ -343,6 +346,7 @@ app.post('/course', async (req,res)=>{
         } else {
           // Payment redirection link at response.payment_request.longurl
               const responseData = JSON.parse(response );
+              // console.log(responseData);
              
              const redirectUrl = responseData.payment_request.longurl;
              if(redirectUrl){
@@ -355,43 +359,55 @@ app.post('/course', async (req,res)=>{
     res.status(500).send("Server Error")
 }
 });
-app.get('/callback',
- async(req,res)=>{
 
-    let url_parts=url.parse(req.url,true);
-   responseData=url_parts.query
+app.get('/callback', async(req,res) => {
+   let url_parts = url.parse(req.url,true);
+   responseData = url_parts.query;
+
    if(responseData.payment_id){
-       let userId=responseData.user_id
-        let future=new Date()
-        let futures=future.setDate(future.getDate()+30)
-        const data={
-         payment_id:responseData.payment_id,
-         user_id:responseData.user_id,
-         start_date:Date.now(),
-         end_date:futures,
-         payment_status:"Success"
-        }
-       console.log(data)
-       res.redirect('/courses')
-      
+        // let userId = responseData.user_id;
+        let future = new Date();
+        let futures = future.setDate(future.getDate() + 30);
+
+        // const data={
+        //  payment_id:responseData.payment_id,
+        //  user_id:responseData.user_id,
+        //  start_date:Date.now(),
+        //  end_date:futures,
+        //  payment_status:"Success"
+        // };
+        
+        //  console.log(data);
+
+        await Payment.create({
+          paymentId: responseData.payment_id,
+          userId: responseData.user_id,
+          id: purchaseModel.user_id,
+          course: purchaseModel.course,
+          amount: purchaseModel.amount,
+          phone: purchaseModel.phone,
+          fromDate: Date.now(),
+          toDate: futures,
+          paymentStatus: "Success"
+        });
+        
+       res.redirect('/courses')   
    }
-   
+ });
 
- }
- )
-
-app.get('/mybuys', async function(req,res){
-  if (req.isAuthenticated()) {
-    const notifications = await Notification.find();
-    const announce = await Announce.find();
-    const linkDrive = await linkSchedule.find();
-    var driveLink = linkDrive[linkDrive.length - 1].text;
-    res.render('myBuys', { details: req.user, l: driveLink, messages: notifications, ann: announce });
-  }
-  else{
-    res.redirect("/");
-  }
-});
+// app.get('/mybuys', async function(req,res){
+//   if (req.isAuthenticated()) {
+//     const notifications = await Notification.find();
+//     const announce = await Announce.find();
+//     const linkDrive = await linkSchedule.find();
+//     var driveLink = linkDrive[linkDrive.length - 1].text;
+//     const payments = await Payment.find({ id: req.user.id });
+//     res.render('myBuys', { details: req.user, l: driveLink, messages: notifications, ann: announce, courses: payments });
+//   }
+//   else{
+//     res.redirect("/");
+//   }
+// });
 
 app.get('/viewQueries', async function(req,res){
   if (req.isAuthenticated()) {
