@@ -65,7 +65,7 @@
         <main class="page-content">
             <div class="container">
                 <div class="container mt-5">
-                    <h1 style="color: bisque;">
+                    <h1 style="color: black;">
                         <%=quizName%>
                     </h1>
         
@@ -73,6 +73,17 @@
                         <div class="col-sm-8">
                             <div class="card">
                                 <div class="card-body">
+
+                                    <form id="formQues" action="/questionsImage" method="POST">
+                                        <div class="form-group">
+                                            <label for="question" style="font-size: medium;">Enter The Question Image</label>
+                                            <input type="file" accept="image/*" id="photos" class="form-control" name="image">
+
+                                        </div>
+        
+                                        <button type="submit" style="font-size: medium;" class="btn btn-dark">Add Question</button>
+        
+                                    </form>
         
         
                                     <form action="/addQues" method="POST">
@@ -126,6 +137,18 @@
         <!-- page-content" -->
     </div>
     <!-- page-wrapper -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type='text/javascript' src='/js/imageQuestion.js'></script>
+    <script>
+        document.getElementById("formQues").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const form = new FormData();
+          if (document.getElementById("photos").files[0]) {
+            form.append("image", document.getElementById("photos").files[0]);
+          }
+          quesForm(form);
+        });
+    </script>
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
     <script type='text/javascript' src='/js/dashboard.js'></script>
 </body>

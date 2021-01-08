@@ -10,7 +10,7 @@
 	</head>
 	<body>
 	 <div class="main">
-		<button class="fullScreen" id="fullScreen" onclick="requestFullScreen(document.body), document.getElementById('fullScreen').style.display = 'none', document.getElementById('container').style.display = 'block', document.getElementById('navTimer').style.display = 'flex'">Go full screen to view the test</button>
+		<button class="fullScreen" id="fullScreen" onclick="requestFullScreen(document.body), document.getElementById('fullScreen').style.display = 'none', document.getElementById('container').style.display = 'block', document.getElementById('navBottom').style.display = 'flex', document.getElementById('navTimer').style.display = 'flex'">Go full screen to view the test</button>
 		<div id='container'>
   			<div id='quiz'></div>
     		<div class='button' id='next'><a href='#'>Next</a></div>
@@ -39,6 +39,13 @@
 
 			<button class="submitTest" onclick="document.getElementById('endTestButton').style.display = 'flex'">Submit Test</button>
 		 </div>
+
+		 <div id="navBottom">
+			<% var n = quizDetails.questions.length; %>
+				<% for(var i=1; i<=n; i++){ %>
+				<div style="flex-grow: 1; min-width: 1.99rem;" class=<%= `anotherItem item${i}` %>><%= i %></div>
+				<% } %>
+		</div>
 		</div>
 
 		<div class="popup" id="timeUp">
@@ -79,7 +86,7 @@
 
 			window.addEventListener("resize", function(event) {
 				if(fullScreen % 2 === 1){
-				document.getElementById('fullScreen').style.display = 'block', document.getElementById('container').style.display = 'none', document.getElementById('navTimer').style.display = 'none';
+				document.getElementById('fullScreen').style.display = 'block', document.getElementById('container').style.display = 'none', document.getElementById('navBottom').style.display = 'none', document.getElementById('navTimer').style.display = 'none';
 				}
 
 				fullScreen = fullScreen + 1;
@@ -193,7 +200,13 @@
 				var header = $('<h2>Question ' + (index*10 + i + 1) + ':</h2>');
 				qElement.append(header);
 				
+				if(questions[index*10 + i].question.startsWith('question-')){
+				var img = $('<img class="iQuestion">');
+				img.attr('src', `/img/questions/${questions[index*10 + i].question}`);
+				var question = $('<p>').append(img);
+				}else{
 				var question = $('<p>').append(questions[index*10 + i].question);
+				}
 				qElement.append(question);
 				
 				var radioButtons = createRadios(index*10 + i);
@@ -345,6 +358,7 @@
 				displayNext();
 				document.getElementById('navTimer').style.display = 'none';
 				document.getElementById('timeUp').style.display = 'none';
+				document.getElementById('navBottom').style.display = 'none';
 				$("#container").show();
 				$(".real-time-printing").show();
 				$(".backDashboard").show();
@@ -358,6 +372,7 @@
 				displayNext();
 				document.getElementById('navTimer').style.display = 'none';
 				document.getElementById('endTestButton').style.display = 'none';
+				document.getElementById('navBottom').style.display = 'none';
 				$(".real-time-printing").show();
 				$(".backDashboard").show();
 			});
@@ -423,7 +438,42 @@
 				return score;
 				}
 
-				$('.item').on('click', function (e) {
+				$('.anotherItem').on('click', function (e) {
+				e.preventDefault();
+				// $('#prev').show();
+
+				choose();
+				
+				questionCounter = Math.trunc((this.innerHTML - 1) / 10);
+				console.log(this.innerHTML);
+					
+					quiz.fadeOut(function() {
+					$('#question').remove();
+					$('#next').show()
+					
+					var nextQuestion = createQuestionElement(questionCounter);
+					quiz.append(nextQuestion).fadeIn();
+					for(var i=0; i<10; i++){
+					if (!(isNaN(selections[questionCounter*10 + i]))) {
+						$('input[id=ques'+(questionCounter*10 + i)+'][value='+selections[questionCounter*10 + i]+']').prop('checked', true);
+					}
+					}
+					
+					// Controls display of 'prev' button
+					if(questionCounter >= 1){
+						$('#prev').show();
+					}
+					
+					if(questionCounter === Math.trunc(questions.length/10)){
+						$('#next').hide();
+					}else if(questionCounter === 0){
+						$('#prev').hide();
+						$('#next').show();
+					}
+				});
+			});
+
+			$('.item').on('click', function (e) {
 				e.preventDefault();
 				// $('#prev').show();
 

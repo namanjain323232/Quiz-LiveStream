@@ -1,3 +1,5 @@
+const multer = require("multer");
+const sharp = require("sharp");
 const User = require('../app/models/user');
 const admin = require('../app/models/admin');
 //const Ques=require('../app/models/questions');
@@ -10,10 +12,12 @@ const Result = require('./models/results');
 const linkSchedule = require('./models/linkSchedule');
 const Image = require('../app/models/answerKey');
 const { Query } = require('mongoose');
+const notification = require("../app/models/notification");
 const getAdmin=admin();
 const router = require('express').Router()
 const Insta = require('instamojo-nodejs');
-const url=require('url')
+const url = require('url');
+const Payment = require('./../app/models/payment');
 
 module.exports = function (app, passport) {
 
@@ -49,11 +53,11 @@ app.route("/login")
 });
 
 
-app.route("/register")
-  .get((req, res) => {
+app.get("/register", (req, res) => {
     res.render("register");
-  })
-  .post(async (req, res) => {
+  });
+
+app.post("/register/:string", async (req, res) => {
     const users = await User.find();
     var Id = `${users.length}`;
     if(users.length<10){
@@ -65,13 +69,45 @@ app.route("/register")
     }else if(users.length<10000){
       Id = '0' + Id;
     }
-    console.log(Id);
-    User.register({ username: req.body.username, name: req.body.name, phone: req.body.phone, education: req.body.education, address: req.body.address, id: `YE${Id}` }, req.body.password, (err, user) => {
+    // console.log(Id);
+
+    const multerStorage = multer.memoryStorage();
+
+    const multerFilter = (req, file, cb) => {
+      if (file.mimetype.startsWith("image")) {
+        // console.log("Not Error!");
+        cb(null, true);
+      } else {
+        // console.log("Error!");
+        cb(console.log("Error!"), false);
+      }
+    };
+
+    const upload = multer({
+      storage: multerStorage,
+      fileFilter: multerFilter,
+    });
+
+    upload.single('image');
+    var things = req.params.string.split('alagalagkarkedekhomilegainformation');
+    // console.log(things);
+
+    req.body.image = `user-${Date.now()}.jpeg`;
+
+    await sharp(req.body)
+    .toFormat("jpeg")
+    .jpeg({ quality: 10 })
+    .toFile(`public/img/users/${req.body.image}`);
+
+    // console.log(req.params);
+    // console.log(req.body.buffer);
+    User.register({ username: things[2], name: things[1], phone: things[5], education: things[3], address: things[4], id: `YE${Id}`, image: req.body.image }, things[6], (err, user) => {
       if (err) {
         console.log(err.message);
         res.redirect("/register");
       }
       else {
+        res.redirect("/login");
         passport.authenticate("local")(req, res, () => {
           res.redirect("/dashboard");
 
@@ -87,10 +123,12 @@ app.get("/dashboard", async (req, res) => {
     }
     else{
       const notifications = await Notification.find();
+      const userMax = await User.findOne({ id: notifications[notification.length - 1].notifTitle });
       const announce = await Announce.find();
       const linkDrive = await linkSchedule.find();
       var driveLink = linkDrive[linkDrive.length - 1].text;
-      res.render('myBuys', { details: req.user, l: driveLink, messages: notifications, ann: announce });
+      const payments = await Payment.find({ id: req.user.id, toDate: { $gte: Date.now() } });
+      res.render('myBuys', { details: req.user, l: driveLink, messages: userMax, ann: announce, courses: payments });
     }
   }
   else {
@@ -224,6 +262,14 @@ app.route("/stream").post( async (req, res) => {
   );
 });
 
+app.post("/deleteQuiz", async (req, res) => {
+  await Quiz.findOneAndDelete({
+    _id: req.body.quiz
+  }
+  );
+  res.redirect('/showQuiz');
+});
+
 app.get('/quiz/:quizId', async function(req,res){
   if (req.isAuthenticated()) {
   const quiz = await Quiz.findById(req.params.quizId);
@@ -274,13 +320,14 @@ app.get('/courses', async function(req,res){
     res.redirect("/");
   }
 });
+var purchaseModel = {};
 app.post('/course', async (req,res)=>{
   try {
-    Insta.setKeys('21b710b5bb9c590d4ac743602ffacd0c', '54f09f3870775c56036687e83e5b9718');
-    console.log(req.body)
+    Insta.setKeys('143f421fa0f8be4cd41a2c843c8b1e1d', '827c9c4e0a1f63fe8696dd4e3c1caf66');
+    purchaseModel = req.body;
+    console.log(purchaseModel);
     const data = new Insta.PaymentData();
     
-
     data.purpose =  req.body.purpose;
     data.amount = req.body.amount;
     data.buyer_name =  req.body.buyer_name;
@@ -299,6 +346,7 @@ app.post('/course', async (req,res)=>{
         } else {
           // Payment redirection link at response.payment_request.longurl
               const responseData = JSON.parse(response );
+              // console.log(responseData);
              
              const redirectUrl = responseData.payment_request.longurl;
              if(redirectUrl){
@@ -311,43 +359,55 @@ app.post('/course', async (req,res)=>{
     res.status(500).send("Server Error")
 }
 });
-app.get('/callback',
- async(req,res)=>{
 
-    let url_parts=url.parse(req.url,true);
-   responseData=url_parts.query
+app.get('/callback', async(req,res) => {
+   let url_parts = url.parse(req.url,true);
+   responseData = url_parts.query;
+
    if(responseData.payment_id){
-       let userId=responseData.user_id
-        let future=new Date()
-        let futures=future.setDate(future.getDate()+30)
-        const data={
-         payment_id:responseData.payment_id,
-         user_id:responseData.user_id,
-         start_date:Date.now(),
-         end_date:futures,
-         payment_status:"Success"
-        }
-       console.log(data)
-       res.redirect('/courses')
-      
+        // let userId = responseData.user_id;
+        let future = new Date();
+        let futures = future.setDate(future.getDate() + 30);
+
+        // const data={
+        //  payment_id:responseData.payment_id,
+        //  user_id:responseData.user_id,
+        //  start_date:Date.now(),
+        //  end_date:futures,
+        //  payment_status:"Success"
+        // };
+        
+        //  console.log(data);
+
+        await Payment.create({
+          paymentId: responseData.payment_id,
+          userId: responseData.user_id,
+          id: purchaseModel.user_id,
+          course: purchaseModel.course,
+          amount: purchaseModel.amount,
+          phone: purchaseModel.phone,
+          fromDate: Date.now(),
+          toDate: futures,
+          paymentStatus: "Success"
+        });
+        
+       res.redirect('/courses')   
    }
-   
+ });
 
- }
- )
-
-app.get('/mybuys', async function(req,res){
-  if (req.isAuthenticated()) {
-    const notifications = await Notification.find();
-    const announce = await Announce.find();
-    const linkDrive = await linkSchedule.find();
-    var driveLink = linkDrive[linkDrive.length - 1].text;
-    res.render('myBuys', { details: req.user, l: driveLink, messages: notifications, ann: announce });
-  }
-  else{
-    res.redirect("/");
-  }
-});
+// app.get('/mybuys', async function(req,res){
+//   if (req.isAuthenticated()) {
+//     const notifications = await Notification.find();
+//     const announce = await Announce.find();
+//     const linkDrive = await linkSchedule.find();
+//     var driveLink = linkDrive[linkDrive.length - 1].text;
+//     const payments = await Payment.find({ id: req.user.id });
+//     res.render('myBuys', { details: req.user, l: driveLink, messages: notifications, ann: announce, courses: payments });
+//   }
+//   else{
+//     res.redirect("/");
+//   }
+// });
 
 app.get('/viewQueries', async function(req,res){
   if (req.isAuthenticated()) {
@@ -426,6 +486,7 @@ app.get('/webcamLi', function(req,res){
     });
     let quizName="";
     let courseName="";
+    let questionImage = '';
     app.route("/createQuiz")
       .get((req,res)=>{
         if (req.isAuthenticated()) {
@@ -470,16 +531,51 @@ app.get('/webcamLi', function(req,res){
             // let op3=req.body.op3;
             // let op4=req.body.op4;
             // let answer=req.body.answer-1;
+            if(questionImage){
+              req.body.question = questionImage;
+            }
             let quest=new Ques({
               question:req.body.question,
               choices: [req.body.op1, req.body.op2, req.body.op3, req.body.op4],
               correctAnswer: req.body.answer-1
             });
             quest.save();
+            questionImage = '';
             ques.push(quest);
             res.redirect("/addQues");
 
         });
+
+      app.post('/questionsImage', async (req, res) => {
+        console.log(req.body);
+          const multerStorage = multer.memoryStorage();
+
+          const multerFilter = (req, file, cb) => {
+            if (file.mimetype.startsWith("image")) {
+              // console.log("Not Error!");
+              cb(null, true);
+            } else {
+              // console.log("Error!");
+              cb(console.log("Error!"), false);
+            }
+          };
+
+          const upload = multer({
+            storage: multerStorage,
+            fileFilter: multerFilter,
+          });
+
+          upload.single('image');
+
+          req.body.image = `question-${Date.now()}.jpeg`;
+
+          questionImage = req.body.image;
+
+          await sharp(req.body)
+          .toFormat("jpeg")
+          .jpeg({ quality: 10 })
+          .toFile(`public/img/questions/${req.body.image}`);
+      });
         
   app.get("/testCreated",(req,res)=>{
     if (req.isAuthenticated()) {

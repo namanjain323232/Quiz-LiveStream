@@ -23,7 +23,7 @@
         <main class="page-content">
             <div class="container">
                 <div class="container mt-5">
-                    <h1 style="color: bisque;">Showing quizzes</h1>
+                    <h1 style="color: black;">Showing quizzes</h1>
                     <h2>
                         <%=courseQuiz.courseName%>
                     </h2>
@@ -39,6 +39,7 @@
                                     
                                     <h5  class="card-title"> <%=quiz.quizName%></h5>
                                     <p class="card-text">Total questions: <%=quiz.questions.length%></p>
+                                    <p class="card-text"><button onclick=deleteQuiz('<%= quiz._id %>')>Delete Quiz</button></p>
                                    
                                 </div>
                             </div>
@@ -53,6 +54,24 @@
         <!-- page-content" -->
     </div>
     <!-- page-wrapper -->
+    <script>
+        function deleteQuiz(id){
+            console.log(id);
+            const form = document.createElement('form');
+			form.method = 'POST';
+            form.action = '/deleteQuiz';
+            
+            const quiz = document.createElement('input');
+			quiz.type = 'hidden';
+			quiz.name = 'quiz';
+			quiz.value = id;
+            form.appendChild(quiz);
+            
+            document.body.appendChild(form);
+            form.onsubmit = false;
+			form.submit();
+        }
+    </script>
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
     <script type='text/javascript' src='/js/dashboard.js'></script>
 </body>

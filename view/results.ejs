@@ -52,15 +52,16 @@
                   <th>Total Obtained</th>
                 </tr>
                 <% for(result of resultTable){ %>
-                <% var marks = 3*result.correct - result.incorrect %>
-                <% var rightWrong = result.correct + result.incorrect %>
+                <% var marks = result.correct - Math.round((result.incorrect*100)/3)/100; %>
+                <% var incorrectMarks = Math.round((result.incorrect*100)/3)/100; %>
+                <% var rightWrong = result.correct + result.incorrect; %>
                 <tr>
                   <td><%= result.quiz %></td>
                   <td><%= result.time %></td>
                   <td><%= rightWrong %></td>
                   <td><%= result.correct %></td>
                   <td><%= result.incorrect %></td>
-                  <td>-<%= result.incorrect %></td>
+                  <td>-<%= incorrectMarks %></td>
                   <td><%= marks %></td>
                 </tr>
               <% } %>

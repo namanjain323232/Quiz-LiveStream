@@ -53,9 +53,11 @@
   </style>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
+    var purchasedName = '';
     async function onPay(amount){
-      console.log(amount)
-      var final_amount
+      console.log(amount);
+      console.log(purchasedName);
+      var final_amount;
       var amount1 = document.getElementById("amount1").value;
       var amount2 = document.getElementById("amount2").value;
       var amount3 = document.getElementById("amount3").value;
@@ -64,26 +66,17 @@
         final_amount=amount
       }
       const form = document.createElement('form');
-      var id="<%- details.id %>"
-      var name="<%- details.name %>"
-      var email="<%- details.email %>"
-      var phone="<%- details.phone %>"
-      console.log(id)
+      var id="<%- details.id %>";
+      var name="<%- details.name %>";
+      var email="<%- details.email %>";
+      var phone="<%- details.phone %>";
+      console.log(id);
+
       if(id){
-        // const data = {
-        //     purpose: 'Course Payment',
-        //     amount:amount,
-        //     buyer_name:name ,
-        //     email:email,
-        //     phone:phone,
-        //      user_id:id,
-        //     redirect_url: `http://localhost:5000/user/callback?user_id=${id}`,
-        //     // webhook_url: '/webhook/',
-        // };
-      
-      form.method='POST';
-      form.action='/course'
-      const purpose = document.createElement('input');
+            form.method='POST';
+            form.action='/course'
+
+            const purpose = document.createElement('input');
 						purpose.type = 'hidden';
 						purpose.name = 'purpose';
 						purpose.value ="Course Payment";
@@ -94,6 +87,7 @@
 						amount.name = 'amount';
 						amount.value =final_amount;
             form.appendChild(amount);
+
             const buyer_name = document.createElement('input');
 						buyer_name.type = 'hidden';
 						buyer_name.name = 'buyer_name';
@@ -118,6 +112,12 @@
 						user_id.value =id;
             form.appendChild(user_id);
 
+            const course = document.createElement('input');
+						course.type = 'hidden';
+						course.name = 'course';
+						course.value = purchasedName;
+						form.appendChild(course);
+
             const redirect_url = document.createElement('input');
 						redirect_url.type = 'hidden';
 						redirect_url.name = 'redirect_url';
@@ -129,13 +129,13 @@
 						webhook_url.name = 'webhook_url';
 						webhook_url.value ='/webhook/';
             form.appendChild(webhook_url);
+
             console.log(form)
 
 						document.body.appendChild(form);
 						form.onsubmit = false;
-            form.submit();
-          
-        }
+            form.submit(); 
+      }
     }
   </script>
 </head>
@@ -163,7 +163,7 @@
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>10 Test</p>
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>GS + C.SAT</p>
                         <p class="personCV">
-                            <a class="btn" id="myBtn" >Buy</a>
+                            <a class="btn" id="myBtn5" >Buy</a>
                         </p>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
                         <img src="https://images.pexels.com/photos/3768126/pexels-photo-3768126.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
                     </div>
                     <div class="persondetail">
-                        <p class="personunvan">Saralseva</p>
+                        <p class="personunvan">Group C</p>
                     </div>
                     <div class="personcontact">
                         <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>10 Test</p>
@@ -205,6 +205,22 @@
           <br>
           <div class="row">
 
+            <div class="col-12 col-lg-4 mobilmt">
+              <div class="person">
+                  <div class="personimg">
+                      <img src="https://images.pexels.com/photos/3768126/pexels-photo-3768126.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="">
+                  </div>
+                  <div class="persondetail">
+                      <p class="personunvan">Saralseva</p>
+                  </div>
+                  <div class="personcontact">
+                      <p class="persontelefon"><i class="fas fa-phone-square-alt"></i>10 Test</p>
+                      <p class="personCV">
+                          <a  class="btn"  id="myBtn6">Buy</a>
+                      </p>
+                  </div>
+              </div>
+          </div>
             <div class="col-12 col-lg-4 mobilmt">
                 <div class="person">
                     <div class="personimg">
@@ -302,30 +318,40 @@
     var modal = document.getElementById("myModal");
     
     // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
+    var btn5 = document.getElementById("myBtn5");
     var btn1 = document.getElementById("myBtn1");
     var btn2 = document.getElementById("myBtn2");
     var btn3 = document.getElementById("myBtn3");
     var btn4 = document.getElementById("myBtn4");
+    var btn6 = document.getElementById("myBtn6");
     
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     
     // When the user clicks the button, open the modal 
-    btn.onclick = function() {
+    btn5.onclick = function() {
       modal.style.display = "block";
+      purchasedName = 'mpsc';
     }
     btn1.onclick = function() {
       modal.style.display = "block";
+      purchasedName = 'pti-aso-sti';
     }
     btn2.onclick = function() {
       modal.style.display = "block";
+      purchasedName = 'groupc';
     }
     btn3.onclick = function() {
       modal.style.display = "block";
+      purchasedName = 'police';
     }
     btn4.onclick = function() {
       modal.style.display = "block";
+      purchasedName = 'army';
+    }
+    btn6.onclick = function() {
+      modal.style.display = "block";
+      purchasedName = 'saralseva';
     }
     
     // When the user clicks on <span> (x), close the modal
