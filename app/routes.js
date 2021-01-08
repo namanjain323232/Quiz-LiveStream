@@ -400,6 +400,15 @@ app.get('/Newlivestream', function(req,res){
     res.redirect("/");
   }
 });
+app.get('/webcamLi', function(req,res){
+  if (req.isAuthenticated()) {
+  res.render('webcamLive'); 
+  }
+  else{
+    res.redirect("/");
+  }
+});
+
 
   app.route('/admin')
     .get((req, res) => {

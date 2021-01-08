@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const express = require('express');
+const basicAuth = require('basic-auth');
 const app = express();
 const port = process.env.PORT || 3000;
 const path = require("path");
@@ -81,6 +82,7 @@ app.use(passport.session()); // persistent login sessions
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 // launch ======================================================================
+
 app.listen(port, () => {
    console.log("Listening to", port);
  });

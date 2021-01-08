@@ -1,59 +1,241 @@
 <html>
 <head>        
-    <style>
-        .button {
-          background-color: #4CAF50; /* Green */
-          border: none;
-          color: white;
-          padding: 16px 32px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 16px;
-          margin: 4px 2px;
-          transition-duration: 0.4s;
-          cursor: pointer;
-        }
-        
-        .button1 {
-          background-color: white; 
-          color: black; 
-          border: 2px solid #4CAF50;
-        }
-        
-        .button1:hover {
-          background-color: #4CAF50;
-          color: white;
-        }
-</style>        
+  <style>
+  html {
+  height: 100%;
+}
+body {
+  margin:0;
+  padding:0;
+  font-family: sans-serif;
+  background: linear-gradient(#141e30, #243b55);
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box a:hover {
+  background: #03e9f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.login-box a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #03e9f4);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #03e9f4);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent, #03e9f4);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #03e9f4);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
+
+  </style>
+<script>
+  function submit(){
+   
+var id=document.getElementById("channel").value
+var youtube_url=document.getElementById("youtube").value
+var video_id=youtube_url.slice(17)
+var url="https://www.youtube.com/embed/"+video_id+"/livestreaming?channel="+id
+sessionStorage.setItem('url',url)
+const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = '/stream';
+
+  const hiddenField = document.createElement('input');
+  hiddenField.type = 'hidden';
+  hiddenField.name = 'stream';
+  hiddenField.value = url;
+
+  form.appendChild(hiddenField);
+
+  const time = document.createElement('input');
+  time.type = 'hidden';
+  time.name = 'time';
+  time.value = Date.now();
+
+  form.appendChild(time);
+  
+ 
+  document.body.appendChild(form);
+  form.onsubmit = false;
+  form.submit();
+
+// console.log(url+id)
+console.log(url)
+
+  }
+</script>  
 </head>
 <body>
-    <div id="container">
-      <video id="gum" playsinline autoplay muted></video>
-      <video id="recorded" playsinline loop></video>
-
-      <div>
-        <button id="start" class="button button1">Start camera</button>
-        <button id="record" class="button button1" disabled>Record</button>
-        <button id="play" class="button button1" disabled>Play</button>
-        <button id="download" class="button button1" disabled>Download</button>
-      </div>
-
-      <div>
-        <!-- <h4>Media Stream Constraints options</h4> -->
-        <p>
-         <input type="hidden" id="echoCancellation" />
-        </p>
-      </div>
-
-      <div>
-        <span id="errorMsg"></span>
-      </div>
+ 
+    <!-- <input type="text" id="channel" placeholder="Enter Your Youtube Channel ID"/>
+    <input type="text" id="youtube" placeholder="Enter Youtube Live Streaming URL" />
+    <button class="button1" type="submit" onclick="submit()">ADD</button> -->
+    <div class="login-box">
+      <h2>LIVE STREAMING</h2>
+      <form>
+        <div class="user-box">
+          <input type="text" id="channel"  >
+          <label>CHANNEL ID</label>
+        </div>
+        <div class="user-box">
+          <input type="text" id="youtube"  >
+          <label>YOUTUBE URL</label>
+        </div>
+        <a type="submit" onclick="submit()" >
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Start
+        </a>
+      </form>
     </div>
 </body>
 
 
-<script>
+<!-- <script>
     'use strict';
 /* globals MediaRecorder */
 let mediaRecorder;
@@ -184,7 +366,7 @@ document.querySelector('button#start').addEventListener('click', async () => {
   console.log('Using media constraints:', constraints);
   await init(constraints);
 });    
-    </script>
+    </script> -->
 
 
 </html>

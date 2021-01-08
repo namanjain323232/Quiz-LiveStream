@@ -4,6 +4,8 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@mux/mux-node": "^3.1.0",
+    "basic-auth": "^2.0.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
@@ -12,6 +14,7 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express-session": "^1.17.1",
+    "http": "0.0.1-security",
     "instamojo-nodejs": "0.0.5",
     "method-override": "^3.0.0",
     "mongoose": "^5.11.7",
@@ -20,6 +23,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
+    "socket.io": "^3.0.4",
     "url": "^0.11.0"
   },
   "devDependencies": {
