@@ -9,6 +9,7 @@ module.exports = function (passport) {
 
     passport.use(User.createStrategy());
     passport.serializeUser(User.serializeUser());
+    console.log(User)
 
     // used to deserialize the user
     passport.deserializeUser(User.deserializeUser());

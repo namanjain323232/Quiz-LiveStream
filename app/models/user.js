@@ -9,7 +9,11 @@ const userSchema = new mongoose.Schema({
   password: String,
   phone: String,
   education: String,
-  address: String
+  address: String,
+  veri:{
+    type:Number,
+    default:0
+  }
 });
 
 userSchema.plugin(passportLocalMongoose);

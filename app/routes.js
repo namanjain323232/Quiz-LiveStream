@@ -18,6 +18,9 @@ const router = require('express').Router()
 const Insta = require('instamojo-nodejs');
 const url = require('url');
 const Payment = require('./../app/models/payment');
+const jwt = require('jsonwebtoken');
+const { session } = require("passport");
+
 
 module.exports = function (app, passport) {
 
@@ -35,7 +38,8 @@ app.route("/login")
   .post((req, res) => {
     const user = new User({
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+    
     });
 
     req.login(user, (err) => {
@@ -43,10 +47,17 @@ app.route("/login")
         console.log(err);
       }
       else {
-  
-        passport.authenticate("local")(req, res, () => {
-          res.redirect("/dashboard");
-          
+        passport.authenticate("local")(req, res,async () => {
+          if(req.user._id!==null){
+          let u=await User.findByIdAndUpdate({_id:req.user._id},{$set:{veri:1}},{new:true})
+          }
+          if(req.user.veri==1){
+            res.redirect('/login')
+          }else{
+          res.redirect('/dashboard')
+          }
+           
+       
         })
       }
     })
@@ -123,12 +134,12 @@ app.get("/dashboard", async (req, res) => {
     }
     else{
       const notifications = await Notification.find();
-      const userMax = await User.findOne({ id: notifications[notification.length - 1].notifTitle });
+       const userMax = await User.findOne({ id: notifications[notification.length - 1].notifTitle });
       const announce = await Announce.find();
       const linkDrive = await linkSchedule.find();
       var driveLink = linkDrive[linkDrive.length - 1].text;
       const payments = await Payment.find({ id: req.user.id, toDate: { $gte: Date.now() } });
-      res.render('myBuys', { details: req.user, l: driveLink, messages: userMax, ann: announce, courses: payments });
+      res.render('myBuys', { details: req.user, l: driveLink,messages:userMax,ann: announce, courses: payments });
     }
   }
   else {
@@ -155,8 +166,13 @@ app.route("/userEdit").get(async (req, res) => {
   res.redirect("/dashboard");
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout",async (req, res) => {
+ if(req.user._id!==null){
+  let u=await User.findByIdAndUpdate({_id:req.user._id},{$set:{veri:0}},{new:true})
+ }
+ 
   req.logout();
+  
   res.redirect("/");
 })
 app.route("/changePass")
@@ -576,7 +592,122 @@ app.get('/webcamLi', function(req,res){
           .jpeg({ quality: 10 })
           .toFile(`public/img/questions/${req.body.image}`);
       });
-        
+  app.post('/option1Image',async(req,res)=>{
+    const multerStorage = multer.memoryStorage();
+
+          const multerFilter = (req, file, cb) => {
+            if (file.mimetype.startsWith("image")) {
+              // console.log("Not Error!");
+              cb(null, true);
+            } else {
+              // console.log("Error!");
+              cb(console.log("Error!"), false);
+            }
+          };
+
+          const upload = multer({
+            storage: multerStorage,
+            fileFilter: multerFilter,
+          });
+
+          upload.single('image_op1');
+
+          req.body.image = `question-${Date.now()}.jpeg`;
+
+          questionImage = req.body.image;
+          console.log(questionImage)
+          await sharp(req.body)
+          .toFormat("jpeg")
+          .jpeg({ quality: 10 })
+          .toFile(`public/img/option1/${req.body.image}`);
+  })
+  app.post('/option2Image',async(req,res)=>{
+    const multerStorage = multer.memoryStorage();
+
+          const multerFilter = (req, file, cb) => {
+            if (file.mimetype.startsWith("image")) {
+              // console.log("Not Error!");
+              cb(null, true);
+            } else {
+              // console.log("Error!");
+              cb(console.log("Error!"), false);
+            }
+          };
+
+          const upload = multer({
+            storage: multerStorage,
+            fileFilter: multerFilter,
+          });
+
+          upload.single('image_op2');
+
+          req.body.image = `question-${Date.now()}.jpeg`;
+
+          questionImage = req.body.image;
+          console.log(questionImage)
+          await sharp(req.body)
+          .toFormat("jpeg")
+          .jpeg({ quality: 10 })
+          .toFile(`public/img/option2/${req.body.image}`);
+  })
+  app.post('/option3Image',async(req,res)=>{
+    const multerStorage = multer.memoryStorage();
+
+          const multerFilter = (req, file, cb) => {
+            if (file.mimetype.startsWith("image")) {
+              // console.log("Not Error!");
+              cb(null, true);
+            } else {
+              // console.log("Error!");
+              cb(console.log("Error!"), false);
+            }
+          };
+
+          const upload = multer({
+            storage: multerStorage,
+            fileFilter: multerFilter,
+          });
+
+          upload.single('image_op3');
+
+          req.body.image = `question-${Date.now()}.jpeg`;
+
+          questionImage = req.body.image;
+          console.log(questionImage)
+          await sharp(req.body)
+          .toFormat("jpeg")
+          .jpeg({ quality: 10 })
+          .toFile(`public/img/option3/${req.body.image}`);
+  })
+  app.post('/option4Image',async(req,res)=>{
+    const multerStorage = multer.memoryStorage();
+
+          const multerFilter = (req, file, cb) => {
+            if (file.mimetype.startsWith("image")) {
+              // console.log("Not Error!");
+              cb(null, true);
+            } else {
+              // console.log("Error!");
+              cb(console.log("Error!"), false);
+            }
+          };
+
+          const upload = multer({
+            storage: multerStorage,
+            fileFilter: multerFilter,
+          });
+
+          upload.single('image_op4');
+
+          req.body.image = `question-${Date.now()}.jpeg`;
+
+          questionImage = req.body.image;
+          console.log(questionImage)
+          await sharp(req.body)
+          .toFormat("jpeg")
+          .jpeg({ quality: 10 })
+          .toFile(`public/img/option4/${req.body.image}`);
+  })
   app.get("/testCreated",(req,res)=>{
     if (req.isAuthenticated()) {
       if (req.user.username == getAdmin.username) {

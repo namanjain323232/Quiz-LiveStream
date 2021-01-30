@@ -84,6 +84,46 @@
                                         <button type="submit" style="font-size: medium;" class="btn btn-dark">Add Question</button>
         
                                     </form>
+                                    <form id="formOption1" action="/option1Image" method="POST">
+                                        <div class="form-group">
+                                            <label for="question" style="font-size: medium;">Enter The Option 1 Image</label>
+                                            <input type="file" accept="image/*" id="image_opt1"  class="form-control" name="image_op1">
+
+                                        </div>
+        
+                                        <button type="submit" style="font-size: medium;" class="btn btn-dark">Add Option 1</button>
+        
+                                    </form>
+                                    <form id="formOption2" action="/option2Image" method="POST">
+                                        <div class="form-group">
+                                            <label for="question" style="font-size: medium;">Enter The Option 2 Image</label>
+                                            <input type="file"  class="form-control" id="image_opt2" name="image_op2">
+
+                                        </div>
+        
+                                        <button type="submit" style="font-size: medium;" class="btn btn-dark">Add Option 2</button>
+        
+                                    </form>
+                                    <form id="formOption3" action="/option3Image" method="POST" >
+                                        <div class="form-group">
+                                            <label for="question" style="font-size: medium;">Enter The Option 3 Image</label>
+                                            <input type="file"  class="form-control" id="image_opt3" name="image_op3">
+
+                                        </div>
+        
+                                        <button type="submit" style="font-size: medium;" class="btn btn-dark">Add Option 3</button>
+        
+                                    </form>
+                                    <form id="formOption4" action="/option4Image" method="POST" >
+                                        <div class="form-group">
+                                            <label for="question" style="font-size: medium;">Enter The Option 4 Image</label>
+                                            <input type="file"  class="form-control" id="image_op4" name="image_op4">
+
+                                        </div>
+        
+                                        <button type="submit" style="font-size: medium;" class="btn btn-dark">Add Option 4</button>
+        
+                                    </form>
         
         
                                     <form action="/addQues" method="POST">
@@ -139,6 +179,10 @@
     <!-- page-wrapper -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type='text/javascript' src='/js/imageQuestion.js'></script>
+    <script type='text/javascript' src='/js/imageOption1.js'></script>
+    <script type='text/javascript' src='/js/imageOption2.js'></script>
+    <script type='text/javascript' src='/js/imageOption3.js'></script>
+    <script type='text/javascript' src='/js/imageOption4.js'></script>
     <script>
         document.getElementById("formQues").addEventListener("submit", (e) => {
           e.preventDefault();
@@ -147,6 +191,38 @@
             form.append("image", document.getElementById("photos").files[0]);
           }
           quesForm(form);
+        });
+        document.getElementById("formOption1").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const form = new FormData();
+          if (document.getElementById("image_opt1").files[0]) {
+            form.append("image_opt1", document.getElementById("image_opt1").files[0]);
+          }
+          option1Form(form);
+        });
+        document.getElementById("formOption2").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const form = new FormData();
+          if (document.getElementById("image_opt2").files[0]) {
+            form.append("image_opt2", document.getElementById("image_opt2").files[0]);
+          }
+          option2Form(form);
+        });
+        document.getElementById("formOption3").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const form = new FormData();
+          if (document.getElementById("image_opt3").files[0]) {
+            form.append("image_opt3", document.getElementById("image_opt3").files[0]);
+          }
+          option3Form(form);
+        });
+        document.getElementById("formOption4").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const form = new FormData();
+          if (document.getElementById("image_op4").files[0]) {
+            form.append("image_op4", document.getElementById("image_op4").files[0]);
+          }
+          option4Form(form);
         });
     </script>
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>

@@ -13,6 +13,14 @@ const quesForm = async (data) => {
        },
        data: form[0]
      });
+     const option1 = await axios({
+      method: "POST",
+      url: `/option1Image`,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      data: form1[0]
+    });
    //   location.assign('/login');
    } catch (err) {
      console.log(err);
